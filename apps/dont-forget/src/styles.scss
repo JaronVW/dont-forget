@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.pageMainHeader {
+  @apply text-3xl;
+}
+
+
+.actionButton {
+    @apply block p-2 rounded-sm border-black border-2 w-1/12 ;
+}
+
+.actionButton:hover {
+    @apply  transition-all  ;
+}

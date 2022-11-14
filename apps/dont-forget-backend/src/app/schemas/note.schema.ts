@@ -1,11 +1,11 @@
+import { INote } from '@dont-forget/types';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Date, HydratedDocument, ObjectId } from 'mongoose';
 
 export type NoteDocument = HydratedDocument<Note>;
 
 @Schema()
-export class Note {
-
+export class Note implements INote {
   @Prop()
   userId: ObjectId;
 
@@ -13,13 +13,12 @@ export class Note {
   title: string;
 
   @Prop()
-  text: number;
+  text: string;
 
   @Prop()
   dateCreated: Date;
 
-  @Prop()
-  NoteBlocks: ObjectId[];
+  noteBlocks: [{ NoteBlockId: ObjectId }];
 }
 
 export const NoteSchema = SchemaFactory.createForClass(Note);
