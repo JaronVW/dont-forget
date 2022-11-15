@@ -1,5 +1,4 @@
-import {  } from '@nestjs/mongoose';
-import { Schema } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 
 export interface INote {
   userId: Schema.Types.ObjectId,
@@ -8,4 +7,10 @@ export interface INote {
   noteBlocks: [{
     NoteBlockId: Schema.Types.ObjectId
   }]
+}
+
+export interface IUser {
+  email: string,
+  password: string,
+  dateCreated: Date
 }

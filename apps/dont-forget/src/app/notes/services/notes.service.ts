@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { ApiPaths } from '../../../../enums/apiPaths';
+import { ApiPaths } from '../../../enums/apiPaths';
 import { Note } from '../../shared/models';
 import { Observable } from 'rxjs';
 

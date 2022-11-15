@@ -9,6 +9,7 @@ module.exports = {
         'stickyNoteBlue': '#dcf5f5',
         'stickyNoteBeige': '#f5f5dc',
         'stickyNoteLila': '#f5dcf5',
+        'stickyNoteGreen': '#B0FF92'
       }
     },
   },

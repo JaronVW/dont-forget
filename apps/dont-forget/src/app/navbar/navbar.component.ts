@@ -8,10 +8,10 @@ import { Component, OnInit } from '@angular/core';
       <nav class="">
         <ul class="">
           <li class="list-none inline-block">
-            <a class=" block px-3 " href="#">Login</a>
+            <a class=" block px-3 " href="/">Login</a>
           </li>
           <li class="list-none inline-block">
-            <a class=" block px-3 " href="#">Link</a>
+            <a class=" block px-3 " href="/notes">Notes</a>
           </li>
           <li class="list-none inline-block">
             <a class="block px-3 " href="#">Link</a>

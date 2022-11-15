@@ -1,4 +1,4 @@
-import { Component, NgIterable, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Note } from '../shared/models';
 import { NotesService } from './services/notes.service';
 
