@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { Note } from '../shared/model';
+import { Component, NgIterable, OnInit } from '@angular/core';
+import { Note } from '../shared/models';
+import { NotesService } from './services/notes.service';
 
 @Component({
   selector: 'dont-forget-notes',
@@ -7,16 +8,18 @@ import { Note } from '../shared/model';
   styleUrls: ['./notes.component.scss'],
 })
 export class NotesComponent implements OnInit {
-
+  constructor(private notesService: NotesService) {}
   Note: Note;
 
+  res: Array<Note>;
+
   ngOnInit(): void {
-    ('');
+    this.getNotes();
   }
 
-   getNotes(): Note {
-    
-    return new Note;
+  getNotes() {
+    this.notesService.getNotes().subscribe((data) => {
+      this.res = data;
+    });
   }
-
 }
