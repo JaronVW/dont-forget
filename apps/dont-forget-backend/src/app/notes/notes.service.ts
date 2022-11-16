@@ -18,7 +18,7 @@ export class NotesService {
   }
 
   findOne(id: number) {
-    return this.noteModel.findById(id).exec;
+    return this.noteModel.findById(id).exec();
   }
 
   update(id: number, updateNoteDto: UpdateNoteDto) {

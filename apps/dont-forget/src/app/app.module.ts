@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { IndexComponent } from './index/index.component';
+import { AboutComponent } from './about/about.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { IndexComponent } from './index/index.component';
     LoginComponent,
     NotesComponent,
     IndexComponent,
+    AboutComponent,
   ],
   imports: [
     BrowserModule,
