@@ -23,7 +23,7 @@ jobs:
 
       - name: npm install, build, and test
         run: |
-          npm install
+          npm install --verbose
           npm run build:back --if-present
           npm run test --if-present
       
