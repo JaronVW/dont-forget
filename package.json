@@ -7,7 +7,7 @@
     "postinstall": "node ./decorate-angular-cli.js",
     "start": "nx serve",
     "build:front": "nx run dont-forget:build --verbose",
-    "build:back": "nx run dont-forget-backend:build",
+    "build:back": "nx run dont-forget-backend:build --verbose",
     "test": "nx test"
   },
   "private": true,
