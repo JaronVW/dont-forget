@@ -12,6 +12,7 @@
   },
   "private": true,
   "dependencies": {
+    "@nrwl/cli": "15.0.13",
     "@angular/animations": "~14.2.0",
     "@angular/cdk": "^14.2.7",
     "@angular/common": "~14.2.0",
@@ -46,7 +47,7 @@
     "@angular/language-service": "~14.2.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
-    "@nrwl/cli": "15.0.13",
+   
     "@nrwl/cypress": "15.0.13",
     "@nrwl/eslint-plugin-nx": "15.0.13",
     "@nrwl/jest": "15.0.13",
