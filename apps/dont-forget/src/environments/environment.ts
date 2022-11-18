@@ -1,6 +1,6 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:3333/api'  
+  baseUrl: 'https://dont-forget-api-nuxj.onrender.com/api'  
 };
 
