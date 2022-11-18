@@ -1,6 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 
 export interface INote {
+  _id?: Schema.Types.ObjectId
   userId: Schema.Types.ObjectId,
   title: string,
   text: string,
@@ -14,3 +15,5 @@ export interface IUser {
   password: string,
   dateCreated: Date
 }
+
+

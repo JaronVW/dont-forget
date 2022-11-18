@@ -18,6 +18,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatChipsModule } from '@angular/material/chips';
 import { IndexComponent } from './index/index.component';
 import { AboutComponent } from './about/about.component';
+import { NotesDetailsComponent } from './notes-details/notes-details.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { AboutComponent } from './about/about.component';
     NotesComponent,
     IndexComponent,
     AboutComponent,
+    NotesDetailsComponent,
   ],
   imports: [
     BrowserModule,
