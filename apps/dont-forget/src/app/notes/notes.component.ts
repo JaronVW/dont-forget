@@ -22,4 +22,15 @@ export class NotesComponent implements OnInit {
       this.res = data;
     });
   }
+
+  deleteNote(_id: string) {
+    this.notesService.deleteNote(_id.toString()).subscribe((data) => {
+      if (data.statusCode == 200) {
+        this.getNotes();
+      } else {
+        ('');
+      }
+    });
+  }
+  
 }

@@ -19,6 +19,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { IndexComponent } from './index/index.component';
 import { AboutComponent } from './about/about.component';
 import { NotesDetailsComponent } from './notes-details/notes-details.component';
+import { AddNoteComponent } from './add-note/add-note.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { NotesDetailsComponent } from './notes-details/notes-details.component';
     IndexComponent,
     AboutComponent,
     NotesDetailsComponent,
+    AddNoteComponent,
   ],
   imports: [
     BrowserModule,

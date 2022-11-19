@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Note, NoteDocument } from '../schemas/note.schema';
@@ -9,11 +9,12 @@ import { UpdateNoteDto } from './dto/update-note.dto';
 export class NotesService {
   constructor(@InjectModel(Note.name) private noteModel: Model<NoteDocument>) {}
 
-  create(createNoteDto: CreateNoteDto) {
-    return 'This action adds a new note';
+  create() {
+    this.noteModel
+    
   }
 
-  findAll():Promise<Note[]> {
+  findAll(): Promise<Note[]> {
     return this.noteModel.find().exec();
   }
 
@@ -25,7 +26,9 @@ export class NotesService {
     return `This action updates a #${id} note`;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} note`;
+  async remove(id: string) {
+    const res = await this.noteModel.findByIdAndDelete(id);
+    if (res == null) throw new NotFoundException();
+    else return { statusCode: 200, message: 'Note deleted' };
   }
 }

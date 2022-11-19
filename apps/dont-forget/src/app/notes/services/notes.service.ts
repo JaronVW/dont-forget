@@ -15,4 +15,12 @@ export class NotesService {
   getNotes(): Observable<Note[]> {
     return this.http.get<Note[]>(this.url);
   }
+
+  deleteNote(_id: string): Observable<any> {
+    return this.http.delete(this.url + `/${_id}`);
+  }
+
+  addNote(title: string, text: string) {
+    return this.http.post<Note>(this.url,{title, text});
+  }
 }
