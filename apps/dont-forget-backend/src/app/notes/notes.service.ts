@@ -1,17 +1,21 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Note, NoteDocument } from '../schemas/note.schema';
-import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
 
 @Injectable()
 export class NotesService {
   constructor(@InjectModel(Note.name) private noteModel: Model<NoteDocument>) {}
-
-  create() {
-    this.noteModel
-    
+  
+  create(data: Note) {
+    this.noteModel.create(data, function (err) {
+      if (err) throw new BadRequestException();
+    });
   }
 
   findAll(): Promise<Note[]> {

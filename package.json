@@ -12,7 +12,6 @@
   },
   "private": true,
   "dependencies": {
-    "@nrwl/cli": "15.0.13",
     "@angular/animations": "~14.2.0",
     "@angular/cdk": "^14.2.7",
     "@angular/common": "~14.2.0",
@@ -31,7 +30,9 @@
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/serve-static": "^3.0.0",
     "@nrwl/angular": "15.0.13",
+    "@nrwl/cli": "15.0.13",
     "mongoose": "^6.7.2",
+    "ng2-pdf-viewer": "^9.1.2",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.3.0",
@@ -47,7 +48,6 @@
     "@angular/language-service": "~14.2.0",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
-   
     "@nrwl/cypress": "15.0.13",
     "@nrwl/eslint-plugin-nx": "15.0.13",
     "@nrwl/jest": "15.0.13",

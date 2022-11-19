@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class NotesService {
   private url = `${environment.baseUrl}/${ApiPaths.Note}`;
+
   constructor(private http: HttpClient) {}
 
   getNotes(): Observable<Note[]> {
@@ -21,6 +22,14 @@ export class NotesService {
   }
 
   addNote(title: string, text: string) {
-    return this.http.post<Note>(this.url,{title, text});
+    this.http.post(this.url, { title, text }).subscribe();
+  }
+
+  updateNote(_id: string, title: string, text: string) {
+    this.http.patch(this.url, { id: _id, title, text }).subscribe();
+  }
+
+  getNoteById(_id: string): Observable<Note> {
+    return this.http.get<Note>(this.url + `/${_id}`);
   }
 }

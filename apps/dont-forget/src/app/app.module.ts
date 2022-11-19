@@ -11,15 +11,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatChipsModule } from '@angular/material/chips';
 import { IndexComponent } from './index/index.component';
 import { AboutComponent } from './about/about.component';
 import { NotesDetailsComponent } from './notes-details/notes-details.component';
 import { AddNoteComponent } from './add-note/add-note.component';
+import { UpdateNoteComponent } from './update-note/update-note.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 
 @NgModule({
   declarations: [
@@ -32,6 +29,7 @@ import { AddNoteComponent } from './add-note/add-note.component';
     AboutComponent,
     NotesDetailsComponent,
     AddNoteComponent,
+    UpdateNoteComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,11 +38,7 @@ import { AddNoteComponent } from './add-note/add-note.component';
     HttpClientModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
-    MatInputModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatChipsModule,
+    PdfViewerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

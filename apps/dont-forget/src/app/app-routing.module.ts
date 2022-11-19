@@ -5,6 +5,8 @@ import { NotesComponent } from './notes/notes.component';
 import {IndexComponent} from "./index/index.component";
 import { NotesDetailsComponent } from './notes-details/notes-details.component';
 import { AddNoteComponent } from './add-note/add-note.component';
+import { UpdateNoteComponent } from './update-note/update-note.component';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -12,6 +14,8 @@ const routes: Routes = [
   { path: 'notes', component: NotesComponent },
   { path: 'notes/:id', component: NotesDetailsComponent },
   { path: 'addnote', component: AddNoteComponent },
+  { path: 'updatenote/:id', component: UpdateNoteComponent },
+  { path: 'about', component: AboutComponent },
 ];
 
 @NgModule({
