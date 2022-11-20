@@ -3,9 +3,9 @@
     <form [formGroup]="addNoteForm">
         <div class="flex flex-col gap-2">
             <label for="title">Titel</label>
-            <input formControlName="title" type="text" name="title" placeholder="titel" id="text">
+            <input formControlName="title" type="text" class="formInput" name="title" placeholder="titel" id="text">
             <label for="text">Tekst</label>
-            <input formControlName="text" type="text" name="text" placeholder="tekst" id="text">
+            <textarea formControlName="text" class="formInput" name="text" placeholder="tekst" id="text" rows="5" cols="33"></textarea>
             <button type="button" (click)="exec()" value="fdfd" class="actionButton">Toevoegen</button>
         </div>
     </form>

@@ -8,6 +8,7 @@ export interface INote {
   noteBlocks: [{
     NoteBlockId: Schema.Types.ObjectId
   }]
+  dateCreated: Date
 }
 
 export interface IUser {

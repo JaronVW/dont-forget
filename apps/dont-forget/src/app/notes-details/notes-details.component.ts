@@ -11,6 +11,8 @@ export class NotesDetailsComponent implements OnInit {
   id: string;
   title: string;
   text: string;
+  dateCreated: string;
+
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
@@ -25,6 +27,7 @@ export class NotesDetailsComponent implements OnInit {
     this.notesService.getNoteById(this.id).subscribe((res) => {
       this.title = res.title;
       this.text = res.text;
+      this.dateCreated = res.dateCreated.toString();
     });
   }
 

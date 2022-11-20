@@ -32,6 +32,6 @@ export class AddNoteComponent implements OnInit {
 
   exec() {
     this.notesService.addNote(this.title, this.text);
-    this.router.navigate(['/show_alunos']);
+    this.router.navigate(['/notes']);
   }
 }

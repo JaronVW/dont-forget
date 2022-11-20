@@ -12,7 +12,31 @@
 }
 
 .actionButton:hover {
-    @apply  transition-all  ;
+    @apply  bg-white transition-all cursor-pointer  ;
+}
+
+.sitelink {
+  @apply  text-base  ;
+}
+
+.sitelink-info {
+  @apply  text-base text-blue-700  ;
+}
+
+.sitelink-danger {
+  @apply  text-red-700  ;
+}
+
+.sitelink-success {
+  @apply  text-green-700  ;
+}
+
+.sitelink:hover {
+  @apply  underline transition-all ;
+}
+
+.formInput {
+  @apply  p-1 rounded-sm border-2 border-black ;
 }
 
 html, body { height: 100%; }

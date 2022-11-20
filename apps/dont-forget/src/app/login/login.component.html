@@ -1,11 +1,11 @@
 <div class="bg-stickyNoteLila  border-black border-2  rounded-sm p-4">
     <h1 class="pageMainHeader">Login</h1>
     <form [formGroup]="loginForm">
-        <div class="flex flex-col ">
+        <div class="flex flex-col gap-2 ">
             <label  for="email">email</label>
-            <input formControlName="email" type="text" name="email" placeholder="email" id="email">
+            <input formControlName="email" type="text" class="formInput" name="email" placeholder="email" id="email">
             <label  for="password">password</label>
-            <input formControlName="password" type="password" name="password" placeholder="password" id="password">
+            <input formControlName="password" class="formInput"  type="password" name="password" placeholder="password" id="password">
             <input type="submit" (click)="login()" value="fdfd" class="actionButton">
         </div>
     </form>

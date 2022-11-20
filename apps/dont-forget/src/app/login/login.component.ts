@@ -24,9 +24,9 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    const user = new User()
-    user.email = this.email;
-    user.password = this.password;
-    user.dateCreated = new Date();
+    // const user = new User()
+    // user.email = this.email;
+    // user.password = this.password;
+    // user.dateCreated = new Date();
   }
 }
