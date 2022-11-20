@@ -9,7 +9,6 @@ import { NotesService } from './services/notes.service';
 })
 export class NotesComponent implements OnInit {
   constructor(private notesService: NotesService) {}
-  Note: Note;
 
   res: Array<Note>;
 
@@ -32,5 +31,4 @@ export class NotesComponent implements OnInit {
       }
     });
   }
-  
 }

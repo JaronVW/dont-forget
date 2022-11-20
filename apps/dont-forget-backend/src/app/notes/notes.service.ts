@@ -6,7 +6,6 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Note, NoteDocument } from '../schemas/note.schema';
-import { UpdateNoteDto } from './dto/update-note.dto';
 
 @Injectable()
 export class NotesService {
@@ -22,12 +21,14 @@ export class NotesService {
     return this.noteModel.find().exec();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.noteModel.findById(id).exec();
   }
 
-  update(id: number, updateNoteDto: UpdateNoteDto) {
-    return `This action updates a #${id} note`;
+  async update(id: string, data:Note) {
+    const res = await this.noteModel.findByIdAndUpdate(id,data);
+    if (res == null) throw new NotFoundException();
+    else return { statusCode: 200, message: 'Note updated' };
   }
 
   async remove(id: string) {

@@ -1,6 +1,6 @@
 <h1>Beschikbare notities</h1>
 <a href="addnote">Notitie toevoegen</a>
-<div class="flex justify-center flex-col basis-10 gap-4 ">
+<div class="grid grid-cols-2 gap-4 ">
 
     <div *ngFor="let item of res" class="bg-white p-4  border-2 border-black text-left hover: w-10/12">
         <h2 class="text-3xl">{{item.title}}</h2>
@@ -8,6 +8,7 @@
         
         <a href="notes/{{item._id}}">Details </a>
         <a role="button" (click)="deleteNote(item._id.toString())">Verwijderen </a>
+        <a href="updatenote/{{item._id}}">Aanpassen </a>
     </div>
 
 </div>

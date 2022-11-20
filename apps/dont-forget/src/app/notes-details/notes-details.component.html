@@ -1,1 +1,7 @@
-<p>notes-details works!</p>
+<div class="bg-stickyNoteLila  border-black border-2  rounded-sm p-4">
+    <h1 class="pageMainHeader">{{title}}</h1>
+    <p>{{text}}</p>
+    <a role="button" (click)="deleteNote(id)">Verwijderen </a>
+    <a href="updatenote/{{id}}">Aanpassen </a>
+</div>
+

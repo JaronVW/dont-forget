@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NotesService } from '../notes/services/notes.service';
 
 @Component({
   selector: 'dont-forget-notes-details',
@@ -6,7 +8,35 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./notes-details.component.scss'],
 })
 export class NotesDetailsComponent implements OnInit {
-  constructor() {}
+  id: string;
+  title: string;
+  text: string;
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private notesService: NotesService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.activatedRoute.params.subscribe((paramsId) => {
+      this.id = paramsId['id'];
+    });
+
+    this.notesService.getNoteById(this.id).subscribe((res) => {
+      this.title = res.title;
+      this.text = res.text;
+    });
+  }
+
+  deleteNote(_id: string) {
+    this.notesService.deleteNote(_id.toString()).subscribe((data) => {
+      if (data.statusCode == 200) {
+        this.router.navigate(['/notes/']);
+      } else {
+        ('');
+      }
+    });
+  }
+
+
 }

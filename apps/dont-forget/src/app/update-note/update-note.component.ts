@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotesService } from '../notes/services/notes.service';
-import { Note } from '../shared/models';
 
 @Component({
   selector: 'dont-forget-update-note',
@@ -10,12 +9,11 @@ import { Note } from '../shared/models';
   styleUrls: ['./update-note.component.scss'],
 })
 export class UpdateNoteComponent implements OnInit {
-  addNoteForm: FormGroup;
+  updateNoteForm: FormGroup;
   title: string;
   text: string;
   document: Document;
   id: string;
-  note: Note;
 
   constructor(
     private fb: FormBuilder,
@@ -27,28 +25,29 @@ export class UpdateNoteComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((paramsId) => {
       this.id = paramsId['id'];
-      console.log(this.id);
     });
 
-    this.getNoteById(this.id);
-    this.addNoteForm = this.fb.group({
-      title: this.note.title,
-      text: this.note.text,
+    this.updateNoteForm = this.fb.group({
+      title: '',
+      text: '',
     });
 
-    this.addNoteForm.valueChanges.subscribe((data) => {
+    this.notesService.getNoteById(this.id).subscribe((res) => {
+      this.title = res.title;
+      this.text = res.text;
+      this.updateNoteForm.setValue({
+        title: res.title,
+        text: res.text,
+      });
+    });
+
+    this.updateNoteForm.valueChanges.subscribe((data) => {
       (this.title = data.title), (this.text = data.text);
     });
   }
 
-  getNoteById(id: string) {
-    this.notesService.getNoteById(id).subscribe((data) => {
-      this.note = data;
-    });
-  }
-
-  exec(id: string) {
-    this.notesService.addNote(this.title, this.text);
-    this.router.navigate(['/notes']);
+  exec() {
+    this.notesService.updateNote(this.id, this.title, this.text);
+    this.router.navigate(['/notes/' + `${this.id}`]);
   }
 }
