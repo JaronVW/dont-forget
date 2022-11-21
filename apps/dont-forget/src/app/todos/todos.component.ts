@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Todo } from '../shared/models';
+import { TodosService } from './services/todos.service';
 
 @Component({
   selector: 'dont-forget-todos',
@@ -6,7 +8,18 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./todos.component.scss'],
 })
 export class TodosComponent implements OnInit {
-  constructor() {}
 
-  ngOnInit(): void {}
+  res: Array<Todo>;
+
+  constructor(private todosService: TodosService) {}
+
+  ngOnInit(): void {
+    this.getTodos
+  }
+
+  getTodos(){
+    this.todosService.getTodos().subscribe((data) => {
+      this.res = data;
+    });
+  }
 }
