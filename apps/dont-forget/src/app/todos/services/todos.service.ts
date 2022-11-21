@@ -9,7 +9,7 @@ import { Todo } from '../../shared/models';
   providedIn: 'root',
 })
 export class TodosServiceService {
-  private url = `${environment.baseUrl}/${ApiPaths.Note}`;
+  private url = `${environment.baseUrl}/${ApiPaths.Todo}`;
 
   constructor(private http: HttpClient) {}
 
