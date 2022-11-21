@@ -1,9 +1,7 @@
+import { ITask } from '@dont-forget/types';
 import { Prop } from '@nestjs/mongoose';
-import { ObjectId } from 'mongoose';
 
-export class Task {
-  @Prop()
-  userId: ObjectId;
+export class Task implements ITask {
 
   @Prop()
   title: string;

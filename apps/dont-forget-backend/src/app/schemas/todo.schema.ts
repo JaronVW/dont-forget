@@ -1,11 +1,12 @@
+import { ITodo } from '@dont-forget/types';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Date, HydratedDocument, ObjectId } from 'mongoose';
+import {  HydratedDocument, ObjectId } from 'mongoose';
 import { Task } from './task';
 
 export type TodoDocument = HydratedDocument<Todo>;
 
 @Schema()
-export class Todo {
+export class Todo implements ITodo {
 
   @Prop()
   userId: ObjectId;

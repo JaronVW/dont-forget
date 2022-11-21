@@ -29,6 +29,7 @@
     "@nestjs/mongoose": "^9.2.1",
     "@nestjs/platform-express": "^9.0.0",
     "@nestjs/serve-static": "^3.0.0",
+    "@nestjs/swagger": "^6.1.3",
     "@nrwl/angular": "15.0.13",
     "@nrwl/cli": "15.0.13",
     "mongoose": "^6.7.2",

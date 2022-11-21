@@ -17,6 +17,7 @@ import { NotesDetailsComponent } from './notes-details/notes-details.component';
 import { AddNoteComponent } from './add-note/add-note.component';
 import { UpdateNoteComponent } from './update-note/update-note.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { TodosComponent } from './todos/todos.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
     NotesDetailsComponent,
     AddNoteComponent,
     UpdateNoteComponent,
+    TodosComponent,
   ],
   imports: [
     BrowserModule,
