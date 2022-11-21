@@ -1,20 +1,35 @@
-import mongoose, { Schema } from 'mongoose';
 
 export interface INote {
-  _id?: Schema.Types.ObjectId
-  userId: Schema.Types.ObjectId,
-  title: string,
-  text: string,
-  noteBlocks: [{
-    NoteBlockId: Schema.Types.ObjectId
-  }]
-  dateCreated: Date
+  _id?: any;
+  userId: any;
+  title: string;
+  text: string;
+  noteBlocks: [
+    {
+      NoteBlockId: any;
+    }
+  ];
+  dateCreated: Date;
+}
+
+export interface ITodo {
+  _id?: any;
+  title: string;
+  description: string;
+  dueDate: Date;
+  dateCreated: Date;
+  completed: boolean;
+  tasks: ITask[];
+}
+
+export interface ITask {
+  title: string;
+  completed: boolean;
+  dateCreated: Date;
 }
 
 export interface IUser {
-  email: string,
-  password: string,
-  dateCreated: Date
+  email: string;
+  password: string;
+  dateCreated: Date;
 }
-
-
