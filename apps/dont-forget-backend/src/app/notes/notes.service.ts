@@ -18,7 +18,7 @@ export class NotesService {
     });
   }
 
-  findAll(): Promise<Note[]> {
+  findAll() {
     return this.noteModel.find().exec();
   }
 
