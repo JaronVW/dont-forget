@@ -1,14 +1,15 @@
 <h1>Beschikbare todos</h1>
 <a href="addnote " class="sitelink sitelink-info">Notitie toevoegen</a>
-<div class="grid sm:grid-cols-1  lg:grid-cols-2 gap-4">
+<div class="flex flex-col  gap-4">
 
     <div *ngFor="let item of res" class="bg-white p-4  border-2 border-black text-left hover: w-10/12">
         <h2 class="text-3xl">{{item.title}}</h2>
         <p>{{item.dateCreated.toLocaleString()}}</p>
-        <!-- <ul>
+        <p>{{item.description}}</p>
+        <ul>
             <li><a href="todos/{{item._id}}" class="sitelink sitelink-success">Details </a></li>
             <li><a href="updateTodo/{{item._id}}" class="sitelink sitelink-info">Aanpassen </a></li>
-        </ul> -->
+        </ul>
 
     </div>
 

@@ -4,13 +4,14 @@ import { AppService } from './app.service';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
 import { NotesModule } from './notes/notes.module';
-
+import { TodosModule } from './todos/todos.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.DATABASE_URL),
     NotesModule,
+    TodosModule,
   ],
   controllers: [AppController],
   providers: [AppService],
