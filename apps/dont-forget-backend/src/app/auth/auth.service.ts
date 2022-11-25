@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import argon2 = require('argon2');
 import { UsersService } from '../users/users.service';
 
@@ -9,7 +9,9 @@ export class AuthService {
   async validateUser(email: string, password: string) {
     try {
       const user = await this.usersService.findOneUser(email);
-      if (await argon2.verify(user.password, password)) {
+      // await argon2.verify(user.password, password)
+      if (user.password === password) {
+        Logger.log("ja")
         const { password, ...result } = user;
         return result;
       }

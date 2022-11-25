@@ -10,6 +10,7 @@ import { NotesComponent } from './notes/notes.component';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { auth}
 
 import { IndexComponent } from './index/index.component';
 import { AboutComponent } from './about/about.component';
@@ -32,6 +33,7 @@ import { TodosComponent } from './todos/todos.component';
     AddNoteComponent,
     UpdateNoteComponent,
     TodosComponent,
+    
   ],
   imports: [
     BrowserModule,
