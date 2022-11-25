@@ -10,6 +10,19 @@
             "name": "Launch Edge against localhost",
             "url": "http://localhost:4200",
             "webRoot": "${workspaceFolder}"
-        }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Launch nest",
+            "program": "${workspaceFolder}/apps/dont-forget-backend/src/main.ts",
+            "preLaunchTask": "tsc: watch - apps/dont-forget-backend/tsconfig.json",
+            "outFiles": ["${workspaceFolder}/dist/apps/dont-forget-backend/**/*.js"],
+            "skipFiles": [
+              "${workspaceFolder}/node_modules/**/*.js",
+              "<node_internals>/**/*.js"
+            ],
+            "port": 7777
+          }
     ]
 }

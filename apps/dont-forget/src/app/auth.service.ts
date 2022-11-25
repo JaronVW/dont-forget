@@ -11,11 +11,10 @@ export class AuthService {
   private url = `${environment.baseUrl}/${ApiPaths.Auth}`;
   constructor(private http: HttpClient) {}
 
-  loginUser(email: string, password: string, dateCreated: Date): Observable<any> {
+  loginUser(email: string, password: string): Observable<any> {
     return this.http.post(`${this.url}/login`,{
       email,
       password,
-      dateCreated
     });
   }
 }

@@ -32,7 +32,8 @@
     "serve": {
       "executor": "@nrwl/js:node",
       "options": {
-        "buildTarget": "dont-forget-backend:build"
+        "buildTarget": "dont-forget-backend:build",
+        "inspect": true
       },
       "configurations": {
         "production": {
