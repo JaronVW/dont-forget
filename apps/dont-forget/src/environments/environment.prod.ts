@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://dont-forget-api-nuxj.onrender.com/api'  
+  baseUrl: 'https://dont-forget-production.up.railway.app/api'  
 };
