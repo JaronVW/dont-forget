@@ -23,9 +23,9 @@ export class TodosService {
   }
 
   async update(id: string, data: Todo) {
-    const res = await this.todoModel.findByIdAndUpdate(id, data);
+    const res = await this.todoModel.findByIdAndUpdate(id, data,{new: true});
     if (res == null) throw new NotFoundException();
-    else return { statusCode: 200, message: 'Todo updated' };
+    else return { res};
   }
 
   async remove(id: string) {

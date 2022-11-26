@@ -14,12 +14,22 @@ export class TodosComponent implements OnInit {
   constructor(private todosService: TodosService) {}
 
   ngOnInit(): void {
-    this.getTodos
+    this.getTodos();
   }
 
   getTodos(){
     this.todosService.getTodos().subscribe((data) => {
       this.res = data;
+    });
+  }
+
+  deleteTodo(_id: string) {
+    this.todosService.deleteTodo(_id.toString()).subscribe((data) => {
+      if (data.statusCode == 200) {
+        this.getTodos();
+      } else {
+        ('');
+      }
     });
   }
 }

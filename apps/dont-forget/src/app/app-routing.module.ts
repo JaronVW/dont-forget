@@ -8,6 +8,9 @@ import { AddNoteComponent } from './add-note/add-note.component';
 import { UpdateNoteComponent } from './update-note/update-note.component';
 import { AboutComponent } from './about/about.component';
 import { TodosComponent } from './todos/todos.component';
+import { TodosDetailsComponent } from './todos-details/todos-details.component';
+import { UpdateTodoComponent } from './update-todo/update-todo.component';
+import { AddTodoComponent } from './add-todo/add-todo.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -17,6 +20,9 @@ const routes: Routes = [
   { path: 'addnote', component: AddNoteComponent },
   { path: 'updatenote/:id', component: UpdateNoteComponent },
   { path: 'todos', component: TodosComponent },
+  { path: 'todos/:id', component: TodosDetailsComponent },
+  { path: 'updateTodo/:id', component: UpdateTodoComponent },
+  { path: 'addtodo', component: AddTodoComponent },
   { path: 'about', component: AboutComponent },
 ];
 

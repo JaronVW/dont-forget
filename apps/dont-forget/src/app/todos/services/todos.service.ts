@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ApiPaths } from 'apps/dont-forget/src/enums/apiPaths';
-import { environment } from 'apps/dont-forget/src/environments/environment';
+import { ApiPaths } from '../../../enums/apiPaths';
+import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { Todo } from '../../shared/models';
 
@@ -30,6 +30,6 @@ export class TodosService {
   }
 
   updateTodo(_id: string, todo: Todo) {
-    this.http.patch(this.url + `/${_id}`, { id: _id, note: todo }).subscribe();
+    this.http.patch(this.url + `/${_id}`, { id: _id, data: todo }).subscribe();
   }
 }

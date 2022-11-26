@@ -18,6 +18,9 @@ import { AddNoteComponent } from './add-note/add-note.component';
 import { UpdateNoteComponent } from './update-note/update-note.component';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { TodosComponent } from './todos/todos.component';
+import { TodosDetailsComponent } from './todos-details/todos-details.component';
+import { UpdateTodoComponent } from './update-todo/update-todo.component';
+import { AddTodoComponent } from './add-todo/add-todo.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +35,9 @@ import { TodosComponent } from './todos/todos.component';
     AddNoteComponent,
     UpdateNoteComponent,
     TodosComponent,
+    TodosDetailsComponent,
+    UpdateTodoComponent,
+    AddTodoComponent,
   ],
   imports: [
     BrowserModule,

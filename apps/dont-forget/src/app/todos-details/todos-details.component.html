@@ -1,0 +1,14 @@
+<div class="bg-stickyNoteLila  border-black border-2  rounded-sm p-4">
+    <h1 class="pageMainHeader">{{todo.title}}</h1>
+    <p>{{todo.description}}</p>
+    <p>{{todo.dateCreated}}</p>
+
+    <ul *ngIf="todo.tasks.length > 0">
+        <li *ngFor="let i of todo.tasks ">i.title</li>
+    </ul>
+
+    <ul>
+        <li><a role="button" class="sitelink sitelink-danger" (click)="deleteTodo(id)">Verwijderen </a></li>
+        <li><a href="updatetodo/{{id}} " class="sitelink sitelink-info">Aanpassen </a></li>
+    </ul>
+</div>

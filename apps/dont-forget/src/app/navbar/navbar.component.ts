@@ -14,13 +14,15 @@ import { Component, OnInit } from '@angular/core';
             <a class=" block px-3 " href="/notes">Notes</a>
           </li>
           <li class="list-none inline-block">
+            <a class=" block px-3 " href="/todos">Todos</a>
+          </li>
+          <li class="list-none inline-block">
             <a class="block px-3 " href="/about">About</a>
           </li>
         </ul>
       </nav>
     </header>
   `,
-  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
   ngOnInit(): void {

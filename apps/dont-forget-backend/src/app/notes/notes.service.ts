@@ -27,7 +27,7 @@ export class NotesService {
   }
 
   async update(id: string, data: Note) {
-    const res = await this.noteModel.findByIdAndUpdate(id, data);
+    const res = await this.noteModel.findByIdAndUpdate(id, data,{new: true});
     if (res == null) throw new NotFoundException();
     else return { statusCode: 200, message: 'Note updated' };
   }
