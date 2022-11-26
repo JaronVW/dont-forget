@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Todo } from '../shared/models';
 import { TodosService } from '../todos/services/todos.service';
-import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'dont-forget-update-todo',
@@ -36,23 +35,34 @@ export class UpdateTodoComponent implements OnInit {
     this.todosService.getTodoById(this.id).subscribe((res) => {
       this.todo.title = res.title;
       this.todo.description = res.description;
-      this.todo.dueDate = res.dueDate;
+      this.todo.dueDate = new Date(res.dueDate);
       this.updateTodoForm.setValue({
         title: res.title,
         description: res.description,
-        dueDate: res.dueDate,
+        dueDate: this.toDateString(new Date(res.dueDate)),
       });
     });
 
     this.updateTodoForm.valueChanges.subscribe((data) => {
-      this.todo = data;
+      this.todo.title = data.title;
+      this.todo.description = data.description;
+      this.todo.dueDate =data.dueDate;
+      console.log(this.todo)
     });
   }
 
-
+  private toDateString(date: Date): string {
+    return (
+      date.getFullYear().toString() +
+      '-' +
+      ('0' + (date.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + date.getDate()).slice(-2)
+    );
+  }
 
   exec() {
     this.todosService.updateTodo(this.id, this.todo);
-    this.router.navigate(['/notes/' + `${this.id}`]);
+    // this.router.navigate(['/todos/' + `${this.id}`]);
   }
 }

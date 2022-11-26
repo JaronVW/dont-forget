@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
-import { NotesService } from '../notes/services/notes.service';
 import { Todo } from '../shared/models';
 import { TodosService } from '../todos/services/todos.service';
 
@@ -24,11 +23,21 @@ export class AddTodoComponent implements OnInit {
     this.addTodoForm = this.fb.group({
       title: '',
       description: '',
-      dueDate: new Date().toDateString(),
+      dueDate: this.toDateString(new Date()),
     });
     this.addTodoForm.valueChanges.subscribe((data) => {
       this.todo = data;
     });
+  }
+
+  private toDateString(date: Date): string {
+    return (
+      date.getFullYear().toString() +
+      '-' +
+      ('0' + (date.getMonth() + 1)).slice(-2) +
+      '-' +
+      ('0' + date.getDate()).slice(-2)
+    );
   }
 
   exec() {
