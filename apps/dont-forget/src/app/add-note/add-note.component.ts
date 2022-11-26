@@ -12,7 +12,6 @@ export class AddNoteComponent implements OnInit {
   addNoteForm: FormGroup;
   title: string;
   text: string;
-  document: Document;
 
   constructor(
     private fb: FormBuilder,

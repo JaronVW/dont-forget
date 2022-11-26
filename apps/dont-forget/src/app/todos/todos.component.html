@@ -8,6 +8,7 @@
         <p>{{item.description}}</p>
         <ul>
             <li><a href="todos/{{item._id}}" class="sitelink sitelink-success">Details </a></li>
+            <li><a role="button" (click)="deleteTodo(item._id.toString())" class="sitelink sitelink-danger">Verwijderen </a></li>
             <li><a href="updateTodo/{{item._id}}" class="sitelink sitelink-info">Aanpassen </a></li>
         </ul>
 

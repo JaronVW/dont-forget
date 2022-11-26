@@ -22,4 +22,14 @@ export class TodosComponent implements OnInit {
       this.res = data;
     });
   }
+
+  deleteTodo(_id: string) {
+    this.todosService.deleteTodo(_id.toString()).subscribe((data) => {
+      if (data.statusCode == 200) {
+        this.getTodos();
+      } else {
+        ('');
+      }
+    });
+  }
 }

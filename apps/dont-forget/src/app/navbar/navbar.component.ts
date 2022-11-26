@@ -23,7 +23,6 @@ import { Component, OnInit } from '@angular/core';
       </nav>
     </header>
   `,
-  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
   ngOnInit(): void {
