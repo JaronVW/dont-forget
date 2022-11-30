@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'updatenote/:id', component: UpdateNoteComponent },
   { path: 'todos', component: TodosComponent },
   { path: 'todos/:id', component: TodosDetailsComponent },
-  { path: 'updateTodo/:id', component: UpdateTodoComponent },
+  { path: 'updatetodo/:id', component: UpdateTodoComponent },
   { path: 'addtodo', component: AddTodoComponent },
   { path: 'about', component: AboutComponent },
 ];

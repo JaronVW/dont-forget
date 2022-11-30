@@ -7,6 +7,7 @@ import { NotesModule } from './notes/notes.module';
 import { TodosModule } from './todos/todos.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { AuthService } from './auth/auth.service';
 
 
 @Module({
@@ -19,6 +20,6 @@ import { UsersModule } from './users/users.module';
   
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService] 
 })
 export class AppModule {}
