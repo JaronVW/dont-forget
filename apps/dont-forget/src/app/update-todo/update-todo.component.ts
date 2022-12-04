@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder,FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Todo } from '../shared/models';
 import { TodosService } from '../todos/services/todos.service';
@@ -30,25 +30,42 @@ export class UpdateTodoComponent implements OnInit {
       title: '',
       description: '',
       dueDate: '',
+      tasksArray: this.fb.array([])
     });
 
     this.todosService.getTodoById(this.id).subscribe((res) => {
-      this.todo.title = res.title;
-      this.todo.description = res.description;
-      this.todo.dueDate = new Date(res.dueDate);
+      this.todo = res;
       this.updateTodoForm.setValue({
         title: res.title,
         description: res.description,
         dueDate: this.toDateString(new Date(res.dueDate)),
+        tasksArray: this.fb.array(res.tasks)
       });
     });
 
     this.updateTodoForm.valueChanges.subscribe((data) => {
       this.todo.title = data.title;
       this.todo.description = data.description;
-      this.todo.dueDate =data.dueDate;
-      console.log(this.todo)
+      this.todo.dueDate = data.dueDate;
     });
+  }
+
+  get tasks(){
+    return this.updateTodoForm.get("tasks") as FormArray
+  }
+
+  addTask(){
+    const taskForm = this.fb.group({
+      title: '',
+      completed: false,
+      dateCreated: new Date()
+    })
+
+    this.tasks.push(taskForm)
+  }
+
+  deleteTask(i: number){
+    this.tasks.removeAt(i)
   }
 
   private toDateString(date: Date): string {
