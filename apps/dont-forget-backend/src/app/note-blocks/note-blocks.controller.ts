@@ -3,7 +3,7 @@ import { NoteBlock } from '../schemas/noteBlock.schema';
 import { NoteBlocksService } from './note-blocks.service';
 
 
-@Controller('note-blocks')
+@Controller('noteblocks')
 export class NoteBlocksController {
   constructor(private readonly noteBlocksService: NoteBlocksService) {}
 

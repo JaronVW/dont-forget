@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NotesService } from '../notes/services/notes.service';
 import { Todo } from '../shared/models';
 import { TodosService } from '../todos/services/todos.service';
 

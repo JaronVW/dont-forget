@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { NoteBlock } from '../shared/models';
+import { NoteBlocksService } from './note-blocks.service';
 
 @Component({
   selector: 'dont-forget-note-blocks',
@@ -6,7 +8,28 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./note-blocks.component.scss'],
 })
 export class NoteBlocksComponent implements OnInit {
-  constructor() {}
 
-  ngOnInit(): void {}
+  res: Array<NoteBlock>;
+
+  constructor(private noteBlocksService: NoteBlocksService) {}
+
+  ngOnInit(): void {
+    this.getNoteBlocks();
+  }
+
+  getNoteBlocks() {
+    this.noteBlocksService.getNoteBlocks().subscribe((data) => {
+      this.res = data;
+    });
+  }
+
+  deleteNoteBlock(_id: string) {
+    this.noteBlocksService.deleteNoteBlock(_id.toString()).subscribe((data) => {
+      if (data.statusCode == 200) {
+        this.getNoteBlocks();
+      } else {
+        ('');
+      }
+    });
+  }
 }
