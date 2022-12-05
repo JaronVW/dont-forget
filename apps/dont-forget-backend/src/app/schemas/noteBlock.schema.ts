@@ -1,14 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Date, HydratedDocument, ObjectId } from 'mongoose';
-import { Task } from './task';
+import mongoose, { HydratedDocument, ObjectId } from 'mongoose';
+import { Note } from './note.schema';
 
 export type NoteBlockDocument = HydratedDocument<NoteBlock>;
 
-
-
 @Schema()
 export class NoteBlock {
-
   @Prop()
   userId: ObjectId;
 
@@ -22,11 +19,7 @@ export class NoteBlock {
   dateCreated: Date;
 
   @Prop()
-  notes: ObjectId[];
-
-  @Prop()
-  tasks: Task[];
-
+  notes: [{ noteId: mongoose.Types.ObjectId }];
 }
 
 export const NoteBlockSchema = SchemaFactory.createForClass(NoteBlock);

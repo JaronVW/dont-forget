@@ -21,6 +21,7 @@ import { TodosComponent } from './todos/todos.component';
 import { TodosDetailsComponent } from './todos-details/todos-details.component';
 import { UpdateTodoComponent } from './update-todo/update-todo.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
+import { NoteBlocksComponent } from './note-blocks/note-blocks.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { AddTodoComponent } from './add-todo/add-todo.component';
     TodosDetailsComponent,
     UpdateTodoComponent,
     AddTodoComponent,
+    NoteBlocksComponent,
   ],
   imports: [
     BrowserModule,
