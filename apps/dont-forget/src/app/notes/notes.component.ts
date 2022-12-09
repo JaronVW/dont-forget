@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Note } from '../shared/models';
 import { NotesService } from './services/notes.service';
+import * as moment from 'moment';
 
 @Component({
   selector: 'dont-forget-notes',
@@ -11,6 +12,7 @@ export class NotesComponent implements OnInit {
   constructor(private notesService: NotesService) {}
 
   res: Array<Note>;
+  moment = moment;
 
   ngOnInit(): void {
     this.getNotes();
@@ -20,6 +22,7 @@ export class NotesComponent implements OnInit {
     this.notesService.getNotes().subscribe((data) => {
       this.res = data;
     });
+   
   }
 
   deleteNote(_id: string) {

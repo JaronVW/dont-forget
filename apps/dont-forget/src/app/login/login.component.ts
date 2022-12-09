@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
-import {User} from "../shared/models";
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 @Component({
   selector: 'dont-forget-login',
   templateUrl: './login.component.html',
@@ -11,7 +12,11 @@ export class LoginComponent implements OnInit {
   email: string;
   password: string;
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private readonly authService: AuthService,
+    private readonly router: Router
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -24,9 +29,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    // const user = new User()
-    // user.email = this.email;
-    // user.password = this.password;
-    // user.dateCreated = new Date();
+    this.authService.loginUser(this.email, this.password);
+    this.router.navigate([""])
   }
 }

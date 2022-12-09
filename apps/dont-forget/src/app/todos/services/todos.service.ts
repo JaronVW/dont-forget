@@ -30,6 +30,6 @@ export class TodosService {
   }
 
   updateTodo(_id: string, todo: Todo) {
-    this.http.patch(this.url + `/${_id}`, { id: _id, data: todo }).subscribe();
+    this.http.put(this.url + `/${_id}`, { id: _id, data: todo }).subscribe();
   }
 }

@@ -1,5 +1,6 @@
 export enum ApiPaths {
     Note = 'notes',
     Todo = "todos",
-    Auth = "auth"
+    Auth = "auth",
+    NoteBlock = "noteblocks"
  }

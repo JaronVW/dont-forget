@@ -1,5 +1,5 @@
 import { INote, ITask, ITodo, IUser } from '@dont-forget/types';
-import  { Schema } from 'mongoose';
+import { Schema } from 'mongoose';
 
 export class Note implements INote {
   _id: Schema.Types.ObjectId;
@@ -26,10 +26,17 @@ export class Todo implements ITodo {
   tasks: ITask[];
 }
 
-
 export class Task implements ITask {
   title: string;
   completed: boolean;
   dateCreated: Date;
-  
+}
+
+export class NoteBlock {
+  _id?: any
+  userId: any;
+  title: string;
+  description: number;
+  dateCreated: Date;
+  notes: Note[];
 }

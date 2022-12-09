@@ -1,12 +1,12 @@
 <div class="bg-white  border-black border-2  rounded-sm p-4">
-    <h1 class="pageMainHeader">{{todo.title}}</h1>
-    <p>{{todo.description}}</p>
-    <p>{{todo.dateCreated}}</p>
+    <h1 class="pageMainHeader">{{noteBlock.title}}</h1>
+    <p>{{noteBlock.description}}</p>
+    <p>{{noteBlock.dateCreated}}</p>
 
-    <div *ngIf="todo.tasks.length > 0">
-        <h3>Tasks:</h3>
+    <div *ngIf="noteBlock.notes.length > 0">
+        <h3>notes:</h3>
         <ul>
-            <li *ngFor="let i of todo.tasks ">{{i.title}}: {{i.completed ? "✔️" : "❌"}} </li>
+            <li *ngFor="let i of noteBlock.notes ">{{i.text}}</li>
         </ul>
     </div>
 
