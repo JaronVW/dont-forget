@@ -12,12 +12,17 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   loginUser(username: string, password: string) {
-    return this.http
+    this.http
       .post(`${this.url}/login`, {
         username,
         password,
       })
       .subscribe((data) => this.setSession(data));
+  }
+
+  logoutUser() {
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
   }
 
   private setSession(data: any) {
@@ -26,8 +31,16 @@ export class AuthService {
     localStorage.setItem('id_token', data.access_token);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
   }
-  
-  isLoggedIn() {
-    throw new Error('Method not implemented.');
+
+  isLoggedIn(): boolean {
+    if (
+      localStorage.getItem('expires_at') != null &&
+      Number(localStorage.getItem('expires_at')) < Date.now()
+    ) {
+      console.log(localStorage.getItem('expires_at') + ' ' + Date.now());
+      return localStorage.getItem('id_token') != null;
+    }
+    this.logoutUser();
+    return false;
   }
 }

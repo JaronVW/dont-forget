@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 @Component({
   selector: 'dont-forget-login',
@@ -13,7 +14,8 @@ export class LoginComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
@@ -27,8 +29,7 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authService.loginUser(this.email, this.password).unsubscribe();
-    console.log(localStorage.getItem("id_token"))
-    
+    this.authService.loginUser(this.email, this.password);
+    this.router.navigate([""])
   }
 }
