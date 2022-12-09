@@ -38,5 +38,5 @@ export class NoteBlock {
   title: string;
   description: number;
   dateCreated: Date;
-  notes: [{ noteId: any }];
+  notes: Note[];
 }

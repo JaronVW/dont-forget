@@ -6,6 +6,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { NoteBlock, NoteBlockDocument } from '../schemas/noteBlock.schema';
+import { Note, NoteDocument } from '../schemas/note.schema';
 
 @Injectable()
 export class NoteBlocksService {
@@ -21,12 +22,12 @@ export class NoteBlocksService {
     });
   }
 
-  findAll() {
-    return this.noteBlockModel.find().populate('notes').exec();
+  async findAll() {
+     return await this.noteBlockModel.find().populate("notes"); // key to populate
   }
 
   findOne(id: string) {
-    return this.noteBlockModel.findById(id).populate('notes').exec();
+    return this.noteBlockModel.findById(id, { populate: 'notes' }).exec();
   }
 
   async update(id: string, data: NoteBlock) {

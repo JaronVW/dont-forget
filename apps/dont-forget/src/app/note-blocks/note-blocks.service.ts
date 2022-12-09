@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiPaths } from '../../enums/apiPaths';
 import { environment } from '../../environments/environment';
-import { Note, NoteBlock } from '../shared/models';
+import {  NoteBlock } from '../shared/models';
 
 @Injectable({
   providedIn: 'root',

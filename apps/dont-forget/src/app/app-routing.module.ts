@@ -12,6 +12,7 @@ import { TodosDetailsComponent } from './todos-details/todos-details.component';
 import { UpdateTodoComponent } from './update-todo/update-todo.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
 import { NoteBlocksComponent } from './note-blocks/note-blocks.component';
+import { NoteBlocksDetailsComponent } from './note-blocks-details/note-blocks-details.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
@@ -25,6 +26,7 @@ const routes: Routes = [
   { path: 'updatetodo/:id', component: UpdateTodoComponent },
   { path: 'addtodo', component: AddTodoComponent },
   { path: 'noteblocks', component: NoteBlocksComponent },
+  { path: 'noteblocks/:id', component: NoteBlocksDetailsComponent },
   { path: 'about', component: AboutComponent },
 ];
 

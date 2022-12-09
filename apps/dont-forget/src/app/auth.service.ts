@@ -26,4 +26,8 @@ export class AuthService {
     localStorage.setItem('id_token', data.access_token);
     localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
   }
+  
+  isLoggedIn() {
+    throw new Error('Method not implemented.');
+  }
 }
