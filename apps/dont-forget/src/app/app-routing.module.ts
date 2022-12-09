@@ -16,7 +16,7 @@ import { NoteBlocksDetailsComponent } from './note-blocks-details/note-blocks-de
 import { LoginActivateGuard } from './guards/login-activate.guard';
 
 const routes: Routes = [
-  { path: '', component: IndexComponent , canActivate:[LoginActivateGuard] },
+  { path: '', component: IndexComponent },
   { path: 'login', component: LoginComponent , },
   { path: 'notes', component: NotesComponent , canActivate:[LoginActivateGuard]},
   { path: 'notes/:id', component: NotesDetailsComponent , canActivate:[LoginActivateGuard] },
