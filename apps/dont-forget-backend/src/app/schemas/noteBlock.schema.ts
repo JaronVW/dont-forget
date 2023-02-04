@@ -7,7 +7,7 @@ export type NoteBlockDocument = HydratedDocument<NoteBlock>;
 @Schema()
 export class NoteBlock {
   @Prop()
-  userId: ObjectId;
+  userId?: ObjectId;
 
   @Prop()
   title: string;
@@ -18,8 +18,8 @@ export class NoteBlock {
   @Prop()
   dateCreated: Date;
 
-  @Prop()
-  notes: [{ noteId: mongoose.Types.ObjectId }];
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Note'}])
+  notes: mongoose.Types.ObjectId[]
 }
 
 export const NoteBlockSchema = SchemaFactory.createForClass(NoteBlock);

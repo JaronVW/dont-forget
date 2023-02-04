@@ -22,6 +22,7 @@ import { TodosDetailsComponent } from './todos-details/todos-details.component';
 import { UpdateTodoComponent } from './update-todo/update-todo.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
 import { NoteBlocksComponent } from './note-blocks/note-blocks.component';
+import { authGuard } from './authGuard';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,7 @@ import { NoteBlocksComponent } from './note-blocks/note-blocks.component';
     BrowserAnimationsModule,
     PdfViewerModule,
   ],
-  providers: [],
+  providers: [authGuard],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

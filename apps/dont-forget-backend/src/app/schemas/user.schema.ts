@@ -1,13 +1,11 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import {  HydratedDocument } from 'mongoose';
-import {IUser} from "@dont-forget/types";
+import { HydratedDocument } from 'mongoose';
+import { IUser } from '@dont-forget/types';
 
 export type UserDocument = HydratedDocument<User>;
 
 @Schema()
-export class User implements IUser{
-
-
+export class User implements IUser {
   _id?: string;
 
   @Prop()

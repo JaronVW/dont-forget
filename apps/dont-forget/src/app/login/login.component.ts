@@ -27,8 +27,8 @@ export class LoginComponent implements OnInit {
   }
 
   login() {
-    this.authService.loginUser(this.email, this.password).unsubscribe();
-    console.log(localStorage.getItem("id_token"))
-    
+    this.authService.loginUser(this.email, this.password); 
+    // console.log(localStorage.getItem('id_token'));
+    // console.log(localStorage.getItem('expires_at')); 
   }
 }

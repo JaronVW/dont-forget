@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Note } from '../shared/models';
 import { NotesService } from './services/notes.service';
-import * as moment from 'moment';
+import * as dayjs from 'dayjs';
 
 @Component({
   selector: 'dont-forget-notes',
@@ -12,15 +12,21 @@ export class NotesComponent implements OnInit {
   constructor(private notesService: NotesService) {}
 
   res: Array<Note>;
-  moment = moment;
+  createdDate: string;
+ 
 
   ngOnInit(): void {
     this.getNotes();
   }
 
+  formatDate(date: Date): string {
+    return dayjs(date).format('DD-MM-YYYY');
+  }
+
   getNotes() {
     this.notesService.getNotes().subscribe((data) => {
       this.res = data;
+      this.createdDate = dayjs().format('YYYY-MM-DD');
     });
    
   }

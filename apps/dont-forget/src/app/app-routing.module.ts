@@ -12,11 +12,12 @@ import { TodosDetailsComponent } from './todos-details/todos-details.component';
 import { UpdateTodoComponent } from './update-todo/update-todo.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
 import { NoteBlocksComponent } from './note-blocks/note-blocks.component';
+import { authGuard } from './authGuard';
 
 const routes: Routes = [
   { path: '', component: IndexComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'notes', component: NotesComponent },
+  { path: 'notes', component: NotesComponent,  },
   { path: 'notes/:id', component: NotesDetailsComponent },
   { path: 'addnote', component: AddNoteComponent },
   { path: 'updatenote/:id', component: UpdateNoteComponent },
@@ -25,7 +26,7 @@ const routes: Routes = [
   { path: 'updatetodo/:id', component: UpdateTodoComponent },
   { path: 'addtodo', component: AddTodoComponent },
   { path: 'noteblocks', component: NoteBlocksComponent },
-  { path: 'about', component: AboutComponent },
+  { path: 'about', component: AboutComponent, canActivate: [authGuard]},
 ];
 
 @NgModule({
