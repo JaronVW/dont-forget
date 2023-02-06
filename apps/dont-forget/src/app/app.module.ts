@@ -23,6 +23,7 @@ import { UpdateTodoComponent } from './update-todo/update-todo.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
 import { NoteBlocksComponent } from './note-blocks/note-blocks.component';
 import { authGuard } from './authGuard';
+import { NoteBlocksDetailsComponent } from './note-blocks-details/note-blocks-details.component';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { authGuard } from './authGuard';
     UpdateTodoComponent,
     AddTodoComponent,
     NoteBlocksComponent,
+    NoteBlocksDetailsComponent,
   ],
   imports: [
     BrowserModule,

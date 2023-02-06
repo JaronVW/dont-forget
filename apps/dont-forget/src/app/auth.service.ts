@@ -13,7 +13,7 @@ export class AuthService {
   constructor(private http: HttpClient) {}
 
   loginUser(username: string, password: string) {
-    return this.http
+    this.http
       .post(`${this.url}/login`, {
         username,
         password,
@@ -21,6 +21,11 @@ export class AuthService {
       .subscribe((data) => {
         this.setSession(data);
       });
+  }
+
+  logoutUser() {
+    localStorage.removeItem('id_token');
+    localStorage.removeItem('expires_at');
   }
 
   private setSession(data: any) {
@@ -36,5 +41,17 @@ export class AuthService {
     dayjs().isBefore(localStorage.getItem('id_token'))
     if (localStorage.getItem('id_token') == null ) return false;
     return true;
+  }
+
+  isLoggedIn(): boolean {
+    if (
+      localStorage.getItem('expires_at') != null &&
+      Number(localStorage.getItem('expires_at')) < Date.now()
+    ) {
+      console.log(localStorage.getItem('expires_at') + ' ' + Date.now());
+      return localStorage.getItem('id_token') != null;
+    }
+    this.logoutUser();
+    return false;
   }
 }
