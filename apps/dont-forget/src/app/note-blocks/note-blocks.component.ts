@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as moment from 'moment';
 import { NoteBlock } from '../shared/models';
 import { NoteBlocksService } from './note-blocks.service';
 
@@ -11,7 +10,6 @@ import { NoteBlocksService } from './note-blocks.service';
 export class NoteBlocksComponent implements OnInit {
 
   res: Array<NoteBlock>;
-  moment = moment;
 
   constructor(private noteBlocksService: NoteBlocksService) {}
 

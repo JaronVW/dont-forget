@@ -3,7 +3,6 @@ import { environment } from '../environments/environment';
 import { ApiPaths } from '../enums/apiPaths';
 import { HttpClient } from '@angular/common/http';
 import * as dayjs from 'dayjs';
-import { min } from 'rxjs';
 @Injectable({
   providedIn: 'root',
 })
@@ -30,25 +29,16 @@ export class AuthService {
 
   private setSession(data: any) {
     const expiresAt = dayjs().add(10, 'minute').unix();
-    console.log(expiresAt);
     localStorage.setItem('id_token', data.access_token);
     localStorage.setItem('expires_at', expiresAt + '');
-    // console.log(localStorage.getItem('id_token'));
-    // console.log(localStorage.getItem('expires_at'));
   }
 
   isLoggedIn(): boolean {
-    dayjs().isBefore(localStorage.getItem('id_token'))
-    if (localStorage.getItem('id_token') == null ) return false;
-    return true;
-  }
-
-  isLoggedIn(): boolean {
+    const currentTime = dayjs().unix()
     if (
       localStorage.getItem('expires_at') != null &&
-      Number(localStorage.getItem('expires_at')) < Date.now()
+      currentTime < parseInt(localStorage.getItem('expires_at') || '')
     ) {
-      console.log(localStorage.getItem('expires_at') + ' ' + Date.now());
       return localStorage.getItem('id_token') != null;
     }
     this.logoutUser();

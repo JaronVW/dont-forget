@@ -25,7 +25,6 @@ export class NotesDetailsComponent implements OnInit {
     });
 
     this.notesService.getNoteById(this.id).subscribe((res) => {
-      console.log(res);
       this.title = res.title;
       this.text = res.text;
       this.dateCreated = res.dateCreated.toString();
