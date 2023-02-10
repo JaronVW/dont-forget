@@ -16,7 +16,7 @@ export class NoteBlocksController {
 
   @Get()
   findAll(@AuthUser() user:any) {
-    console.log(user);
+    console.log(user.userId);
     return this.noteBlocksService.findAll();
   }
 

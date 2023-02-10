@@ -1,8 +1,20 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { NotesService } from './notes.service';
 import { Note } from '../schemas/note.schema';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { AuthUser } from '../decorators/user.decorator';
 
 @Controller('notes')
+@UseGuards(JwtAuthGuard)
 export class NotesController {
   constructor(private readonly notesService: NotesService) {}
 
@@ -12,22 +24,26 @@ export class NotesController {
   }
 
   @Get()
-  findAll() {
+  findAll(@AuthUser() user: any) {
+    console.log(user.userId);
     return this.notesService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string, @AuthUser() user: any) {
+    console.log(user.userId);
     return this.notesService.findOne(id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() data: Note) {
+  update(@Param('id') id: string, @AuthUser() user: any, @Body() data: Note) {
+    console.log(user.userId);
     return this.notesService.update(id, data);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string, @AuthUser() user: any) {
+    console.log(user.userId);
     return this.notesService.remove(id);
   }
 }
