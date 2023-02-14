@@ -51,7 +51,7 @@ export class UpdateTodoComponent implements OnInit {
   }
 
   get tasks(){
-    return this.updateTodoForm.get("tasks") as FormArray
+    return this.updateTodoForm.get("tasksArray") as FormArray
   }
 
   addTask(){

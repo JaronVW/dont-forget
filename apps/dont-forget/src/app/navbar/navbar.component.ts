@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 
@@ -16,9 +16,19 @@ import { Router } from '@angular/router';
       </h2>
       <nav class="">
         <ul class="">
-          <li class="list-none inline-block">
-            <a class=" block px-3 " [routerLink]="['/login']">Login</a>
+          <li
+            *ngIf="isLoggedIn(); else loggedOut"
+            class="list-none inline-block"
+          >
+            <a class="block px-3 cursor-pointer " (click)="logout()">Logout</a>
           </li>
+
+          <ng-template #loggedOut>
+            <li class="list-none inline-block" #loggedOut>
+              <a class=" block px-3 " [routerLink]="['/login']">Login</a>
+            </li>
+          </ng-template>
+
           <li class="list-none inline-block">
             <a class=" block px-3 " [routerLink]="['/noteblocks']"
               >NoteBlocks</a
@@ -33,9 +43,6 @@ import { Router } from '@angular/router';
           <li class="list-none inline-block">
             <a class="block px-3 " [routerLink]="['/about']">About</a>
           </li>
-          <li *ngIf="isLoggedIn()" class="list-none inline-block">
-            <a class="block px-3 cursor-pointer " (click)="logout()">Logout</a>
-          </li>
         </ul>
       </nav>
     </header>
@@ -43,7 +50,7 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent {
   private _authService: AuthService;
-  private router: Router
+  private router: Router;
 
   constructor(private authService: AuthService, router: Router) {
     this._authService = authService;

@@ -23,15 +23,15 @@ export class NoteBlocksService {
     });
   }
 
-  async findAll() {
-     return await this.noteBlockModel.find().populate("notes"); // key to populate
+  async findAll(userId: string) {
+     return await this.noteBlockModel.find({"userId": userId}).populate("notes"); // key to populate
   }
 
-  findOne(id: string) {
+  findOne(id: string,userId: string) {
     return this.noteBlockModel.findById(id, { populate: 'notes' }).exec();
   }
 
-  async update(id: string, data: NoteBlock) {
+  async update(id: string, data: NoteBlock, userId: string) {
     const res = await this.noteBlockModel.findByIdAndUpdate(id, data, {
       new: true,
     });
@@ -39,7 +39,7 @@ export class NoteBlocksService {
     else return { statusCode: 200, message: 'NoteBlock updated' };
   }
 
-  async remove(id: string) {
+  async remove(id: string, userId: string) {
     const res = await this.noteBlockModel.findByIdAndDelete(id);
     if (res == null) throw new NotFoundException();
     else return { statusCode: 200, message: 'NoteBlock deleted' };
