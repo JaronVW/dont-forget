@@ -21,7 +21,14 @@ import { Neo4jModule } from './neo4j/neo4j.module';
     TodosModule,
     AuthModule,
     NoteBlocksModule,
-    Neo4jModule
+    Neo4jModule,
+    Neo4jModule.forRootAsync({
+      scheme: 'neo4j+s',
+      host: process.env.NEO4J_HOST,
+      username: process.env.NEO4J_USR,
+      password: process.env.NEO4J_PWD,
+      database: process.env.NEO4J_DATABASE,
+  }),
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
