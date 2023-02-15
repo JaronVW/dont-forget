@@ -10,6 +10,8 @@ export const createDriver = async (config: Neo4jConfig) => {
     );
     driver.getServerInfo().then(() => {
         logger.log(`Connected to Neo4j`);
+    }).catch((err) => {
+        logger.error(`Could not connect to Neo4j: ${err}`);
     });
     return driver;
 };
