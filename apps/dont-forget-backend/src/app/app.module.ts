@@ -12,6 +12,7 @@ import { NoteBlocksModule } from './note-blocks/note-blocks.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { Neo4jModule } from './neo4j/neo4j.module';
+import { AccountModule } from './account/account.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { Neo4jModule } from './neo4j/neo4j.module';
       password: process.env.NEO4J_PWD,
       database: process.env.NEO4J_DATABASE,
   }),
+    AccountModule,
   ],
   controllers: [AppController],
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],

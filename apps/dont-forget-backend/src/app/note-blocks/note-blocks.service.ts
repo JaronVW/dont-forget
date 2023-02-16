@@ -27,6 +27,10 @@ export class NoteBlocksService {
      return await this.noteBlockModel.find({"userId": userId}).populate("notes"); // key to populate
   }
 
+  async findShared(ids: string[]) {
+    return await this.noteBlockModel.find({ _id: { $in: ids } });
+  }
+
   findOne(id: string,userId: string) {
     return this.noteBlockModel.findById(id, { populate: 'notes' }).exec();
   }

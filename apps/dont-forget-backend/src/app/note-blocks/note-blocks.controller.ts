@@ -14,10 +14,14 @@ import { NoteBlock } from '../schemas/noteBlock.schema';
 import { NoteBlocksService } from './note-blocks.service';
 import { AuthUser } from '../decorators/user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Neo4jService } from '../neo4j/neo4j.service';
 
 @Controller('noteblocks')
 export class NoteBlocksController {
-  constructor(private readonly noteBlocksService: NoteBlocksService) {}
+  constructor(
+    private readonly noteBlocksService: NoteBlocksService,
+    private readonly neo4jService: Neo4jService
+  ) {}
 
   @Post()
   create(@Body() noteBlock: NoteBlock) {
@@ -27,6 +31,16 @@ export class NoteBlocksController {
   @Get()
   findAll(@AuthUser() user: any) {
     return this.noteBlocksService.findAll(user.userId);
+  }
+
+  @Get('shared')
+  async findShared(@AuthUser() user: any) {
+    const data = await this.neo4jService.read(
+      'MATCH (n {name: $nameParam})-[r:shared]->(c) RETURN c',
+      { nameParam: user.userId }
+    );
+    const noteblockIds = data.records.map((record) => record.get('c').properties.name);
+    return this.noteBlocksService.findShared(noteblockIds);
   }
 
   @Get(':id')
