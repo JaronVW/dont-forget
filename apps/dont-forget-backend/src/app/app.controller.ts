@@ -28,17 +28,5 @@ export class AppController {
     );
     return `There are ${res.records[0].get('count')} nodes in the database`;
   }
-  @Public()
-  @UseGuards(LocalAuthGuard)
-  @Post('auth/login')
-  async login(@Request() req) {
-    return this.authService.login(req.user._doc);
-  }
 
-  @Public()
-  @UseGuards(JwtAuthGuard)
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
-  }
 }

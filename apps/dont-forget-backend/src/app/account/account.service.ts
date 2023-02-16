@@ -13,6 +13,8 @@ export class AccountService {
 
   getFollowing(followingIds: string[]) {
     console.log(followingIds);
-    return this.noteBlockModel.find({ _id: { $in: followingIds } });
+    return this.noteBlockModel.find({ _id: followingIds[0]});
   }
+
+  
 }

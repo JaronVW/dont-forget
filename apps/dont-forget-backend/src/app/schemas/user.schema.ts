@@ -16,6 +16,9 @@ export class User implements IUser {
 
   @Prop()
   dateCreated: Date;
+
+  @Prop()
+  username: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
