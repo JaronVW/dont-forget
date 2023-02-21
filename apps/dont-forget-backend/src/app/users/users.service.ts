@@ -6,16 +6,13 @@ import { userSignUpDto } from '../auth/UserSignUpDto';
 
 @Injectable()
 export class UsersService {
-  
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async findOneUser(username: string): Promise<User | undefined> {
-    return this.userModel.findOne({ username });
+    return this.userModel.findOne({ $or: [{ username }, { email: username }] });
   }
 
-  createUser(user: userSignUpDto): Promise<User> {
+  createUser(user: User): Promise<User> {
     return this.userModel.create(user);
   }
 }
-
- 

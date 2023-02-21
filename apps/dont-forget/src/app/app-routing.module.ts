@@ -14,6 +14,7 @@ import { AddTodoComponent } from './add-todo/add-todo.component';
 import { NoteBlocksComponent } from './note-blocks/note-blocks.component';
 import { NoteBlocksDetailsComponent } from './note-blocks-details/note-blocks-details.component';
 import { LoginActivateGuard } from './guards/login-activate.guard';
+import { RegisterComponent } from './register/register.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent , canActivate:[LoginActivateGuard] },
@@ -29,6 +30,7 @@ const routes: Routes = [
   { path: 'noteblocks', component: NoteBlocksComponent, canActivate:[LoginActivateGuard] },
   { path: 'noteblocks/:id', component: NoteBlocksDetailsComponent, canActivate:[LoginActivateGuard] },
   { path: 'about', component: AboutComponent },
+  { path: 'register', component: RegisterComponent },
 ];
 
 @NgModule({

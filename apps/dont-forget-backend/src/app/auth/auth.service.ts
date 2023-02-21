@@ -4,6 +4,8 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { userSignUpDto } from './UserSignUpDto';
 import { Neo4jService } from '../neo4j/neo4j.service';
+import { User } from '../schemas/user.schema';
+import { createUserNode } from '../neo4j/cypherQueries';
 
 @Injectable()
 export class AuthService {
@@ -35,25 +37,28 @@ export class AuthService {
 
   async register(user: userSignUpDto) {
     try {
-      userData.password = await argon2.hash(userData.password);
-      userData.dateCreated = new Date();
-      const userData = await this.usersService.createUser(user);
-     
-      console.log(userData);
-      await this.neo4jService.write(
-        'CREATE (n:User {mongoId: $idParam, username: $usernameParam})',
-        {
-          idParam: userData._id.toString(),
-          usernameParam: userData.username,
-        }
-      );
-      const payload = { username: userData.email, sub: userData._id };
-      return {
-        access_token: this.jwtService.sign(payload),
+      const newUser: User = {
+        username: user.username,
+        email: user.email,
+        password: await argon2.hash(user.password),
+        dateCreated: new Date(),
       };
-    } catch(e) {
+      const res = this.usersService.createUser(newUser).then((data) => {
+        this.neo4jService.write(createUserNode, {
+          idParam: data._id.toString(),
+          usernameParam: data.username,
+        });
+        const payload = { username: data.email, sub: data._id.toString() };
+        const res = this.jwtService.sign(payload);
+        console.log(res);
+        return {
+          access_token: res,
+        };
+      });
+      return res;
+    } catch (e) {
       console.log(e);
-      return e
+      return new BadRequestException();
     }
   }
 }

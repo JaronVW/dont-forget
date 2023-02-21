@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+
 @Component({
-  selector: 'dont-forget-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
+  selector: 'dont-forget-register',
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.scss'],
 })
-export class LoginComponent implements OnInit {
+export class RegisterComponent implements OnInit {
   loginForm: FormGroup;
-  emailOrUsername: string;
+  username: string;
+  email: string;
   password: string;
 
   constructor(
@@ -20,16 +22,19 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      emailOrUsername: '',
+      username: '',
+      email: '',
       password: '',
     });
     this.loginForm.valueChanges.subscribe((data) => {
-      (this.emailOrUsername = data.emailOrUsername), (this.password = data.password);
+      (this.username = data.username),
+        (this.email = data.email),
+        (this.password = data.password)
     });
   }
 
-  login() {
-    this.authService.loginUser(this.emailOrUsername, this.password);
-    this.router.navigate([""])
+  register() {
+    this.authService.registerUser(this.username, this.email, this.password);
+    this.router.navigate(['']);
   }
 }

@@ -7,7 +7,6 @@ import {
   Body,
 } from '@nestjs/common';
 import { Public } from '../decorators/public.route.decorator';
-import { JwtAuthGuard } from './jwt-auth.guard';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
 import { userSignUpDto } from './UserSignUpDto';
@@ -23,8 +22,7 @@ export class AuthController {
     return this.authService.login(req.user._doc);
   }
 
-  @Public()
-  @UseGuards(JwtAuthGuard)
+
   @Get('profile')
   getProfile(@Request() req) {
     return req.user;

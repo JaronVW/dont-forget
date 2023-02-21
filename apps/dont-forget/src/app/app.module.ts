@@ -25,6 +25,7 @@ import { NoteBlocksComponent } from './note-blocks/note-blocks.component';
 import { authGuard } from './authGuard';
 import { NoteBlocksDetailsComponent } from './note-blocks-details/note-blocks-details.component';
 import { AuthInterceptor } from './AuthInterceptor';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { AuthInterceptor } from './AuthInterceptor';
     AddTodoComponent,
     NoteBlocksComponent,
     NoteBlocksDetailsComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,

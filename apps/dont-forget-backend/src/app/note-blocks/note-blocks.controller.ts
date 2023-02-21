@@ -9,12 +9,18 @@ import {
   Res,
   Req,
   UseGuards,
+  Put,
+  BadRequestException,
 } from '@nestjs/common';
 import { NoteBlock } from '../schemas/noteBlock.schema';
 import { NoteBlocksService } from './note-blocks.service';
 import { AuthUser } from '../decorators/user.decorator';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Neo4jService } from '../neo4j/neo4j.service';
+import {
+  getSharedNoteBlocks,
+  shareNoteBlockWith,
+} from '../neo4j/cypherQueries';
 
 @Controller('noteblocks')
 export class NoteBlocksController {
@@ -35,12 +41,30 @@ export class NoteBlocksController {
 
   @Get('shared')
   async findShared(@AuthUser() user: any) {
-    const data = await this.neo4jService.read(
-      'MATCH (n {name: $nameParam})-[r:shared]->(c) RETURN c',
-      { nameParam: user.userId }
+    const data = await this.neo4jService.read(getSharedNoteBlocks, {
+      idParam: user.userId,
+    });
+    const noteblockIds = data.records.map(
+      (record) => record.get('c').properties.name
     );
-    const noteblockIds = data.records.map((record) => record.get('c').properties.name);
     return this.noteBlocksService.findShared(noteblockIds);
+  }
+
+  @Put('sharenoteblock/:userId/:noteBlockId')
+  async shareNoteBlock(
+    @Param('userId') userId: string,
+    @Param('noteBlockId') noteBlockId: string
+  ) {
+    this.neo4jService
+      .write(shareNoteBlockWith, {
+        nbIdParam: noteBlockId,
+        idParam: userId,
+      })
+      .catch((err) => {
+        console.log(err);
+        return new BadRequestException()
+      });
+    return { StatusCode: 200, message: 'NoteBlock shared' };
   }
 
   @Get(':id')

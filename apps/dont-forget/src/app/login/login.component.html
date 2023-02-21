@@ -2,8 +2,8 @@
     <h1 class="pageMainHeader">Login</h1>
     <form [formGroup]="loginForm">
         <div class="flex flex-col gap-2 ">
-            <label  for="email">email</label>
-            <input formControlName="email" type="text" class="formInput" name="email" placeholder="email" id="email">
+            <label  for="emailOrUsername">email or username</label>
+            <input formControlName="emailOrUsername" type="text" class="formInput" name="emailOrUsername" placeholder="email/username" id="emailOrUsername">
             <label  for="password">password</label>
             <input formControlName="password" class="formInput"  type="password" name="password" placeholder="password" id="password">
             <input type="submit" (click)="login()" value="login" class="actionButton">

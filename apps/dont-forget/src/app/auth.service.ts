@@ -44,4 +44,16 @@ export class AuthService {
     this.logoutUser();
     return false;
   }
+
+  registerUser(username: string, email: string, password: string) {
+    this.http
+      .post(`${this.url}/register`, {
+        username,
+        email,
+        password,
+      })
+      .subscribe((data) => {
+        this.setSession(data);
+      });
+  }
 }

@@ -24,11 +24,11 @@ export class NoteBlocksService {
   }
 
   async findAll(userId: string) {
-     return await this.noteBlockModel.find({"userId": userId}).populate("notes"); // key to populate
+     return  this.noteBlockModel.find({"userId": userId}).populate("notes"); // key to populate
   }
 
   async findShared(ids: string[]) {
-    return await this.noteBlockModel.find({ _id: { $in: ids } });
+    return  this.noteBlockModel.find({ _id: { $in: ids } });
   }
 
   findOne(id: string,userId: string) {
@@ -36,7 +36,7 @@ export class NoteBlocksService {
   }
 
   async update(id: string, data: NoteBlock, userId: string) {
-    const res = await this.noteBlockModel.findByIdAndUpdate(id, data, {
+    const res =  this.noteBlockModel.findByIdAndUpdate(id, data, {
       new: true,
     });
     if (res == null) throw new NotFoundException();
