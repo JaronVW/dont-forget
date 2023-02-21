@@ -2,13 +2,13 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 import { ApiPaths } from '../enums/apiPaths';
 import { HttpClient } from '@angular/common/http';
-import * as moment from 'moment';
-
+import * as dayjs from 'dayjs';
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
   private url = `${environment.baseUrl}/${ApiPaths.Auth}`;
+
   constructor(private http: HttpClient) {}
 
   loginUser(username: string, password: string) {
@@ -17,7 +17,9 @@ export class AuthService {
         username,
         password,
       })
-      .subscribe((data) => this.setSession(data));
+      .subscribe((data) => {
+        this.setSession(data);
+      });
   }
 
   logoutUser() {
@@ -26,21 +28,32 @@ export class AuthService {
   }
 
   private setSession(data: any) {
-    const expiresAt = moment().add(data.access_token.expiresIn, 'second');
-
+    const expiresAt = dayjs().add(10, 'minute').unix();
     localStorage.setItem('id_token', data.access_token);
-    localStorage.setItem('expires_at', JSON.stringify(expiresAt.valueOf()));
+    localStorage.setItem('expires_at', expiresAt + '');
   }
 
   isLoggedIn(): boolean {
+    const currentTime = dayjs().unix()
     if (
       localStorage.getItem('expires_at') != null &&
-      Number(localStorage.getItem('expires_at')) < Date.now()
+      currentTime < parseInt(localStorage.getItem('expires_at') || '')
     ) {
-      console.log(localStorage.getItem('expires_at') + ' ' + Date.now());
       return localStorage.getItem('id_token') != null;
     }
     this.logoutUser();
     return false;
+  }
+
+  registerUser(username: string, email: string, password: string) {
+    this.http
+      .post(`${this.url}/register`, {
+        username,
+        email,
+        password,
+      })
+      .subscribe((data) => {
+        this.setSession(data);
+      });
   }
 }

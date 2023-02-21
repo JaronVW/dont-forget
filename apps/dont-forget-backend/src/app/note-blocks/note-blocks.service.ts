@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  Res,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
@@ -22,23 +23,27 @@ export class NoteBlocksService {
     });
   }
 
-  async findAll() {
-     return await this.noteBlockModel.find().populate("notes"); // key to populate
+  async findAll(userId: string) {
+     return  this.noteBlockModel.find({"userId": userId}).populate("notes"); // key to populate
   }
 
-  findOne(id: string) {
+  async findShared(ids: string[]) {
+    return  this.noteBlockModel.find({ _id: { $in: ids } });
+  }
+
+  findOne(id: string,userId: string) {
     return this.noteBlockModel.findById(id, { populate: 'notes' }).exec();
   }
 
-  async update(id: string, data: NoteBlock) {
-    const res = await this.noteBlockModel.findByIdAndUpdate(id, data, {
+  async update(id: string, data: NoteBlock, userId: string) {
+    const res =  this.noteBlockModel.findByIdAndUpdate(id, data, {
       new: true,
     });
     if (res == null) throw new NotFoundException();
     else return { statusCode: 200, message: 'NoteBlock updated' };
   }
 
-  async remove(id: string) {
+  async remove(id: string, userId: string) {
     const res = await this.noteBlockModel.findByIdAndDelete(id);
     if (res == null) throw new NotFoundException();
     else return { statusCode: 200, message: 'NoteBlock deleted' };

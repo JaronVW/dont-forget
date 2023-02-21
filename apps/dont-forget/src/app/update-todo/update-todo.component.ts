@@ -47,11 +47,14 @@ export class UpdateTodoComponent implements OnInit {
       this.todo.title = data.title;
       this.todo.description = data.description;
       this.todo.dueDate = data.dueDate;
+      this.todo.tasks = data.tasksArray;
     });
+
+    
   }
 
   get tasks(){
-    return this.updateTodoForm.get("tasks") as FormArray
+    return this.updateTodoForm.get("tasksArray") as FormArray
   }
 
   addTask(){

@@ -7,7 +7,7 @@ import { FooterComponent } from './footer/footer.component';
 import { LoginComponent } from './login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NotesComponent } from './notes/notes.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -22,7 +22,10 @@ import { TodosDetailsComponent } from './todos-details/todos-details.component';
 import { UpdateTodoComponent } from './update-todo/update-todo.component';
 import { AddTodoComponent } from './add-todo/add-todo.component';
 import { NoteBlocksComponent } from './note-blocks/note-blocks.component';
+import { authGuard } from './authGuard';
 import { NoteBlocksDetailsComponent } from './note-blocks-details/note-blocks-details.component';
+import { AuthInterceptor } from './AuthInterceptor';
+import { RegisterComponent } from './register/register.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +45,7 @@ import { NoteBlocksDetailsComponent } from './note-blocks-details/note-blocks-de
     AddTodoComponent,
     NoteBlocksComponent,
     NoteBlocksDetailsComponent,
+    RegisterComponent,
   ],
   imports: [
     BrowserModule,
@@ -52,7 +56,10 @@ import { NoteBlocksDetailsComponent } from './note-blocks-details/note-blocks-de
     BrowserAnimationsModule,
     PdfViewerModule,
   ],
-  providers: [],
+  providers: [
+    authGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

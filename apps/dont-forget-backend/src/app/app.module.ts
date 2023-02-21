@@ -9,18 +9,30 @@ import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { AuthService } from './auth/auth.service';
 import { NoteBlocksModule } from './note-blocks/note-blocks.module';
-
+import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './auth/jwt-auth.guard';
+import { Neo4jModule } from './neo4j/neo4j.module';
+import { AccountModule } from './account/account.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.DATABASE_URL),
     NotesModule,
-    TodosModule,  
+    TodosModule,
     AuthModule,
-    NoteBlocksModule
+    NoteBlocksModule,
+    Neo4jModule,
+    Neo4jModule.forRootAsync({
+      scheme: 'neo4j+s',
+      host: process.env.NEO4J_HOST,
+      username: process.env.NEO4J_USR,
+      password: process.env.NEO4J_PWD,
+      database: process.env.NEO4J_DATABASE,
+  }),
+    AccountModule,
   ],
   controllers: [AppController],
-  providers: [AppService] 
+  providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
 export class AppModule {}
