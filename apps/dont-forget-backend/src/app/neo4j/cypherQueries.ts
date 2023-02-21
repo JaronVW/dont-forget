@@ -3,7 +3,7 @@ export const createUserNode =
 export const getSharedNoteBlocks =
   'MATCH (n {mongoId: $idParam})-[r:shared]->(c) RETURN c';
 export const followUser =
-  'MATCH (a:User {mongoId: $idParam}), (b:User {name: $idParamtoFollow}) MERGE (a)-[r:follows]->(b) RETURN r';
+  'MATCH (a:User {mongoId: $idParam}), (b:User {username: $usernameParam}) MERGE (a)-[r:follows]->(b) RETURN r';
 export const getFollowing =
   'MATCH (a:User {mongoId: $idParam})-[r:follows]->(b) RETURN b';
 export const shareNoteBlockWith =

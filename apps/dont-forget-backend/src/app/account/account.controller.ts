@@ -11,11 +11,11 @@ export class AccountController {
     private neo4jService: Neo4jService
   ) {}
 
-  @Post('follow/:userId')
-  async followUser(@Param('userId') id: string, @AuthUser() user: any) {
+  @Post('follow/:username')
+  async followUser(@Param('username') username: string, @AuthUser() user: any) {
     const res = await this.neo4jService.write(followUser, {
       idParam: user.userId,
-      idParamtoFollow: id,
+      usernameParam: username,
     });
     console.log(res);
     return {};
@@ -26,8 +26,9 @@ export class AccountController {
     const res = await this.neo4jService.read(getFollowing, {
       idParam: user.userId,
     });
+
     const followingIds = res.records.map(
-      (record) => record.get('b').properties.name
+      (record) => record.get('b').properties.mongoId
     );
     return this.accountService.getFollowing(followingIds);
   }

@@ -26,6 +26,8 @@ import { authGuard } from './authGuard';
 import { NoteBlocksDetailsComponent } from './note-blocks-details/note-blocks-details.component';
 import { AuthInterceptor } from './AuthInterceptor';
 import { RegisterComponent } from './register/register.component';
+import { NoteblocksSharedComponent } from './noteblocks-shared/noteblocks-shared.component';
+import { FollowUserComponent } from './follow-user/follow-user.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +48,8 @@ import { RegisterComponent } from './register/register.component';
     NoteBlocksComponent,
     NoteBlocksDetailsComponent,
     RegisterComponent,
+    NoteblocksSharedComponent,
+    FollowUserComponent,
   ],
   imports: [
     BrowserModule,

@@ -17,6 +17,10 @@ export class NoteBlocksService {
     return this.http.get<NoteBlock[]>(this.url);
   }
 
+  getNoteBlocksShared(): Observable<NoteBlock[]> {
+    return this.http.get<NoteBlock[]>(this.url + '/shared');
+  }
+
   deleteNoteBlock(_id: string): Observable<any> {
     return this.http.delete(this.url + `/${_id}`);
   }
