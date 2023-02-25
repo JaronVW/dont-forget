@@ -1,4 +1,11 @@
-import { Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Controller,
+  Get,
+  NotFoundException,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { AccountService } from './account.service';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import { AuthUser } from '../decorators/user.decorator';
@@ -11,14 +18,24 @@ export class AccountController {
     private neo4jService: Neo4jService
   ) {}
 
-  @Post('follow/:userId')
-  async followUser(@Param('userId') id: string, @AuthUser() user: any) {
-    const res = await this.neo4jService.write(followUser, {
-      idParam: user.userId,
-      idParamtoFollow: id,
-    });
-    console.log(res);
-    return {};
+  @Post('follow/:username')
+  async followUser(@Param('username') username: string, @AuthUser() user: any) {
+    const res = await this.neo4jService
+      .write(followUser, {
+        idParam: user.userId,
+        usernameParam: username,
+      })
+      .then((res) => {
+
+        return {
+          statusCode: 200,
+          message: `User ${res.records[0].get('b').properties.username} followed`,
+        }
+      })
+      .catch(() => {
+        throw new NotFoundException('User not found');
+      });
+    return res;
   }
 
   @Get('following')
@@ -26,8 +43,9 @@ export class AccountController {
     const res = await this.neo4jService.read(getFollowing, {
       idParam: user.userId,
     });
+
     const followingIds = res.records.map(
-      (record) => record.get('b').properties.name
+      (record) => record.get('b').properties.mongoId
     );
     return this.accountService.getFollowing(followingIds);
   }
