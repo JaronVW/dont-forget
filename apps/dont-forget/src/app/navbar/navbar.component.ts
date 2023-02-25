@@ -16,12 +16,44 @@ import { Router } from '@angular/router';
       </h2>
       <nav class="">
         <ul class="">
-          <li
-            *ngIf="isLoggedIn(); else loggedOut"
-            class="list-none inline-block"
-          >
-            <a class="block px-3 cursor-pointer " (click)="logout()">Logout</a>
-          </li>
+          <ng-container *ngIf="isLoggedIn(); else loggedOut">
+            <li class="list-none inline-block">
+              <a class="block px-3 cursor-pointer " (click)="logout()"
+                >Logout</a
+              >
+            </li>
+            <li class="list-none inline-block">
+              <a
+                class="block px-3 cursor-pointer "
+                (click)="toggleDropdown()"
+                >{{ dropdownText }}</a
+              >
+            </li>
+            <li *ngIf="Show" class="list-none inline-block ">
+              <div
+                class="absolute right-40 top-12 border-2 bg-stickyNoteBeige border-black "
+              >
+                <div class="">
+                  <a class=" block px-2 py-1 " [routerLink]="['/noteblocks']"
+                    >NoteBlocks</a
+                  >
+                </div>
+                <div class="">
+                  <a class=" block px-2 py-1" [routerLink]="['/notes']"
+                    >Notes</a
+                  >
+                </div>
+                <div class="">
+                  <a class=" block px-2 py-1" [routerLink]="['/todos']"
+                    >Todos</a
+                  >
+                </div>
+              </div>
+            </li>
+            <li class="list-none inline-block">
+              <a class="block px-3 " [routerLink]="['/following']">Following</a>
+            </li>
+          </ng-container>
 
           <ng-template #loggedOut>
             <li class="list-none inline-block" #loggedOut>
@@ -29,31 +61,6 @@ import { Router } from '@angular/router';
             </li>
           </ng-template>
 
-          <li class="list-none inline-block">
-            <a class="block px-3 cursor-pointer " (click)="toggleDropdown()">{{
-              dropdownText
-            }}</a>
-          </li>
-          <li *ngIf="Show" class="list-none inline-block ">
-            <div
-              class="absolute right-14 top-12 border-2 bg-stickyNoteBeige border-black "
-            >
-              <div class="">
-                <a class=" block px-2 py-1 " [routerLink]="['/noteblocks']"
-                  >NoteBlocks</a
-                >
-              </div>
-              <div class="">
-                <a class=" block px-2 py-1" [routerLink]="['/notes']">Notes</a>
-              </div>
-              <div class="">
-                <a class=" block px-2 py-1" [routerLink]="['/todos']">Todos</a>
-              </div>
-            </div>
-          </li>
-          <li class="list-none inline-block">
-            <a class="block px-3 " [routerLink]="['/following']">Following</a>
-          </li>
           <li class="list-none inline-block">
             <a class="block px-3 " [routerLink]="['/about']">About</a>
           </li>
