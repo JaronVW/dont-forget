@@ -27,6 +27,7 @@ export class FollowUserComponent implements OnInit {
   username: string;
   nameForm: FormGroup;
   _followers: { username: string }[];
+  _response: string;
   constructor(
     private accountService: AccountService,
     private fb: FormBuilder
@@ -38,6 +39,14 @@ export class FollowUserComponent implements OnInit {
 
   public set followers(followers: { username: string }[]) {
     this._followers = followers;
+  }
+
+  public get response() {
+    return this._response;
+  }
+
+  public set response(response: string) {
+    this._response = response;
   }
 
   getFollowers() {
@@ -59,7 +68,17 @@ export class FollowUserComponent implements OnInit {
   }
 
   followUser() {
-    this.accountService.followUser(this.username);
+    this.accountService.followUser(this.username).subscribe({
+      next: (res: any) => {
+        this.response = res.username;
+        console.log(this.response);
+        this.getFollowers();
+      },
+      error: () => {
+        this.response = "User doesn't exist/ already followed"
+        
+      },
+    });
     this.getFollowers();
   }
 }

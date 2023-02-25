@@ -30,15 +30,29 @@ import { Router } from '@angular/router';
           </ng-template>
 
           <li class="list-none inline-block">
-            <a class=" block px-3 " [routerLink]="['/noteblocks']"
-              >NoteBlocks</a
+            <a class="block px-3 cursor-pointer " (click)="toggleDropdown()">{{
+              dropdownText
+            }}</a>
+          </li>
+          <li *ngIf="Show" class="list-none inline-block ">
+            <div
+              class="absolute right-14 top-12 border-2 bg-stickyNoteBeige border-black "
             >
+              <div class="">
+                <a class=" block px-2 py-1 " [routerLink]="['/noteblocks']"
+                  >NoteBlocks</a
+                >
+              </div>
+              <div class="">
+                <a class=" block px-2 py-1" [routerLink]="['/notes']">Notes</a>
+              </div>
+              <div class="">
+                <a class=" block px-2 py-1" [routerLink]="['/todos']">Todos</a>
+              </div>
+            </div>
           </li>
           <li class="list-none inline-block">
-            <a class=" block px-3 " [routerLink]="['/notes']">Notes</a>
-          </li>
-          <li class="list-none inline-block">
-            <a class=" block px-3 " [routerLink]="['/todos']">Todos</a>
+            <a class="block px-3 " [routerLink]="['/following']">Following</a>
           </li>
           <li class="list-none inline-block">
             <a class="block px-3 " [routerLink]="['/about']">About</a>
@@ -51,6 +65,8 @@ import { Router } from '@angular/router';
 export class NavbarComponent {
   private _authService: AuthService;
   private router: Router;
+  Show = false;
+  dropdownText = 'Person >';
 
   constructor(private authService: AuthService, router: Router) {
     this._authService = authService;
@@ -64,5 +80,9 @@ export class NavbarComponent {
 
   isLoggedIn(): boolean {
     return this._authService.isLoggedIn();
+  }
+
+  toggleDropdown() {
+    this.Show = !this.Show;
   }
 }

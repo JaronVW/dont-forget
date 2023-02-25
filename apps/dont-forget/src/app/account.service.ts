@@ -13,9 +13,7 @@ export class AccountService {
   constructor(private http: HttpClient) {}
 
   followUser(username: string) {
-    this.http.post(`${this.url}/follow/${username}`, {}).subscribe( (res) => {
-      console.log(res);
-    });
+    return this.http.post(`${this.url}/follow/${username}`, {});
   }
 
   getFollowing(): Observable<{ username: string }[]> {

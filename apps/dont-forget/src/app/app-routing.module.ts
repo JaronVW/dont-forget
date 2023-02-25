@@ -73,8 +73,16 @@ const routes: Routes = [
   },
   { path: 'about', component: AboutComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'shared', component: NoteblocksSharedComponent },
-  { path: 'following', component: FollowUserComponent },
+  {
+    path: 'shared',
+    component: NoteblocksSharedComponent,
+    canActivate: [LoginActivateGuard],
+  },
+  {
+    path: 'following',
+    component: FollowUserComponent,
+    canActivate: [LoginActivateGuard],
+  },
 ];
 
 @NgModule({
