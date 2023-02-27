@@ -36,4 +36,7 @@ export class NoteBlocksService {
   getNoteBlockById(_id: string): Observable<NoteBlock> {
     return this.http.get<NoteBlock>(this.url + `/${_id}`);
   }
+  // getNoteById(_id: string): Observable<Note> {
+  //   return this.http.get<Note>(this.url + `/${_id}`);
+  // }
 }

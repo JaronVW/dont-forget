@@ -32,7 +32,7 @@ export class NoteBlocksService {
   }
 
   findOne(id: string,userId: string) {
-    return this.noteBlockModel.findById(id, { populate: 'notes' }).exec();
+    return this.noteBlockModel.findOne({id,userId }).populate("notes");
   }
 
   async update(id: string, data: NoteBlock, userId: string) {

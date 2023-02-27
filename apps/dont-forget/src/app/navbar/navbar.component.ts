@@ -53,6 +53,9 @@ import { Router } from '@angular/router';
             <li class="list-none inline-block">
               <a class="block px-3 " [routerLink]="['/following']">Following</a>
             </li>
+            <li class="list-none inline-block">
+              <a class="block px-3 " [routerLink]="['/shared']">Shared</a>
+            </li>
           </ng-container>
 
           <ng-template #loggedOut>
