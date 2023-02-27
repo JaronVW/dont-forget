@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Todo, TodoDocument } from '../schemas/todo.schema';
@@ -14,22 +18,23 @@ export class TodosService {
     });
   }
 
-  findAll(): Promise<Todo[]> {
-    return this.todoModel.find().exec();
+  findAll(userId: string): Promise<Todo[]> {
+    return this.todoModel.find({ userId: userId }).exec();
   }
 
-  findOne(id: string) {
-    return this.todoModel.findById(id).exec();
+  findOne(userId: string, id: string) {
+    return this.todoModel.findOne({ id, userId }).exec();
   }
 
-  async update(id: string, data: Todo) {
-    const res = await this.todoModel.findByIdAndUpdate(id, data,{new: true});
+  async update(userId: string, id: string, data: Todo) {
+    console.log(data);
+    const res = await this.todoModel.findByIdAndUpdate(id, data, );
     if (res == null) throw new NotFoundException();
-    else return { res};
+    else return { res };
   }
 
-  async remove(id: string) {
-    const res = await this.todoModel.findByIdAndDelete(id);
+  remove(userId: string, id: string) {
+    const res = this.todoModel.findByIdAndDelete(id);
     if (res == null) throw new NotFoundException();
     else return { statusCode: 200, message: 'Todo deleted' };
   }

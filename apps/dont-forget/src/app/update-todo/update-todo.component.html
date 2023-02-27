@@ -11,9 +11,10 @@
 
 
             <div formArrayName="tasksArray">
+                <button type="button" (click)="addTask()">Add Task</button>
                 <h3>Tasks:</h3>
                 <ul>
-                    <div *ngFor="let task of tasks.controls let i=index " [formGroupName]="i">
+                    <div *ngFor="let task of tasks.controls; let i=index " [formGroupName]="i">
                         <input formControlName="title" type="text" class="formInput" name="title" placeholder="titel"
                             id="title">
                         <input formControlName="completed" type="checkbox" id="scales" name="scales" [checked]="">

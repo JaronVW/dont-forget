@@ -28,7 +28,7 @@ export class Todo  {
   completed: boolean;
 
   @Prop()
-  tasks: [{type: Task}];
+  tasks: [Task];
 }
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);

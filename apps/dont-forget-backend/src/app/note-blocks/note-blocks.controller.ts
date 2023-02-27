@@ -6,16 +6,12 @@ import {
   Patch,
   Param,
   Delete,
-  Res,
-  Req,
-  UseGuards,
   Put,
   BadRequestException,
 } from '@nestjs/common';
 import { NoteBlock } from '../schemas/noteBlock.schema';
 import { NoteBlocksService } from './note-blocks.service';
 import { AuthUser } from '../decorators/user.decorator';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import {
   getSharedNoteBlocks,
@@ -30,8 +26,8 @@ export class NoteBlocksController {
   ) {}
 
   @Post()
-  create(@Body() noteBlock: NoteBlock) {
-    return this.noteBlocksService.create(noteBlock);
+  create(@AuthUser() user: any,@Body() noteBlock: NoteBlock) {
+    return this.noteBlocksService.create(user.userId,noteBlock);
   }
 
   @Get()

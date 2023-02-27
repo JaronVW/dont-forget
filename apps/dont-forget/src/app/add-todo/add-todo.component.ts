@@ -24,6 +24,7 @@ export class AddTodoComponent implements OnInit {
       title: '',
       description: '',
       dueDate: this.toDateString(new Date()),
+      
     });
     this.addTodoForm.valueChanges.subscribe((data) => {
       this.todo = data;

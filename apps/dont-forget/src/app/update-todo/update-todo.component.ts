@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder,FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Todo } from '../shared/models';
 import { TodosService } from '../todos/services/todos.service';
+import { ITask } from '@dont-forget/types';
 
 @Component({
   selector: 'dont-forget-update-todo',
@@ -30,7 +31,7 @@ export class UpdateTodoComponent implements OnInit {
       title: '',
       description: '',
       dueDate: '',
-      tasksArray: this.fb.array([])
+      tasksArray: this.fb.array([]),
     });
 
     this.todosService.getTodoById(this.id).subscribe((res) => {
@@ -39,7 +40,13 @@ export class UpdateTodoComponent implements OnInit {
         title: res.title,
         description: res.description,
         dueDate: this.toDateString(new Date(res.dueDate)),
-        tasksArray: this.fb.array(res.tasks)
+        tasksArray: res.tasks.map((task: ITask) => {
+          return this.fb.group({
+            title: task.title,
+            completed: task.completed,
+            dateCreated: task.dateCreated,
+          });
+        }),
       });
     });
 
@@ -49,26 +56,26 @@ export class UpdateTodoComponent implements OnInit {
       this.todo.dueDate = data.dueDate;
       this.todo.tasks = data.tasksArray;
     });
-
-    
   }
 
-  get tasks(){
-    return this.updateTodoForm.get("tasksArray") as FormArray
+  get tasks() {
+    return this.updateTodoForm.get('tasksArray') as FormArray;
   }
 
-  addTask(){
+  addTask() {
     const taskForm = this.fb.group({
       title: '',
       completed: false,
-      dateCreated: new Date()
-    })
+      dateCreated: new Date(),
+    });
 
-    this.tasks.push(taskForm)
+    this.tasks.push(taskForm);
   }
 
-  deleteTask(i: number){
-    this.tasks.removeAt(i)
+ 
+
+  deleteTask(i: number) {
+    this.tasks.removeAt(i);
   }
 
   private toDateString(date: Date): string {
@@ -83,6 +90,7 @@ export class UpdateTodoComponent implements OnInit {
 
   exec() {
     this.todosService.updateTodo(this.id, this.todo);
+    // console.log(this.todo);
     // this.router.navigate(['/todos/' + `${this.id}`]);
   }
 }
