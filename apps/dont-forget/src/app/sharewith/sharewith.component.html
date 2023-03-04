@@ -1,0 +1,6 @@
+<form [formGroup]="nameForm">
+    <select formControlName="username" name="" id="" class="p-2">
+        <option value="">Select User</option>
+        <option *ngFor="let user of followers" value="{{user._id}}" >{{user.username}}</option>
+    </select>
+</form>

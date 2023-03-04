@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class AccountService {
   private url = `${environment.baseUrl}/${ApiPaths.account}`;
+  private url2 = `${environment.baseUrl}/${ApiPaths.NoteBlock}`;
 
   constructor(private http: HttpClient) {}
 
@@ -16,7 +17,11 @@ export class AccountService {
     return this.http.post(`${this.url}/follow/${username}`, {});
   }
 
-  getFollowing(): Observable<{ username: string }[]> {
-    return this.http.get<{ username: string }[]>(`${this.url}/following`);
+  getFollowing(): Observable<{_id:string, username: string }[]> {
+    return this.http.get<{_id:string, username: string }[]>(`${this.url}/following`);
+  }
+
+  share(userId: string, noteBlockId: string) {
+    return this.http.post(`${this.url2}/sharenoteblock/${userId}/${noteBlockId}`, {});
   }
 }

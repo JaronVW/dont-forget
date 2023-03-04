@@ -17,6 +17,7 @@ import { LoginActivateGuard } from './guards/login-activate.guard';
 import { RegisterComponent } from './register/register.component';
 import { NoteblocksSharedComponent } from './noteblocks-shared/noteblocks-shared.component';
 import { FollowUserComponent } from './follow-user/follow-user.component';
+import { SharewithComponent } from './sharewith/sharewith.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [LoginActivateGuard] },
@@ -81,6 +82,11 @@ const routes: Routes = [
   {
     path: 'following',
     component: FollowUserComponent,
+    canActivate: [LoginActivateGuard],
+  },
+  {
+    path: 'sharewith/:id',
+    component: SharewithComponent,
     canActivate: [LoginActivateGuard],
   },
 ];

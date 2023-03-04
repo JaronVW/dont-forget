@@ -11,6 +11,6 @@ export class AccountService {
   ) {}
 
   getFollowing(followingIds: string[]) {
-    return this.noteBlockModel.find({ _id: { $in: followingIds } }, 'username');
+    return this.noteBlockModel.find({ _id: { $in: followingIds } }, 'username',);
   }
 }
