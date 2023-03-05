@@ -22,6 +22,6 @@ export class AccountService {
   }
 
   share(userId: string, noteBlockId: string) {
-    return this.http.post(`${this.url2}/sharenoteblock/${userId}/${noteBlockId}`, {});
+    return this.http.put(`${this.url2}/sharenoteblock/${userId}/${noteBlockId}`, {});
   }
 }

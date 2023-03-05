@@ -10,8 +10,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 })
 export class SharewithComponent implements OnInit {
   _followers: { _id: string; username: string }[];
-  id: string;
-  selectedValue: string;
+  noteBlockId: string;
+  userId: string;
   nameForm: FormGroup;
 
   public get followers() {
@@ -30,7 +30,7 @@ export class SharewithComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((paramsId) => {
-      this.id = paramsId['id'];
+      this.noteBlockId = paramsId['id'];
     });
     this.getFollowers();
 
@@ -38,8 +38,8 @@ export class SharewithComponent implements OnInit {
       username: '',
     });
     this.nameForm.valueChanges.subscribe((data) => {
-      this.selectedValue = data.username;
-      console.log(this.selectedValue);
+      this.userId = data.username;
+      console.log(this.userId);
     });
   }
 
@@ -49,6 +49,6 @@ export class SharewithComponent implements OnInit {
     });
   }
   share(){
-    this.accountService.share(this.id, this.selectedValue).subscribe();
+    this.accountService.share(this.userId,this.noteBlockId, ).subscribe();
   }
 }

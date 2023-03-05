@@ -24,6 +24,7 @@ export class TodosDetailsComponent implements OnInit {
     });
 
     this.todosService.getTodoById(this.id).subscribe((res) => {
+      console.log(res);
       this.todo = res;
     });
   }

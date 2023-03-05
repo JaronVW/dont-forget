@@ -8,6 +8,7 @@ import {
   Delete,
   Put,
   BadRequestException,
+  NotFoundException,
 } from '@nestjs/common';
 import { NoteBlock } from '../schemas/noteBlock.schema';
 import { NoteBlocksService } from './note-blocks.service';
@@ -26,8 +27,8 @@ export class NoteBlocksController {
   ) {}
 
   @Post()
-  create(@AuthUser() user: any,@Body() noteBlock: NoteBlock) {
-    return this.noteBlocksService.create(user.userId,noteBlock);
+  create(@AuthUser() user: any, @Body() noteBlock: NoteBlock) {
+    return this.noteBlocksService.create(user.userId, noteBlock);
   }
 
   @Get()
@@ -51,16 +52,21 @@ export class NoteBlocksController {
     @Param('userId') userId: string,
     @Param('noteBlockId') noteBlockId: string
   ) {
-    this.neo4jService
+    const res = await this.neo4jService
       .write(shareNoteBlockWith, {
         nbIdParam: noteBlockId,
         idParam: userId,
       })
       .catch((err) => {
-        console.log(err);
-        return new BadRequestException()
+        if (err.message.includes('already exists')) {
+          throw new BadRequestException();
+        }
+        throw new NotFoundException();
+      })
+      .then(() => {
+        return { StatusCode: 200, message: 'NoteBlock shared' };
       });
-    return { StatusCode: 200, message: 'NoteBlock shared' };
+    return res;
   }
 
   @Get(':id')

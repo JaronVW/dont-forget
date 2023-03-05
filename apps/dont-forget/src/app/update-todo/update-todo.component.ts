@@ -36,17 +36,15 @@ export class UpdateTodoComponent implements OnInit {
 
     this.todosService.getTodoById(this.id).subscribe((res) => {
       this.todo = res;
+      this.updateTodoForm.setControl(
+        'tasksArray',
+        this.setExistingTasks(res.tasks)
+      );
       this.updateTodoForm.setValue({
         title: res.title,
         description: res.description,
         dueDate: this.toDateString(new Date(res.dueDate)),
-        tasksArray: res.tasks.map((task: ITask) => {
-          return this.fb.group({
-            title: task.title,
-            completed: task.completed,
-            dateCreated: task.dateCreated,
-          });
-        }),
+
       });
     });
 
@@ -72,10 +70,22 @@ export class UpdateTodoComponent implements OnInit {
     this.tasks.push(taskForm);
   }
 
- 
-
   deleteTask(i: number) {
     this.tasks.removeAt(i);
+  }
+
+  setExistingTasks(tasksArray: ITask[]): FormArray {
+    const formArray = new FormArray<any>([]);
+    tasksArray.forEach((task) => {
+      formArray.push(
+        this.fb.group({
+          title: task.title,
+          completed: task.completed,
+          dateCreated: task.dateCreated,
+        })
+      );
+    });
+    return formArray;
   }
 
   private toDateString(date: Date): string {

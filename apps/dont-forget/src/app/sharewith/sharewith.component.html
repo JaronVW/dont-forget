@@ -3,4 +3,5 @@
         <option value="">Select User</option>
         <option *ngFor="let user of followers" value="{{user._id}}" >{{user.username}}</option>
     </select>
+    <button type="submit" class="actionButton" (click)="share()">Share</button>
 </form>
