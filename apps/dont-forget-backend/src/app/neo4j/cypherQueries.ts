@@ -8,3 +8,4 @@ export const getFollowing =
   'MATCH (a:User {mongoId: $idParam})-[r:follows]->(b) RETURN b';
 export const shareNoteBlockWith =
   'MATCH (n:User {mongoId: $idParam}) CREATE (n) -[r: shared]-> (p:NoteBlock {name: $nbIdParam});';
+export const getFollowersFollowing = `MATCH (u:User {mongoId: $idParam})-[:follows*2..4]->(user:User) WHERE NOT (u)-[:follows]->(user) AND user <>u return user`;

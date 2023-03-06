@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class AccountService {
+ 
   private url = `${environment.baseUrl}/${ApiPaths.account}`;
   private url2 = `${environment.baseUrl}/${ApiPaths.NoteBlock}`;
 
@@ -23,5 +24,10 @@ export class AccountService {
 
   share(userId: string, noteBlockId: string) {
     return this.http.put(`${this.url2}/sharenoteblock/${userId}/${noteBlockId}`, {});
+  } 
+
+
+  getFollowingFollowing(): Observable<{_id:string, username: string }[]> {
+    return this.http.get<{_id:string, username: string }[]>(`${this.url}/followingfollowing`);
   }
 }
