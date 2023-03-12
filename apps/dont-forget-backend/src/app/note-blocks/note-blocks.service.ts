@@ -3,9 +3,10 @@ import {
   Injectable,
   NotFoundException,
   Res,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import mongoose, { Model } from 'mongoose';
+import mongoose, { Model, Mongoose } from 'mongoose';
 import { NoteBlock, NoteBlockDocument } from '../schemas/noteBlock.schema';
 import { Note, NoteDocument } from '../schemas/note.schema';
 
@@ -32,8 +33,11 @@ export class NoteBlocksService {
     return this.noteBlockModel.find({ _id: { $in: ids } });
   }
 
-  findOne(id: string, userId: string) {
-    return this.noteBlockModel.findOne({ id, userId }).populate('notes');
+  async findOne(id: string, userId: string) {
+    const res = await this.noteBlockModel.findById(id).populate('notes');
+    if (String(res.userId) !== userId)
+      throw new BadRequestException();
+    else return res;
   }
 
   async update(id: string, data: NoteBlock, userId: string) {
