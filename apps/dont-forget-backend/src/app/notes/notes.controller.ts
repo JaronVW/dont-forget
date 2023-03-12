@@ -30,16 +30,16 @@ export class NotesController {
 
   @Get(':id')
   findOne(@AuthUser() user: any, @Param('id') id: string) {
-    return this.notesService.findOne(user.userId, id);
+    return this.notesService.findOne(id,user.userId );
   }
 
   @Patch(':id')
   update(@AuthUser() user: any, @Param('id') id: string, @Body() data: Note) {
-    return this.notesService.update(user.userId, id, data);
+    return this.notesService.update(id,user.userId,  data);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string, @AuthUser() user: any) {
-    return this.notesService.remove(user.userId, id);
+    return this.notesService.remove(id, user.userId, );
   }
 }

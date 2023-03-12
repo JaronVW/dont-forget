@@ -14,6 +14,13 @@ import { FormBuilder, FormGroup } from '@angular/forms';
         />
         <input type="submit" class="actionButton mt-5" value="Follow" />
       </form>
+      <p *ngIf="response && !isError(response); else error" class="text-green-700">{{ response }}</p>
+
+      <ng-template #error
+        ><p class="text-red-700">
+          {{ response }}
+        </p></ng-template
+      >
     </div>
     <div class="border-black border-2 p-2 mb-12 bg-white">
       <h2>Currently following:</h2>
@@ -64,6 +71,14 @@ export class FollowUserComponent implements OnInit {
     this._response = response;
   }
 
+  isError(res: string) {
+    if (res == "User doesn't exist/ already followed") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   getFollowers() {
     this.accountService.getFollowing().subscribe((res) => {
       this.followers = res;
@@ -91,7 +106,7 @@ export class FollowUserComponent implements OnInit {
   followUser() {
     this.accountService.followUser(this.username).subscribe({
       next: (res: any) => {
-        this.response = res.username;
+        this.response = res.username + ' followed';
         console.log(this.response);
         this.getFollowers();
       },

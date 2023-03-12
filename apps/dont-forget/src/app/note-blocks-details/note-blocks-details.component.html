@@ -6,7 +6,7 @@
     <div *ngIf="noteBlock.notes.length > 0">
         <h3>notes:</h3>
         <ul>
-            <li *ngFor="let i of noteBlock.notes ">{{i.text}}</li>
+            <li *ngFor="let i of noteBlock.notes "> <a [routerLink]="['/notes',i._id]" >{{i.text}}</a>  </li>
         </ul>
     </div>
 

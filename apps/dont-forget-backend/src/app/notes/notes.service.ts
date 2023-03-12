@@ -24,16 +24,16 @@ export class NotesService {
   }
 
   findOne(id: string, userId: string) {
-    return this.noteModel.findOne({id,userId}).exec();
+    return this.noteModel.findById(id).exec();
   }
 
-  async update(userId: string,id: string, data: Note) {
+  async update(id: string,userId: string, data: Note) {
     const res = await this.noteModel.findByIdAndUpdate(id, data,{new: true});
     if (res == null) throw new NotFoundException();
     else return { statusCode: 200, message: 'Note updated' };
   }
 
-  async remove(userId: string,id: string) {
+  async remove(id: string, userId: string,) {
     const res = await this.noteModel.findByIdAndDelete(id);
     if (res == null) throw new NotFoundException();
     else return { statusCode: 200, message: 'Note deleted' };
