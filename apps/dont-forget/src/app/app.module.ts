@@ -29,6 +29,7 @@ import { RegisterComponent } from './register/register.component';
 import { NoteblocksSharedComponent } from './noteblocks-shared/noteblocks-shared.component';
 import { FollowUserComponent } from './follow-user/follow-user.component';
 import { SharewithComponent } from './sharewith/sharewith.component';
+import { AddNoteblockComponent } from './add-noteblock/add-noteblock.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { SharewithComponent } from './sharewith/sharewith.component';
     NoteblocksSharedComponent,
     FollowUserComponent,
     SharewithComponent,
+    AddNoteblockComponent,
   ],
   imports: [
     BrowserModule,

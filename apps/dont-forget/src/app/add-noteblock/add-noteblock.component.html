@@ -1,0 +1,27 @@
+<div class="bg-stickyNoteLila  border-black border-2  rounded-sm p-4">
+    <h1 class="pageMainHeader">Add Noteblock</h1>
+    <form [formGroup]="addNoteblockForm">
+        <div class="flex flex-col gap-2">
+            <label for="title">Titel</label>
+            <input formControlName="title" type="text" class="formInput" name="title" placeholder="titel" id="text">
+            <label for="text">Tekst</label>
+            <input formControlName="description" class="formInput" type="text" name="text" placeholder="tekst" id="text"
+                rows="5" cols="33">
+            <ng-container *ngFor="let note of addNoteblockForm.get('checkboxes').value | keyvalue">
+                <div>
+                    <input type="checkbox" name="" value="{{note._id}}" id="{{note.title}}" class="mr-2">
+                    <label for="{{note.title}}">{{note.title}}</label><br>
+                </div>
+            </ng-container>
+            <button type="button" (click)="exec()" value="fdfd" class="actionButton">Toevoegen</button>
+        </div>
+
+
+    </form>
+    <!-- <ng-container *ngFor="let note of notes">
+        <div>
+            <input type="checkbox" name="" value="{{note._id}}" id="{{note.title}}" class="mr-2">
+            <label for="{{note.title}}">{{note.title}}</label><br>
+        </div>
+    </ng-container> -->
+</div>
