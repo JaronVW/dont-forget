@@ -7,6 +7,20 @@
             <label for="title">omschrijving</label>
             <input formControlName="description" type="text" class="formInput"  name="description" placeholder="omschrijving" id="description">
             <label for="text">Opleveringsdatum</label>
+
+            <div formArrayName="tasksArray">
+                <button type="button" (click)="addTask()">Add Task</button>
+                <h3>Tasks:</h3>
+                <ul>
+                    <div *ngFor="let task of tasks.controls; let i=index " [formGroupName]="i">
+                        <input formControlName="title" type="text" class="formInput" name="title" placeholder="titel"
+                            id="title">
+                        <input formControlName="completed" type="checkbox" id="scales" name="scales" [checked]="">
+                    </div>
+
+                </ul>
+            </div>
+            
             <input formControlName="dueDate" type="date" class="formInput"  name="dueDate" id="dueDate">
             <button type="button" (click)="exec()" value="fdfd" class="actionButton">Toevoegen</button>
         </div>

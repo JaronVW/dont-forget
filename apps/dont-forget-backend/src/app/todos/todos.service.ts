@@ -4,15 +4,16 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { Todo, TodoDocument } from '../schemas/todo.schema';
 
 @Injectable()
 export class TodosService {
   constructor(@InjectModel(Todo.name) private todoModel: Model<TodoDocument>) {}
 
-  create(data: Todo) {
+  create(userId: string,data: Todo) {
     data.dateCreated = new Date();
+    data.userId = new mongoose.Schema.Types.ObjectId(userId);
     this.todoModel.create(data, function (err) {
       if (err) throw new BadRequestException();
     });

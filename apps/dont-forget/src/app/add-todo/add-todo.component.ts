@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Todo } from '../shared/models';
 import { TodosService } from '../todos/services/todos.service';
+import { ITask } from '@dont-forget/types';
 
 @Component({
   selector: 'dont-forget-add-todo',
@@ -24,10 +25,14 @@ export class AddTodoComponent implements OnInit {
       title: '',
       description: '',
       dueDate: this.toDateString(new Date()),
-      
+      tasksArray: this.fb.array([]),
     });
+    
     this.addTodoForm.valueChanges.subscribe((data) => {
-      this.todo = data;
+      this.todo.title = data.title;
+      this.todo.description = data.description;
+      this.todo.dueDate = data.dueDate;
+      this.todo.tasks = data.tasksArray;
     });
   }
 
@@ -40,6 +45,25 @@ export class AddTodoComponent implements OnInit {
       ('0' + date.getDate()).slice(-2)
     );
   }
+
+  get tasks() {
+    return this.addTodoForm.get('tasksArray') as FormArray;
+  }
+
+  addTask() {
+    const taskForm = this.fb.group({
+      title: '',
+      completed: false,
+      dateCreated: new Date(),
+    });
+
+    this.tasks.push(taskForm);
+  }
+
+  deleteTask(i: number) {
+    this.tasks.removeAt(i);
+  }
+
 
   exec() {
     this.todosService.addTodo(this.todo);

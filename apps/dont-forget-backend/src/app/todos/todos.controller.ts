@@ -9,9 +9,9 @@ export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
   @Post()
-  create(@Body() todo: Todo) {
+  create(@AuthUser() user: any,@Body() todo: Todo) {
     console.log(todo);
-    return this.todosService.create(todo);
+    return this.todosService.create(user.userId,todo);
   }
 
   @Get()
@@ -26,7 +26,7 @@ export class TodosController {
 
   @Put(':id')
   update(@AuthUser() user: any,@Param('id') id: string, @Body() data: Todo) {
-    // console.log(data);
+    console.log(data);
     return this.todosService.update(user.id,id, data);
   }
 

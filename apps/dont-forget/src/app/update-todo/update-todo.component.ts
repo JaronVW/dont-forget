@@ -36,15 +36,16 @@ export class UpdateTodoComponent implements OnInit {
 
     this.todosService.getTodoById(this.id).subscribe((res) => {
       this.todo = res;
+      console.log(this.todo);
       this.updateTodoForm.setControl(
         'tasksArray',
         this.setExistingTasks(res.tasks)
       );
       this.updateTodoForm.setValue({
-        title: res.title,
+        title: this.todo.title,
         description: res.description,
         dueDate: this.toDateString(new Date(res.dueDate)),
-
+        tasksArray: res.tasks,
       });
     });
 
