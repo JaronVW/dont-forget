@@ -12,7 +12,7 @@ import { ITask } from '@dont-forget/types';
 })
 export class AddTodoComponent implements OnInit {
   addTodoForm: FormGroup;
-  todo: Todo;
+  todo: Todo = new Todo();
 
   constructor(
     private fb: FormBuilder,

@@ -13,7 +13,7 @@ export class TodosService {
 
   create(userId: string,data: Todo) {
     data.dateCreated = new Date();
-    data.userId = new mongoose.Schema.Types.ObjectId(userId);
+    data.userId = new mongoose.Types.ObjectId(userId);
     this.todoModel.create(data, function (err) {
       if (err) throw new BadRequestException();
     });
