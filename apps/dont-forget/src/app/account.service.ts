@@ -18,6 +18,10 @@ export class AccountService {
     return this.http.post(`${this.url}/follow/${username}`, {});
   }
 
+  unfollowUser(username: string) {
+    return this.http.post(`${this.url}/unfollow/${username}`, {});
+  }
+
   getFollowing(): Observable<{_id:string, username: string }[]> {
     return this.http.get<{_id:string, username: string }[]>(`${this.url}/following`);
   }

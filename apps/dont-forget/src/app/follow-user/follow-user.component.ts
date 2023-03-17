@@ -14,7 +14,12 @@ import { FormBuilder, FormGroup } from '@angular/forms';
         />
         <input type="submit" class="actionButton mt-5" value="Follow" />
       </form>
-      <p *ngIf="response && !isError(response); else error" class="text-green-700">{{ response }}</p>
+      <p
+        *ngIf="response && !isError(response); else error"
+        class="text-green-700"
+      >
+        {{ response }}
+      </p>
 
       <ng-template #error
         ><p class="text-red-700">
@@ -25,7 +30,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
     <div class="border-black border-2 p-2 mb-12 bg-white">
       <h2>Currently following:</h2>
       <div *ngFor="let f of followers" class="">
-        <p>{{ f.username }}</p>
+        <div>
+          {{ f.username }}
+          <button (click)="unfollowUser(f.username)" class="">Unfollow</button>
+        </div>
       </div>
     </div>
     <div class="border-black border-2 p-2 bg-white">
@@ -106,12 +114,27 @@ export class FollowUserComponent implements OnInit {
   followUser() {
     this.accountService.followUser(this.username).subscribe({
       next: (res: any) => {
-        this.response = res.username + ' followed';
+        console.log(res);
+        this.response = res.message;
         console.log(this.response);
         this.getFollowers();
       },
       error: () => {
         this.response = "User doesn't exist/ already followed";
+      },
+    });
+    this.getFollowers();
+  }
+
+  unfollowUser(username: string) {
+    this.accountService.unfollowUser(username).subscribe({
+      next: (res: any) => {
+        this.response = res.message;
+        console.log(this.response);
+        this.getFollowers();
+      },
+      error: () => {
+        this.response = "User doesn't exist/ already unfollowed";
       },
     });
     this.getFollowers();

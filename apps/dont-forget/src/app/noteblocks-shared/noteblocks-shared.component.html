@@ -1,5 +1,4 @@
-<h1>Beschikbare Notitieblokken</h1>
-<a href="addnote " class="sitelink sitelink-info">Notitieblok toevoegen</a>
+<h1>Gedeelde Notitieblokken</h1>
 <div class="grid sm:grid-cols-1  lg:grid-cols-2 gap-4">
 
     <div *ngFor="let item of res" class="bg-white p-4  border-2 border-black text-left hover: w-10/12">
@@ -7,6 +6,7 @@
         <p></p>
         <ul>
             <li><a [routerLink]="['/noteblocks', item._id]" class="sitelink sitelink-success">Details </a></li>
+            <li><a [routerLink]="['/noteblocks/unshare',item._id]" class="sitelink sitelink-danger" >Delete for me</a></li>
         </ul>
 
     </div>

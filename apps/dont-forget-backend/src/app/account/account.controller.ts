@@ -9,7 +9,7 @@ import {
 import { AccountService } from './account.service';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import { AuthUser } from '../decorators/user.decorator';
-import { followUser, getFollowersFollowing, getFollowing } from '../neo4j/cypherQueries';
+import { followUser, getFollowersFollowing, getFollowing, unfollowUser } from '../neo4j/cypherQueries';
 
 @Controller('account')
 export class AccountController {
@@ -37,6 +37,25 @@ export class AccountController {
       });
     return res;
   }
+
+  @Post('unfollow/:username')
+  async unfollowUser(@Param('username') username: string, @AuthUser() user: any) {
+    const res = await this.neo4jService.write(unfollowUser, {
+      idParam: user.userId,
+      usernameParam: username,
+    }).then((res) => {
+      console.log(res.records);
+      return {
+        statusCode: 200,
+        message: `User ${username} unfollowed`,
+      }
+    }).catch((err) => {
+      console.log(err);
+      throw new NotFoundException('User not found');
+    });
+    return res;
+  }
+
 
   @Get('following')
   async getFollowing(@AuthUser() user: any) {
