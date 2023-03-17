@@ -14,10 +14,23 @@ import { FormBuilder, FormGroup } from '@angular/forms';
         />
         <input type="submit" class="actionButton mt-5" value="Follow" />
       </form>
+      <p *ngIf="response && !isError(response); else error" class="text-green-700">{{ response }}</p>
+
+      <ng-template #error
+        ><p class="text-red-700">
+          {{ response }}
+        </p></ng-template
+      >
     </div>
-    <div class="border-black border-2 p-2 bg-white">
+    <div class="border-black border-2 p-2 mb-12 bg-white">
       <h2>Currently following:</h2>
       <div *ngFor="let f of followers" class="">
+        <p>{{ f.username }}</p>
+      </div>
+    </div>
+    <div class="border-black border-2 p-2 bg-white">
+      <h2>People you follow are following:</h2>
+      <div *ngFor="let f of followingFollowing" class="">
         <p>{{ f.username }}</p>
       </div>
     </div>`,
@@ -27,6 +40,7 @@ export class FollowUserComponent implements OnInit {
   username: string;
   nameForm: FormGroup;
   _followers: { username: string }[];
+  _followingFollowing: { username: string }[];
   _response: string;
   constructor(
     private accountService: AccountService,
@@ -41,6 +55,14 @@ export class FollowUserComponent implements OnInit {
     this._followers = followers;
   }
 
+  public get followingFollowing() {
+    return this._followingFollowing;
+  }
+
+  public set followingFollowing(followingFollowing: { username: string }[]) {
+    this._followingFollowing = followingFollowing;
+  }
+
   public get response() {
     return this._response;
   }
@@ -49,34 +71,47 @@ export class FollowUserComponent implements OnInit {
     this._response = response;
   }
 
+  isError(res: string) {
+    if (res == "User doesn't exist/ already followed") {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   getFollowers() {
     this.accountService.getFollowing().subscribe((res) => {
       this.followers = res;
     });
   }
 
+  getFollowingFollowing() {
+    this.accountService.getFollowingFollowing().subscribe((res) => {
+      this.followingFollowing = res;
+    });
+  }
+
   ngOnInit(): void {
     this.getFollowers();
+    this.getFollowingFollowing();
 
     this.nameForm = this.fb.group({
       username: '',
     });
     this.nameForm.valueChanges.subscribe((data) => {
       this.username = data.username;
-      console.log(this.username);
     });
   }
 
   followUser() {
     this.accountService.followUser(this.username).subscribe({
       next: (res: any) => {
-        this.response = res.username;
+        this.response = res.username + ' followed';
         console.log(this.response);
         this.getFollowers();
       },
       error: () => {
-        this.response = "User doesn't exist/ already followed"
-        
+        this.response = "User doesn't exist/ already followed";
       },
     });
     this.getFollowers();

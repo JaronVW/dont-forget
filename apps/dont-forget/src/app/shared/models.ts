@@ -23,10 +23,10 @@ export class Todo implements ITodo {
   dueDate: Date;
   dateCreated: Date;
   completed: boolean;
-  tasks: ITask[];
+  tasks: Task[];
 }
 
-export class Task implements ITask {
+export class Task {
   title: string;
   completed: boolean;
   dateCreated: Date;

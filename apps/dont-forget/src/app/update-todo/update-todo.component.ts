@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder,FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Todo } from '../shared/models';
+import { Task, Todo } from '../shared/models';
 import { TodosService } from '../todos/services/todos.service';
+import { ITask } from '@dont-forget/types';
 
 @Component({
   selector: 'dont-forget-update-todo',
@@ -11,7 +12,7 @@ import { TodosService } from '../todos/services/todos.service';
 })
 export class UpdateTodoComponent implements OnInit {
   updateTodoForm: FormGroup;
-  todo: Todo = new Todo();
+  todo: Todo = { tasks: {} } as Todo;
   id: string;
 
   constructor(
@@ -30,17 +31,19 @@ export class UpdateTodoComponent implements OnInit {
       title: '',
       description: '',
       dueDate: '',
-      tasksArray: this.fb.array([])
+      tasksArray: this.fb.array([]),
     });
 
     this.todosService.getTodoById(this.id).subscribe((res) => {
+      const taskHolder = res.tasks;
       this.todo = res;
       this.updateTodoForm.setValue({
         title: res.title,
         description: res.description,
-        dueDate: this.toDateString(new Date(res.dueDate)),
-        tasksArray: this.fb.array(res.tasks)
+        dueDate: res.dueDate,
+        tasksArray: [],
       });
+      this.setExistingTasks(taskHolder);
     });
 
     this.updateTodoForm.valueChanges.subscribe((data) => {
@@ -49,40 +52,45 @@ export class UpdateTodoComponent implements OnInit {
       this.todo.dueDate = data.dueDate;
       this.todo.tasks = data.tasksArray;
     });
-
-    
   }
 
-  get tasks(){
-    return this.updateTodoForm.get("tasksArray") as FormArray
+  get tasks() {
+    return this.updateTodoForm.get('tasksArray') as FormArray;
   }
 
-  addTask(){
+  addTask() {
     const taskForm = this.fb.group({
       title: '',
       completed: false,
-      dateCreated: new Date()
-    })
+      dateCreated: new Date(),
+    });
 
-    this.tasks.push(taskForm)
+    this.tasks.push(taskForm);
   }
 
-  deleteTask(i: number){
-    this.tasks.removeAt(i)
+  private addTaskI(task: Task) {
+    const taskForm = this.fb.group({
+      title: task.title,
+      completed: task.completed,
+      dateCreated: task.dateCreated,
+    });
+
+    this.tasks.push(taskForm);
   }
 
-  private toDateString(date: Date): string {
-    return (
-      date.getFullYear().toString() +
-      '-' +
-      ('0' + (date.getMonth() + 1)).slice(-2) +
-      '-' +
-      ('0' + date.getDate()).slice(-2)
-    );
+  deleteTask(i: number) {
+    this.tasks.removeAt(i);
+  }
+
+  setExistingTasks(tasksArray: Task[]) {
+    tasksArray.forEach((task) => {
+      this.addTaskI(task);
+    });
   }
 
   exec() {
     this.todosService.updateTodo(this.id, this.todo);
-    // this.router.navigate(['/todos/' + `${this.id}`]);
+    console.log(this.todo);
+    this.router.navigate(['/todos/' + `${this.id}`]);
   }
 }

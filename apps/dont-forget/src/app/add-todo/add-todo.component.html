@@ -1,13 +1,30 @@
 <div class="bg-stickyNoteLila  border-black border-2  rounded-sm p-4">
-    <h1 class="pageMainHeader">Login</h1>
+    <h1 class="pageMainHeader">Add Todo</h1>
     <form [formGroup]="addTodoForm">
         <div class="flex flex-col gap-2">
             <label for="title">Titel</label>
-            <input formControlName="title" type="text" class="formInput"  name="title" placeholder="titel" id="title">
+            <input formControlName="title" type="text" class="formInput" name="title" placeholder="titel" id="title">
             <label for="title">omschrijving</label>
-            <input formControlName="description" type="text" class="formInput"  name="description" placeholder="omschrijving" id="description">
+            <input formControlName="description" type="text" class="formInput" name="description"
+                placeholder="omschrijving" id="description">
             <label for="text">Opleveringsdatum</label>
-            <input formControlName="dueDate" type="date" class="formInput"  name="dueDate" id="dueDate">
+
+            <div formArrayName="tasksArray">
+                <button type="button" (click)="addTask()" class="formInput">Add Task</button>
+                <div class="ml-2 my-2">
+                    <h3>Tasks:</h3>
+                    <ul>
+                        <div *ngFor="let task of tasks.controls; let i=index " class="my-2 " [formGroupName]="i">
+                            <input formControlName="title" type="text" class="formInput mr-2" name="title"
+                                placeholder="titel"  id="title">
+                            <input formControlName="completed" type="checkbox" id="scales" name="scales" [checked]="">
+                        </div>
+
+                    </ul>
+                </div>
+            </div>
+
+            <input formControlName="dueDate" type="date" class="formInput" name="dueDate" id="dueDate">
             <button type="button" (click)="exec()" value="fdfd" class="actionButton">Toevoegen</button>
         </div>
     </form>

@@ -6,7 +6,7 @@
         <h2 class="text-3xl">{{item.title}}</h2>
         <p>{{formatDate(item.dateCreated)}}</p>
         <ul>
-            <li><a href="notes/{{item._id}}" class="sitelink sitelink-success">Details </a></li>
+            <li><a [routerLink]="['/notes', item._id]" class="sitelink sitelink-success">Details </a></li>
             <li><a role="button" (click)="deleteNote(item._id.toString())" class="sitelink sitelink-danger">Verwijderen </a></li>
             <li><a href="updatenote/{{item._id}}" class="sitelink sitelink-info">Aanpassen </a></li>
         </ul>

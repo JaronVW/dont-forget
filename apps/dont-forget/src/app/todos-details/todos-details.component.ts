@@ -10,7 +10,9 @@ import { TodosService } from '../todos/services/todos.service';
 })
 export class TodosDetailsComponent implements OnInit {
   id: string;
-  todo: Todo;
+  todo: Todo = {tasks: {}} as Todo;
+
+
 
   constructor(
     private router: Router,
@@ -24,6 +26,7 @@ export class TodosDetailsComponent implements OnInit {
     });
 
     this.todosService.getTodoById(this.id).subscribe((res) => {
+      console.log(res);
       this.todo = res;
     });
   }

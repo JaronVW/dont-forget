@@ -17,6 +17,8 @@ import { LoginActivateGuard } from './guards/login-activate.guard';
 import { RegisterComponent } from './register/register.component';
 import { NoteblocksSharedComponent } from './noteblocks-shared/noteblocks-shared.component';
 import { FollowUserComponent } from './follow-user/follow-user.component';
+import { SharewithComponent } from './sharewith/sharewith.component';
+import { AddNoteblockComponent } from './add-noteblock/add-noteblock.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [LoginActivateGuard] },
@@ -83,6 +85,16 @@ const routes: Routes = [
     component: FollowUserComponent,
     canActivate: [LoginActivateGuard],
   },
+  {
+    path: 'sharewith/:id',
+    component: SharewithComponent,
+    canActivate: [LoginActivateGuard],
+  },
+  {
+    path: 'addnoteblock',
+    component: AddNoteblockComponent,
+    canActivate: [LoginActivateGuard],
+  }
 ];
 
 @NgModule({

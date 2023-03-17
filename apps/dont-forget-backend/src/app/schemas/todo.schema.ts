@@ -1,6 +1,6 @@
 import { ITodo } from '@dont-forget/types';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument, ObjectId } from 'mongoose';
+import mongoose, { HydratedDocument, ObjectId } from 'mongoose';
 import { Task } from './task';
 
 export type TodoDocument = HydratedDocument<Todo>;
@@ -28,7 +28,8 @@ export class Todo  {
   completed: boolean;
 
   @Prop()
-  tasks: [{type: Task}];
+  tasks: [Task];
+  data: mongoose.Types.ObjectId;
 }
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);

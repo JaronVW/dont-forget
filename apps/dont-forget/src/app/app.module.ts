@@ -28,6 +28,9 @@ import { AuthInterceptor } from './AuthInterceptor';
 import { RegisterComponent } from './register/register.component';
 import { NoteblocksSharedComponent } from './noteblocks-shared/noteblocks-shared.component';
 import { FollowUserComponent } from './follow-user/follow-user.component';
+import { SharewithComponent } from './sharewith/sharewith.component';
+import { AddNoteblockComponent } from './add-noteblock/add-noteblock.component';
+import { UpdateNoteblockComponent } from './update-noteblock/update-noteblock.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +53,9 @@ import { FollowUserComponent } from './follow-user/follow-user.component';
     RegisterComponent,
     NoteblocksSharedComponent,
     FollowUserComponent,
+    SharewithComponent,
+    AddNoteblockComponent,
+    UpdateNoteblockComponent,
   ],
   imports: [
     BrowserModule,

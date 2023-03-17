@@ -11,7 +11,7 @@ import { TodosService } from '../todos/services/todos.service';
 })
 export class NoteBlocksDetailsComponent implements OnInit {
   id: string;
-  noteBlock: NoteBlock;
+  noteBlock: NoteBlock = {notes: {}} as  NoteBlock;
 
   constructor(
     private router: Router,
@@ -26,6 +26,7 @@ export class NoteBlocksDetailsComponent implements OnInit {
 
     this.noteBlocksService.getNoteBlockById(this.id).subscribe((res) => {
       this.noteBlock = res;
+      console.log(this.noteBlock);
     });
   }
 

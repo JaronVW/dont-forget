@@ -9,7 +9,7 @@ import {
 import { AccountService } from './account.service';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import { AuthUser } from '../decorators/user.decorator';
-import { followUser, getFollowing } from '../neo4j/cypherQueries';
+import { followUser, getFollowersFollowing, getFollowing } from '../neo4j/cypherQueries';
 
 @Controller('account')
 export class AccountController {
@@ -46,6 +46,18 @@ export class AccountController {
 
     const followingIds = res.records.map(
       (record) => record.get('b').properties.mongoId
+    );
+    return this.accountService.getFollowing(followingIds);
+  }
+
+  @Get('followingfollowing')
+  async getFollowingFollowing(@AuthUser() user: any) {
+    const res = await this.neo4jService.read(getFollowersFollowing, {
+      idParam: user.userId,
+    });
+
+    const followingIds = res.records.map(
+      (record) => record.get('user').properties.mongoId
     );
     return this.accountService.getFollowing(followingIds);
   }
