@@ -90,7 +90,7 @@ export class UpdateTodoComponent implements OnInit {
 
   exec() {
     this.todosService.updateTodo(this.id, this.todo);
-    // console.log(this.todo);
-    // this.router.navigate(['/todos/' + `${this.id}`]);
+    console.log(this.todo);
+    this.router.navigate(['/todos/' + `${this.id}`]);
   }
 }
