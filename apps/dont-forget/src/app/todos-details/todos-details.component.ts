@@ -10,7 +10,9 @@ import { TodosService } from '../todos/services/todos.service';
 })
 export class TodosDetailsComponent implements OnInit {
   id: string;
-  todo: Todo;
+  todo: Todo = {tasks: {}} as Todo;
+
+
 
   constructor(
     private router: Router,

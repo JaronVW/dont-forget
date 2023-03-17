@@ -6,9 +6,16 @@
         <h2 class="text-3xl">{{item.title}}</h2>
         <p>{{item.dueDate.toLocaleString()}}</p>
         <p>{{item.description}}</p>
+        <div>
+            <h3>Tasks:</h3>
+            <ul>
+                <li *ngFor="let i of item.tasks ">{{i.title}}: {{i.completed ? "✔️" : "❌"}} </li>
+            </ul>
+        </div>
         <ul>
-            <li><a [routerLink]="[item._id]"  class="sitelink sitelink-success">Details </a></li>
-            <li><a role="button" (click)="deleteTodo(item._id.toString())" class="sitelink sitelink-danger">Verwijderen </a></li>
+            <li><a [routerLink]="[item._id]" class="sitelink sitelink-success">Details </a></li>
+            <li><a role="button" (click)="deleteTodo(item._id.toString())" class="sitelink sitelink-danger">Verwijderen
+                </a></li>
             <li><a [routerLink]="['/updatetodo',item._id]" class="sitelink sitelink-info">Aanpassen </a></li>
         </ul>
 

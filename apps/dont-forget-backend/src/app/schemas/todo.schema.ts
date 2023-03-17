@@ -10,7 +10,7 @@ export class Todo  {
   _id?: any;
 
   @Prop()
-  userId: mongoose.Types.ObjectId;
+  userId: ObjectId;
 
   @Prop()
   title: string;
@@ -29,6 +29,7 @@ export class Todo  {
 
   @Prop()
   tasks: [Task];
+  data: mongoose.Types.ObjectId;
 }
 
 export const TodoSchema = SchemaFactory.createForClass(Todo);

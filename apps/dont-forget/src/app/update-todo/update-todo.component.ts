@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import { FormGroup, FormBuilder, FormArray, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Todo } from '../shared/models';
+import { Task, Todo } from '../shared/models';
 import { TodosService } from '../todos/services/todos.service';
 import { ITask } from '@dont-forget/types';
 
@@ -12,7 +12,7 @@ import { ITask } from '@dont-forget/types';
 })
 export class UpdateTodoComponent implements OnInit {
   updateTodoForm: FormGroup;
-  todo: Todo = new Todo();
+  todo: Todo = { tasks: {} } as Todo;
   id: string;
 
   constructor(
@@ -35,18 +35,15 @@ export class UpdateTodoComponent implements OnInit {
     });
 
     this.todosService.getTodoById(this.id).subscribe((res) => {
+      const taskHolder = res.tasks;
       this.todo = res;
-      console.log(this.todo);
-      this.updateTodoForm.setControl(
-        'tasksArray',
-        this.setExistingTasks(res.tasks)
-      );
       this.updateTodoForm.setValue({
-        title: this.todo.title,
+        title: res.title,
         description: res.description,
-        dueDate: this.toDateString(new Date(res.dueDate)),
-        tasksArray: res.tasks,
+        dueDate: res.dueDate,
+        tasksArray: [],
       });
+      this.setExistingTasks(taskHolder);
     });
 
     this.updateTodoForm.valueChanges.subscribe((data) => {
@@ -71,32 +68,24 @@ export class UpdateTodoComponent implements OnInit {
     this.tasks.push(taskForm);
   }
 
+  private addTaskI(task: Task) {
+    const taskForm = this.fb.group({
+      title: task.title,
+      completed: task.completed,
+      dateCreated: task.dateCreated,
+    });
+
+    this.tasks.push(taskForm);
+  }
+
   deleteTask(i: number) {
     this.tasks.removeAt(i);
   }
 
-  setExistingTasks(tasksArray: ITask[]): FormArray {
-    const formArray = new FormArray<any>([]);
+  setExistingTasks(tasksArray: Task[]) {
     tasksArray.forEach((task) => {
-      formArray.push(
-        this.fb.group({
-          title: task.title,
-          completed: task.completed,
-          dateCreated: task.dateCreated,
-        })
-      );
+      this.addTaskI(task);
     });
-    return formArray;
-  }
-
-  private toDateString(date: Date): string {
-    return (
-      date.getFullYear().toString() +
-      '-' +
-      ('0' + (date.getMonth() + 1)).slice(-2) +
-      '-' +
-      ('0' + date.getDate()).slice(-2)
-    );
   }
 
   exec() {

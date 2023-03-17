@@ -12,7 +12,9 @@ import { ITask } from '@dont-forget/types';
 })
 export class AddTodoComponent implements OnInit {
   addTodoForm: FormGroup;
-  todo: Todo = new Todo();
+  _todo: Todo = new Todo();
+
+  
 
   constructor(
     private fb: FormBuilder,
@@ -29,10 +31,10 @@ export class AddTodoComponent implements OnInit {
     });
     
     this.addTodoForm.valueChanges.subscribe((data) => {
-      this.todo.title = data.title;
-      this.todo.description = data.description;
-      this.todo.dueDate = data.dueDate;
-      this.todo.tasks = data.tasksArray;
+      this._todo.title = data.title;
+      this._todo.description = data.description;
+      this._todo.dueDate = data.dueDate;
+      this._todo.tasks = data.tasksArray;
     });
   }
 
@@ -66,7 +68,7 @@ export class AddTodoComponent implements OnInit {
 
 
   exec() {
-    this.todosService.addTodo(this.todo);
+    this.todosService.addTodo(this._todo);
     this.router.navigate(['/todos']);
   }
 }
