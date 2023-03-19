@@ -13,8 +13,11 @@ export class NotesService {
 
   create(userId: string,data: Note) {
     data.dateCreated = new Date();
-    data.userId = new mongoose.Schema.Types.ObjectId(userId);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    data.userId = new mongoose.Types.ObjectId(userId);
     this.noteModel.create(data, function (err) {
+      console.log(err);
       if (err) throw new BadRequestException();
     });
   }

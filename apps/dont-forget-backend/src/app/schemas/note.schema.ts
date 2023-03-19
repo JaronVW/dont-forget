@@ -1,6 +1,6 @@
 import { INote } from '@dont-forget/types';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import {  HydratedDocument, ObjectId } from 'mongoose';
+import mongoose, {  HydratedDocument, ObjectId } from 'mongoose';
 
 export type NoteDocument = HydratedDocument<Note>;
 

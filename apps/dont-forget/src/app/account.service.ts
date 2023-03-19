@@ -34,4 +34,12 @@ export class AccountService {
   getFollowingFollowing(): Observable<{_id:string, username: string }[]> {
     return this.http.get<{_id:string, username: string }[]>(`${this.url}/followingfollowing`);
   }
+
+  getFollowers(): Observable<{_id:string, username: string }[]> {
+    return this.http.get<{_id:string, username: string }[]>(`${this.url}/followers`);
+  }
+
+  getFollowersUnfollow(username: string) {
+    return this.http.post(`${this.url}/followersunfollow/${username}`, {});
+  }
 }

@@ -28,8 +28,17 @@ import { FormBuilder, FormGroup } from '@angular/forms';
       >
     </div>
     <div class="border-black border-2 p-2 mb-12 bg-white">
-      <h2>Currently following:</h2>
+      <h2>Followers:</h2>
       <div *ngFor="let f of followers" class="">
+        <div>
+          {{ f.username }}
+          <button (click)="removeFromFollowers(f.username)" class="">Remove</button>
+        </div>
+      </div>
+    </div>
+    <div class="border-black border-2 p-2 mb-12 bg-white">
+      <h2>Currently following:</h2>
+      <div *ngFor="let f of following" class="">
         <div>
           {{ f.username }}
           <button (click)="unfollowUser(f.username)" class="">Unfollow</button>
@@ -47,20 +56,21 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class FollowUserComponent implements OnInit {
   username: string;
   nameForm: FormGroup;
-  _followers: { username: string }[];
+  _following: { username: string }[];
   _followingFollowing: { username: string }[];
+  _followers: { username: string }[];
   _response: string;
   constructor(
     private accountService: AccountService,
     private fb: FormBuilder
   ) {}
 
-  public get followers() {
-    return this._followers;
+  public get following() {
+    return this._following;
   }
 
-  public set followers(followers: { username: string }[]) {
-    this._followers = followers;
+  public set following(followers: { username: string }[]) {
+    this._following = followers;
   }
 
   public get followingFollowing() {
@@ -79,6 +89,15 @@ export class FollowUserComponent implements OnInit {
     this._response = response;
   }
 
+  public get followers() {
+    return this._followers;
+  }
+
+  public set followers(followers: { username: string }[]) {
+    this._followers = followers;
+  }
+
+
   isError(res: string) {
     if (res == "User doesn't exist/ already followed") {
       return true;
@@ -87,11 +106,18 @@ export class FollowUserComponent implements OnInit {
     }
   }
 
-  getFollowers() {
+  getFollowing() {
     this.accountService.getFollowing().subscribe((res) => {
+      this.following = res;
+    });
+  }
+
+  getFollowers() {
+    this.accountService.getFollowers().subscribe((res) => {
       this.followers = res;
     });
   }
+
 
   getFollowingFollowing() {
     this.accountService.getFollowingFollowing().subscribe((res) => {
@@ -100,8 +126,9 @@ export class FollowUserComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getFollowers();
+    this.getFollowing();
     this.getFollowingFollowing();
+    this.getFollowers();
 
     this.nameForm = this.fb.group({
       username: '',
@@ -117,17 +144,31 @@ export class FollowUserComponent implements OnInit {
         console.log(res);
         this.response = res.message;
         console.log(this.response);
-        this.getFollowers();
+        this.getFollowing();
       },
       error: () => {
         this.response = "User doesn't exist/ already followed";
       },
     });
-    this.getFollowers();
+    this.getFollowing();
   }
 
   unfollowUser(username: string) {
     this.accountService.unfollowUser(username).subscribe({
+      next: (res: any) => {
+        this.response = res.message;
+        console.log(this.response);
+        this.getFollowing();
+      },
+      error: () => {
+        this.response = "User doesn't exist/ already unfollowed";
+      },
+    });
+    this.getFollowing();
+  }
+
+  removeFromFollowers(username: string) {
+    this.accountService.getFollowersUnfollow(username).subscribe({
       next: (res: any) => {
         this.response = res.message;
         console.log(this.response);
