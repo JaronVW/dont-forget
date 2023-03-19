@@ -4,7 +4,7 @@ import { NoteBlock } from '../shared/models';
 
 @Component({
   selector: 'dont-forget-noteblocks-shared',
-  templateUrl: './noteblocks-shared.component.html',
+templateUrl: './noteblocks-shared.component.html',
   styleUrls: ['./noteblocks-shared.component.scss'],
 })
 export class NoteblocksSharedComponent implements OnInit {
@@ -22,5 +22,10 @@ export class NoteblocksSharedComponent implements OnInit {
     });
   }
 
-
+  unshare(id: string) {
+    this.noteBlocksService.unshareNoteBlock(id).subscribe((data) => {
+      console.log("hier");
+      this.getNoteBlocks();
+    });
+  }
 }

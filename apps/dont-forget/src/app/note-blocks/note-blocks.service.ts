@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiPaths } from '../../enums/apiPaths';
 import { environment } from '../../environments/environment';
-import {  NoteBlock } from '../shared/models';
+import { NoteBlock } from '../shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -36,7 +36,8 @@ export class NoteBlocksService {
   getNoteBlockById(_id: string): Observable<NoteBlock> {
     return this.http.get<NoteBlock>(this.url + `/${_id}`);
   }
-  // getNoteById(_id: string): Observable<Note> {
-  //   return this.http.get<Note>(this.url + `/${_id}`);
-  // }
+
+  unshareNoteBlock(id: string) {
+    return this.http.delete(this.url + `/deleteshared/${id}`);
+  }
 }

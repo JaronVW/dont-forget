@@ -6,7 +6,7 @@
         <p></p>
         <ul>
             <li><a [routerLink]="['/noteblocks', item._id]" class="sitelink sitelink-success">Details </a></li>
-            <li><a [routerLink]="['/noteblocks/unshare',item._id]" class="sitelink sitelink-danger" >Delete for me</a></li>
+            <li><a (click)="unshare(item._id)" class="sitelink sitelink-danger" >Delete for me</a></li>
         </ul>
 
     </div>
