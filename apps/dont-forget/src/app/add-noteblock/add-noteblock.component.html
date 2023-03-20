@@ -7,9 +7,10 @@
             <label for="text">Tekst</label>
             <input formControlName="description" class="formInput" type="text" name="text" placeholder="tekst" id="text"
                 rows="5" cols="33">
-            <ng-container *ngFor="let note of notesDropDownArray.controls; let i=index ">
+            <ng-container *ngFor="let note of notesDropDownArray.controls; let i=index " [formGroupName]="i">
                 <div>
-                    <h1>Hallo</h1>
+                    <input formControlName="title" type="text" class="formInput" name="title" placeholder="titel"
+                        id="title">
                 </div>
             </ng-container>
             <button type="button" (click)="exec()" value="fdfd" class="actionButton">Toevoegen</button>
@@ -17,5 +18,5 @@
 
 
     </form>
-   
+
 </div>

@@ -13,6 +13,7 @@ export class AddNoteblockComponent implements OnInit {
   addNoteblockForm: FormGroup;
   title: string;
   description: string;
+
   notes: {
     title: string;
     id: string;
@@ -27,15 +28,19 @@ export class AddNoteblockComponent implements OnInit {
     this.addNoteblockForm = this.fb.group({
       title: '',
       description: '',
-      notes: this.fb.group({}),
+      notes: this.fb.array([]),
     });
+
     this.addNoteblockForm.valueChanges.subscribe((data) => {
-      (this.title = data.title),
-        (this.description = data.description),
-        (this.notes = data.notes);
+      this.title = data.title;
+      this.description = data.description;
+      this.notes = data.notes;
     });
     this.getNotes();
-    this.setExistingTasks(this.notes);
+  }  
+  
+  get notesDropDownArray() {
+    return this.addNoteblockForm.get('notes') as FormArray;
   }
 
   getNotes() {
@@ -43,13 +48,11 @@ export class AddNoteblockComponent implements OnInit {
       res.forEach((note) => {
         this.notes.push({ title: note.title, id: String(note._id) });
       });
+      this.setExistingNotes(this.notes);
     });
-    console.log(this.notes);
   }
 
-  get notesDropDownArray() {
-    return this.addNoteblockForm.get('tasksArray') as FormArray;
-  }
+
 
   private addNote(note: { title: string; id: string }) {
     const noteForm = this.fb.group({
@@ -60,13 +63,14 @@ export class AddNoteblockComponent implements OnInit {
     this.notesDropDownArray.push(noteForm);
   }
 
-  setExistingTasks(
-    notesArray: {
+  setExistingNotes(
+    item: {
       title: string;
       id: string;
     }[]
   ) {
-    notesArray.forEach((task) => {
+    item.forEach((task) => {
+      console.log(task);
       this.addNote(task);
     });
   }
