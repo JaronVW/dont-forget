@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NotesService } from '../notes/services/notes.service';
 import { Note } from '../shared/models';
@@ -13,7 +13,10 @@ export class AddNoteblockComponent implements OnInit {
   addNoteblockForm: FormGroup;
   title: string;
   description: string;
-  notes: Note[];
+  notes: {
+    title: string;
+    id: string;
+  }[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -27,18 +30,44 @@ export class AddNoteblockComponent implements OnInit {
       notes: this.fb.group({}),
     });
     this.addNoteblockForm.valueChanges.subscribe((data) => {
-      (this.title = data.title), (this.description = data.description);
+      (this.title = data.title),
+        (this.description = data.description),
+        (this.notes = data.notes);
     });
     this.getNotes();
+    this.setExistingTasks(this.notes);
   }
 
   getNotes() {
     this.notesService.getNotes().subscribe((res) => {
-      this.notes = res;
-      const checkboxes = <FormGroup>this.addNoteblockForm.get('notes');
-      res.forEach((option: Note) => {
-        checkboxes.addControl(option.title, new FormControl(true));
+      res.forEach((note) => {
+        this.notes.push({ title: note.title, id: String(note._id) });
       });
+    });
+    console.log(this.notes);
+  }
+
+  get notesDropDownArray() {
+    return this.addNoteblockForm.get('tasksArray') as FormArray;
+  }
+
+  private addNote(note: { title: string; id: string }) {
+    const noteForm = this.fb.group({
+      title: note.title,
+      id: note.id,
+    });
+
+    this.notesDropDownArray.push(noteForm);
+  }
+
+  setExistingTasks(
+    notesArray: {
+      title: string;
+      id: string;
+    }[]
+  ) {
+    notesArray.forEach((task) => {
+      this.addNote(task);
     });
   }
 

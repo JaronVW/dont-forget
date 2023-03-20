@@ -1,0 +1,13 @@
+<div class="bg-white  border-black border-2  rounded-sm p-4">
+    <h1 class="pageMainHeader">{{noteBlock.title}}</h1>
+    <p>{{noteBlock.description}}</p>
+    <p>{{formatDate(noteBlock.dateCreated)}}</p>
+
+    <div *ngIf="noteBlock.notes.length > 0">
+        <h3>notes:</h3>
+        <ul>
+            <li *ngFor="let i of noteBlock.notes "> <a [routerLink]="['/notes',i._id]" >{{i.text}}</a>  </li>
+        </ul>
+    </div>
+  
+</div>

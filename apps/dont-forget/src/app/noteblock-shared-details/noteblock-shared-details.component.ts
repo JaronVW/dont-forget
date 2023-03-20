@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NoteBlocksService } from '../note-blocks/note-blocks.service';
-import { NoteBlock, Todo } from '../shared/models';
-import { TodosService } from '../todos/services/todos.service';
+import { NoteBlock } from '../shared/models';
+import * as dayjs from 'dayjs';
 
 @Component({
-  selector: 'dont-forget-note-blocks-details',
-  templateUrl: './note-blocks-details.component.html',
-  styleUrls: ['./note-blocks-details.component.scss'],
+  selector: 'dont-forget-noteblock-shared-details',
+  templateUrl: './noteblock-shared-details.component.html',
+  styleUrls: ['./noteblock-shared-details.component.scss'],
 })
-export class NoteBlocksDetailsComponent implements OnInit {
+export class NoteblockSharedDetailsComponent implements OnInit {
   id: string;
   noteBlock: NoteBlock = {notes: {}} as  NoteBlock;
 
@@ -30,13 +30,8 @@ export class NoteBlocksDetailsComponent implements OnInit {
     });
   }
 
-  deleteNoteBlock(_id: string) {
-    this.noteBlocksService.deleteNoteBlock(_id.toString()).subscribe((data) => {
-      if (data.statusCode == 200) {
-        this.router.navigate(['/notes/']);
-      } else {
-        ('');
-      }
-    });
-  }
+  formatDate(date: Date) {
+    return dayjs(date).format('YYYY-MM-DD');
+  } 
+
 }
