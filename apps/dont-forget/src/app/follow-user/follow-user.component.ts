@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../account.service';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'dont-forget-follow-user',
@@ -12,6 +17,16 @@ import { FormBuilder, FormGroup } from '@angular/forms';
           formControlName="username"
           class="formInput ng-pristine ng-valid ng-touched"
         />
+        <div
+          *ngIf="
+            usernameControl?.invalid &&
+            (usernameControl?.dirty || usernameControl?.touched)
+          "
+        >
+          <div *ngIf="usernameControl?.errors?.['required']" class="formError mt-2 w-80">
+            Username is required.
+          </div>
+        </div>
         <input type="submit" class="actionButton mt-5" value="Follow" />
       </form>
       <p
@@ -32,7 +47,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
       <div *ngFor="let f of followers" class="">
         <div>
           {{ f.username }}
-          <button (click)="removeFromFollowers(f.username)" class="">Remove</button>
+          <button (click)="removeFromFollowers(f.username)" class="">
+            Remove
+          </button>
         </div>
       </div>
     </div>
@@ -97,7 +114,6 @@ export class FollowUserComponent implements OnInit {
     this._followers = followers;
   }
 
-
   isError(res: string) {
     if (res == "User doesn't exist/ already followed") {
       return true;
@@ -118,7 +134,6 @@ export class FollowUserComponent implements OnInit {
     });
   }
 
-
   getFollowingFollowing() {
     this.accountService.getFollowingFollowing().subscribe((res) => {
       this.followingFollowing = res;
@@ -131,7 +146,7 @@ export class FollowUserComponent implements OnInit {
     this.getFollowers();
 
     this.nameForm = this.fb.group({
-      username: '',
+      username: new FormControl('', [Validators.required]),
     });
     this.nameForm.valueChanges.subscribe((data) => {
       this.username = data.username;
@@ -139,18 +154,20 @@ export class FollowUserComponent implements OnInit {
   }
 
   followUser() {
-    this.accountService.followUser(this.username).subscribe({
-      next: (res: any) => {
-        console.log(res);
-        this.response = res.message;
-        console.log(this.response);
-        this.getFollowing();
-      },
-      error: () => {
-        this.response = "User doesn't exist/ already followed";
-      },
-    });
-    this.getFollowing();
+    if (this.nameForm.valid) {
+      this.accountService.followUser(this.username).subscribe({
+        next: (res: any) => {
+          console.log(res);
+          this.response = res.message;
+          console.log(this.response);
+          this.getFollowing();
+        },
+        error: () => {
+          this.response = "User doesn't exist/ already followed";
+        },
+      });
+      this.getFollowing();
+    }
   }
 
   unfollowUser(username: string) {
@@ -179,5 +196,9 @@ export class FollowUserComponent implements OnInit {
       },
     });
     this.getFollowers();
+  }
+
+  get usernameControl() {
+    return this.nameForm.get('username');
   }
 }

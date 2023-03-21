@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormArray,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { Todo } from '../shared/models';
 import { TodosService } from '../todos/services/todos.service';
-import { ITask } from '@dont-forget/types';
+import * as dayjs from 'dayjs';
 
 @Component({
   selector: 'dont-forget-add-todo',
@@ -14,8 +20,6 @@ export class AddTodoComponent implements OnInit {
   addTodoForm: FormGroup;
   _todo: Todo = new Todo();
 
-  
-
   constructor(
     private fb: FormBuilder,
     private todosService: TodosService,
@@ -24,12 +28,17 @@ export class AddTodoComponent implements OnInit {
 
   ngOnInit(): void {
     this.addTodoForm = this.fb.group({
-      title: '',
+      title: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
       description: '',
-      dueDate: this.toDateString(new Date()),
+      dueDate: new FormControl(dayjs().format('YYYY-MM-DD'), [
+        Validators.required,
+      ]),
       tasksArray: this.fb.array([]),
     });
-    
+
     this.addTodoForm.valueChanges.subscribe((data) => {
       this._todo.title = data.title;
       this._todo.description = data.description;
@@ -38,24 +47,17 @@ export class AddTodoComponent implements OnInit {
     });
   }
 
-  private toDateString(date: Date): string {
-    return (
-      date.getFullYear().toString() +
-      '-' +
-      ('0' + (date.getMonth() + 1)).slice(-2) +
-      '-' +
-      ('0' + date.getDate()).slice(-2)
-    );
-  }
-
   get tasks() {
     return this.addTodoForm.get('tasksArray') as FormArray;
   }
 
   addTask() {
     const taskForm = this.fb.group({
-      title: '',
-      completed: false,
+      title: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(25),
+      ]),
+      completed: new FormControl(false),
       dateCreated: new Date(),
     });
 
@@ -66,9 +68,18 @@ export class AddTodoComponent implements OnInit {
     this.tasks.removeAt(i);
   }
 
+  get titleControl() {
+    return this.addTodoForm.get('title');
+  }
+
+  get dueDateControl() {
+    return this.addTodoForm.get('dueDate');
+  }
 
   exec() {
-    this.todosService.addTodo(this._todo);
-    this.router.navigate(['/todos']);
+    if (this.addTodoForm.valid) {
+      this.todosService.addTodo(this._todo);
+      this.router.navigate(['/todos']);
+    }
   }
 }
