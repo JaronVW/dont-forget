@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
-import { Router } from '@angular/router';
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { AuthService } from '../auth.service';
 @Component({
   selector: 'dont-forget-login',
@@ -15,21 +19,30 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private readonly authService: AuthService,
-    private readonly router: Router
   ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      emailOrUsername: '',
-      password: '',
+      emailOrUsername: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
     });
     this.loginForm.valueChanges.subscribe((data) => {
-      (this.emailOrUsername = data.emailOrUsername), (this.password = data.password);
+      (this.emailOrUsername = data.emailOrUsername),
+        (this.password = data.password);
     });
   }
 
+  get emailOrUsernameControl() {
+    return this.loginForm.get('emailOrUsername');
+  }
+
+  get passwordControl() {
+    return this.loginForm.get('password');
+  }
+
   login() {
-    this.authService.loginUser(this.emailOrUsername, this.password);
-    this.router.navigate([""])
+    if (this.loginForm.valid) {
+      this.authService.loginUser(this.emailOrUsername, this.password);
+    }
   }
 }

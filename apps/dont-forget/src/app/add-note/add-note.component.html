@@ -4,8 +4,18 @@
         <div class="flex flex-col gap-2">
             <label for="title">Titel</label>
             <input formControlName="title" type="text" class="formInput" name="title" placeholder="titel" id="text">
+            <div *ngIf="titleControl?.invalid && (titleControl?.dirty || titleControl?.touched)">
+
+                <div *ngIf="titleControl?.errors?.['required']" class="formError">
+                    Title is required.
+                </div>
+                <div *ngIf="titleControl?.errors?.['maxlength']" class="formError">
+                    Title must be at most 50 characters long.
+                </div>
+            </div>
             <label for="text">Tekst</label>
-            <textarea formControlName="text" class="formInput" name="text" placeholder="tekst" id="text" rows="5" cols="33"></textarea>
+            <textarea formControlName="text" class="formInput" name="text" placeholder="tekst" id="text" rows="5"
+                cols="33"></textarea>
             <button type="button" (click)="exec()" value="fdfd" class="actionButton">Toevoegen</button>
         </div>
     </form>

@@ -12,7 +12,7 @@
 
 
     <ul>
-        <li><a role="button" class="sitelink sitelink-danger" (click)="deleteTodo(id)">Verwijderen </a></li>
+        <li><a role="button" class="sitelink sitelink-danger" (click)="deleteNoteBlock(id)">Verwijderen </a></li>
         <li><a role="button" class="sitelink sitelink-success" [routerLink]="['/sharewith',noteBlock._id]" >delen </a></li>
         <li><a href="updatetodo/{{id}} " class="sitelink sitelink-info">Aanpassen </a></li>
     </ul>

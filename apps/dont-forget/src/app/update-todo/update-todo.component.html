@@ -4,28 +4,52 @@
         <div class="flex flex-col gap-2">
             <label for="title">Titel</label>
             <input formControlName="title" type="text" class="formInput" name="title" placeholder="titel" id="title">
+            <div *ngIf="titleControl?.invalid && (titleControl?.dirty || titleControl?.touched)">
+
+                <div *ngIf="titleControl?.errors?.['required']" class="formError">
+                    Title is required.
+                </div>
+                <div *ngIf="titleControl?.errors?.['maxlength']" class="formError">
+                    Title must be at most 50 characters long.
+                </div>
+            </div>
             <label for="title">omschrijving</label>
             <input formControlName="description" type="text" class="formInput" name="description"
                 placeholder="omschrijving" id="description">
-            <label for="text">Opleveringsdatum</label>
 
 
             <div formArrayName="tasksArray">
-                <button type="button" (click)="addTask()">Add Task</button>
-                <h3>Tasks:</h3>
-                <ul>
-                    <div *ngFor="let task of tasks.controls; let i=index " [formGroupName]="i">
-                        <input formControlName="title" type="text" class="formInput" name="title" placeholder="titel"
-                            id="title">
-                        <input formControlName="completed" type="checkbox" id="scales" name="scales" [checked]="">
-                    </div>
+                <button type="button" (click)="addTask()" class="formInput">Add Task</button>
+                <div class="ml-2 my-2">
+                    <h3>Tasks:</h3>
+                    <ul>
+                        <div *ngFor="let task of tasks.controls; let i=index " class="my-2 " [formGroupName]="i">
+                            <input formControlName="title" type="text" class="formInput mr-2" name="title"
+                                placeholder="titel" id="title">
+                            <input formControlName="completed" type="checkbox" id="scales" name="scales" [checked]="">
+                            <button type="button" (click)="deleteTask(i)" class="formInput">Remove Task</button>
+                            <div *ngIf="tasks?.invalid && (tasks?.dirty || tasks?.touched)">
 
-                </ul>
+                                <div *ngIf="tasks.controls[i].get('title')?.errors?.['required']" class="formError w-52 mt-2">
+                                    Title is required.
+                                </div>
+                                <div *ngIf="tasks.controls[i].get('title')?.errors?.['maxlength']" class="formError">
+                                    Title must be at most 25 characters long.
+                                </div>
+                            </div>
+                        </div>
+
+                    </ul>
+                </div>
             </div>
-
-
+            <label for="text">Opleveringsdatum</label>
             <input formControlName="dueDate" type="date" class="formInput" name="dueDate" id="dueDate">
-            <button type="button" (click)="exec()" value="fdfd" class="actionButton">Toevoegen</button>
+            <div *ngIf="dueDateControl?.invalid && (dueDateControl?.dirty || dueDateControl?.touched)">
+                <div *ngIf="dueDateControl?.errors?.['required']" class="formError">
+                    Due date required.
+                </div>
+            </div>
+            <button type="button" (click)="exec()" value="fdfd" class="actionButton">Aanpassen</button>
         </div>
     </form>
 </div>

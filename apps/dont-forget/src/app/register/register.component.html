@@ -1,14 +1,70 @@
 <div class="bg-stickyNoteLila  border-black border-2  rounded-sm p-4">
     <h1 class="pageMainHeader">Register</h1>
-    <form [formGroup]="loginForm">
+    <form [formGroup]="registerForm">
         <div class="flex flex-col gap-2 ">
-            <label  for="email">username</label>
-            <input formControlName="username" type="text" class="formInput" name="username" placeholder="username" id="username">
-            <label  for="email">email</label>
-            <input formControlName="email" type="text" class="formInput" name="email" placeholder="email" id="email">
-            <label  for="password">password</label>
-            <input formControlName="password" class="formInput"  type="password" name="password" placeholder="password" id="password">
+            <label for="email">username</label>
+            <input required formControlName="username" type="text" class="formInput" name="username"
+                placeholder="username" id="username">
+
+            <div *ngIf="usernameControl?.invalid && (usernameControl?.dirty || usernameControl?.touched)"
+                >
+
+                <div *ngIf="usernameControl?.errors?.['required']" class="formError">
+                    Username is required.
+                </div>
+                <div *ngIf="usernameControl?.errors?.['minlength']" class="formError">
+                    Username must be at least 4 characters long.
+                </div>
+
+            </div>
+
+
+            <label for="email">email</label>
+            <input required formControlName="email" type="text" class="formInput" name="email" placeholder="email"
+                id="email">
+
+            <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)"
+                >
+
+                <div *ngIf="emailControl?.errors?.['required']" class="formError">
+                    Email is required.
+                </div>
+                <div *ngIf="emailControl?.errors?.['email']" class="formError">
+                    Invalid email
+                </div>
+
+            </div>
+            <label for="password">password</label>
+            <input required formControlName="password" class="formInput" type="password" name="password"
+                placeholder="password" id="password">
+
+
+            <div *ngIf="passwordControl?.invalid && (passwordControl?.dirty || passwordControl?.touched)"
+                >
+
+                <div *ngIf="passwordControl?.errors?.['required']" class="formError">
+                    Password is required.
+                </div>
+                <div *ngIf="passwordControl?.errors?.['minLength']" class="formError">
+                    Password must consist of at least 6 characters.
+                </div>
+            </div>
+            
+            <label for="passwordRepeat">repeat password</label>
+            <input formControlName="passwordRepeat" class="formInput" type="password" name="passwordRepeat"
+                placeholder="password" id="password">
+
+
+            <div
+                *ngIf="passwordRepeatControl?.invalid && (passwordRepeatControl?.dirty || passwordRepeatControl?.touched)">
+                <div *ngIf="passwordRepeatControl?.errors?.['passwordsNotMatching']" class="formError">
+                    Passwords do not match.
+                </div>
+
+            </div>
             <input type="submit" (click)="register()" value="register" class="actionButton">
+
+
         </div>
     </form>
 </div>

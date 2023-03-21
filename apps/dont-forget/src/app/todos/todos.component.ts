@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Todo } from '../shared/models';
 import { TodosService } from './services/todos.service';
+import * as dayjs from 'dayjs';
+
 
 @Component({
   selector: 'dont-forget-todos',
@@ -15,6 +17,10 @@ export class TodosComponent implements OnInit {
 
   ngOnInit(): void {
     this.getTodos();
+  }
+
+  formatDate(date: Date): string {
+    return dayjs(date).format('DD-MM-YYYY');
   }
 
   getTodos(){

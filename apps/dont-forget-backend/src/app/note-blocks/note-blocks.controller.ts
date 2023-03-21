@@ -15,6 +15,7 @@ import { NoteBlocksService } from './note-blocks.service';
 import { AuthUser } from '../decorators/user.decorator';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import {
+  deleteShared,
   getSharedNoteBlocks,
   shareNoteBlockWith,
 } from '../neo4j/cypherQueries';
@@ -58,6 +59,7 @@ export class NoteBlocksController {
         idParam: userId,
       })
       .catch((err) => {
+        console.log(err);
         if (err.message.includes('already exists')) {
           throw new BadRequestException();
         }
@@ -86,5 +88,23 @@ export class NoteBlocksController {
   @Delete(':id')
   remove(@AuthUser() user: any, @Param('id') id: string) {
     return this.noteBlocksService.remove(id, user.userId);
+  }
+
+  @Delete('deleteshared/:id')
+  removeShared(@AuthUser() user: any, @Param('id') id: string) {
+    const res = this.neo4jService
+      .write(deleteShared, {
+        idParam: user.userId,
+        nbIdParam: id,
+      })
+      .catch((err) => {
+        console.log(err);
+        throw new NotFoundException();
+      })
+      .then((res) => {
+        console.log(res);
+        return { StatusCode: 200, message: 'Shared noteblock deleted' };
+      });
+    return res;
   }
 }

@@ -19,6 +19,7 @@ import { NoteblocksSharedComponent } from './noteblocks-shared/noteblocks-shared
 import { FollowUserComponent } from './follow-user/follow-user.component';
 import { SharewithComponent } from './sharewith/sharewith.component';
 import { AddNoteblockComponent } from './add-noteblock/add-noteblock.component';
+import { NoteblockSharedDetailsComponent } from './noteblock-shared-details/noteblock-shared-details.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [LoginActivateGuard] },
@@ -94,7 +95,12 @@ const routes: Routes = [
     path: 'addnoteblock',
     component: AddNoteblockComponent,
     canActivate: [LoginActivateGuard],
-  }
+  },
+  {
+    path: 'sharednoteblock/:id',
+    component: NoteblockSharedDetailsComponent,
+    canActivate: [LoginActivateGuard],
+  },
 ];
 
 @NgModule({

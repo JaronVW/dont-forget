@@ -1,7 +1,7 @@
 <div class="bg-white  border-black border-2  rounded-sm p-4">
     <h1 class="pageMainHeader">{{todo.title}}</h1>
     <p>{{todo.description}}</p>
-    <p>{{todo.dateCreated}}</p>
+    <p>{{formatDate(todo.dateCreated)}}</p>
 
     <div *ngIf="todo.tasks.length > 0">
         <div *ngIf="todo.tasks.length > 0">

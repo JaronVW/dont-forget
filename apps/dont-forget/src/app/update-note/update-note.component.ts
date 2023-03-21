@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotesService } from '../notes/services/notes.service';
 
@@ -28,7 +33,10 @@ export class UpdateNoteComponent implements OnInit {
     });
 
     this.updateNoteForm = this.fb.group({
-      title: '',
+      title: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
       text: '',
     });
 
@@ -49,5 +57,9 @@ export class UpdateNoteComponent implements OnInit {
   exec() {
     this.notesService.updateNote(this.id, this.title, this.text);
     this.router.navigate(['/notes/' + `${this.id}`]);
+  }
+
+  get titleControl() {
+    return this.updateNoteForm.get('title');
   }
 }
