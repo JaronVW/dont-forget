@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 @Component({
@@ -20,16 +25,26 @@ export class LoginComponent implements OnInit {
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      emailOrUsername: '',
-      password: '',
+      emailOrUsername: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required]),
     });
     this.loginForm.valueChanges.subscribe((data) => {
-      (this.emailOrUsername = data.emailOrUsername), (this.password = data.password);
+      (this.emailOrUsername = data.emailOrUsername),
+        (this.password = data.password);
     });
   }
 
+  get emailOrUsernameControl() {
+    return this.loginForm.get('emailOrUsername');
+  }
+
+  get passwordControl() {
+    return this.loginForm.get('password');
+  }
+
   login() {
-    this.authService.loginUser(this.emailOrUsername, this.password);
-    
+    if (this.loginForm.valid) {
+      this.authService.loginUser(this.emailOrUsername, this.password);
+    }
   }
 }

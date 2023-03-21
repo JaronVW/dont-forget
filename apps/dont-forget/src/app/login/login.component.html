@@ -5,12 +5,34 @@
             <label for="emailOrUsername">email or username</label>
             <input formControlName="emailOrUsername" type="text" class="formInput" name="emailOrUsername"
                 placeholder="email/username" id="emailOrUsername">
+
+            <div *ngIf="emailOrUsernameControl?.invalid && (emailOrUsernameControl?.dirty || emailOrUsernameControl?.touched)"
+                >
+
+                <div *ngIf="emailOrUsernameControl?.errors?.['required']" class="formError">
+                    Username/password is required.
+                </div>
+                <div *ngIf="emailOrUsernameControl?.errors?.['minlength']" class="formError">
+                    Username/password must be at least 4 characters long.
+                </div>
+            </div>
             <label for="password">password</label>
             <input formControlName="password" class="formInput" type="password" name="password" placeholder="password"
                 id="password">
+            <div *ngIf="passwordControl?.invalid && (passwordControl?.dirty || passwordControl?.touched)"
+                >
+
+                <div *ngIf="passwordControl?.errors?.['required']" class="formError">
+                    Password is required.
+                </div>
+                <div *ngIf="passwordControl?.errors?.['minLength']" class="formError">
+                    Password must consist of at least 6 characters.
+                </div>
+            </div>
+
             <input type="submit" (click)="login()" value="login" class="actionButton">
 
         </div>
-        <p class="pt-1">No account? <a  [routerLink]="['/register']" class="sitelink sitelink-info">Register</a></p>
+        <p class="pt-1">No account? <a [routerLink]="['/register']" class="sitelink sitelink-info">Register</a></p>
     </form>
 </div>

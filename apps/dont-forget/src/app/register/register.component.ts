@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  Validators,
+  FormControl,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
@@ -9,7 +14,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
-  loginForm: FormGroup;
+  registerForm: FormGroup;
   username: string;
   email: string;
   password: string;
@@ -21,20 +26,47 @@ export class RegisterComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      username: '',
-      email: '',
-      password: '',
+    this.registerForm = this.fb.group({
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(3),
+      ]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
+      passwordRepeat: new FormControl('', [
+        Validators.required,
+        Validators.minLength(6),
+      ]),
     });
-    this.loginForm.valueChanges.subscribe((data) => {
+    this.registerForm.valueChanges.subscribe((data) => {
       (this.username = data.username),
         (this.email = data.email),
-        (this.password = data.password)
+        (this.password = data.password);
     });
   }
 
+  get usernameControl() {
+    return this.registerForm.get('username');
+  }
+
+  get emailControl() {
+    return this.registerForm.get('email');
+  }
+
+  get passwordControl() {
+    return this.registerForm.get('password');
+  }
+
+  get passwordRepeatControl() {
+    return this.registerForm.get('passwordRepeat');
+  }
+
   register() {
-    this.authService.registerUser(this.username, this.email, this.password);
-    this.router.navigate(['']);
+    if (this.registerForm.valid) {
+      this.authService.registerUser(this.username, this.email, this.password);
+    }
   }
 }
