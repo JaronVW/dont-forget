@@ -1,7 +1,17 @@
 <form [formGroup]="nameForm">
     <select formControlName="username" name="" id="" class="p-2">
-        <option value="">Select User</option>
+        <option value="default">Select User</option>
         <option *ngFor="let user of followers" value="{{user._id}}" >{{user.username}}</option>
     </select>
+    <div *ngIf="username?.invalid && (username?.dirty || username?.touched)"
+                >
+
+                <div *ngIf="username?.errors?.['required']" class="formError">
+                    Username is required.
+                </div>
+                <div *ngIf="username?.errors?.['selectUser']" class="formError">
+                    Select a value
+                </div>
+            </div>
     <button type="submit" class="actionButton" (click)="share()">Share</button>
 </form>
