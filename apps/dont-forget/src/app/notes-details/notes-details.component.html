@@ -4,6 +4,6 @@
     <p>{{dateCreated}}</p>
     <ul>
         <li><a role="button" class="sitelink sitelink-danger" (click)="deleteNote(id)">Verwijderen </a></li>
-        <li><a href="updatenote/{{id}} " class="sitelink sitelink-info">Aanpassen </a></li>
+        <li><a [routerLink]="['/updatenote', id]"  class="sitelink sitelink-info">Aanpassen </a></li>
     </ul>
 </div>
