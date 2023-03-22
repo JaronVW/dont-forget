@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
@@ -30,15 +31,24 @@ export class TodosService {
   }
 
   async update(userId: string, id: string, data: Todo) {
-    console.log(data);
     const res = await this.todoModel.findByIdAndUpdate(id, data);
     if (res == null) throw new NotFoundException();
-    else return { res };
+    if (String(res.userId) != userId) throw new UnauthorizedException();
+    else {
+      await this.todoModel.findByIdAndUpdate(id, data, {
+        new: true,
+      });
+      return { statusCode: 200, message: 'Todo updated' };
+    }
   }
 
-  remove(userId: string, id: string) {
-    const res = this.todoModel.findByIdAndDelete(id);
+  async remove(userId: string, id: string) {
+    const res = await this.todoModel.findById(id);
     if (res == null) throw new NotFoundException();
-    else return { statusCode: 200, message: 'Todo deleted' };
+    if (String(res.userId) != userId) throw new UnauthorizedException();
+    else {
+      await this.todoModel.findByIdAndDelete(id);
+      return { statusCode: 200, message: 'Todo deleted' };
+    }
   }
 }

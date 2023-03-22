@@ -2,6 +2,7 @@ import {
   BadRequestException,
   Injectable,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
@@ -11,7 +12,7 @@ import { Note, NoteDocument } from '../schemas/note.schema';
 export class NotesService {
   constructor(@InjectModel(Note.name) private noteModel: Model<NoteDocument>) {}
 
-  create(userId: string,data: Note) {
+  create(userId: string, data: Note) {
     data.dateCreated = new Date();
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -23,22 +24,32 @@ export class NotesService {
   }
 
   findAll(userId: string) {
-    return this.noteModel.find({userId}).exec();
+    return this.noteModel.find({ userId }).exec();
   }
 
   findOne(id: string, userId: string) {
     return this.noteModel.findById(id).exec();
   }
 
-  async update(id: string,userId: string, data: Note) {
-    const res = await this.noteModel.findByIdAndUpdate(id, data,{new: true});
+  async update(id: string, userId: string, data: Note) {
+    const res = await this.noteModel.findById(id);
     if (res == null) throw new NotFoundException();
-    else return { statusCode: 200, message: 'Note updated' };
+    if (String(res.userId) !== userId) throw new UnauthorizedException();
+    else {
+      await this.noteModel.findByIdAndUpdate(id, data, {
+        new: true,
+      });
+      return { statusCode: 200, message: 'Note updated' };
+    }
   }
 
-  async remove(id: string, userId: string,) {
-    const res = await this.noteModel.findByIdAndDelete(id);
+  async remove(id: string, userId: string) {
+    const res = await this.noteModel.findById(id);
     if (res == null) throw new NotFoundException();
-    else return { statusCode: 200, message: 'Note deleted' };
+    if (String(res.userId) !== userId) throw new UnauthorizedException();
+    else {
+      await this.noteModel.findByIdAndDelete(id);
+      return { statusCode: 200, message: 'Note deleted' };
+    }
   }
 }

@@ -32,20 +32,28 @@ export class NoteBlocksService {
   }
 
   async findOne(id: string, userId: string) {
-   return await this.noteBlockModel.findById(id).populate('notes');
+    return await this.noteBlockModel.findById(id).populate('notes');
   }
 
   async update(id: string, data: NoteBlock, userId: string) {
-    const res = this.noteBlockModel.findByIdAndUpdate(id, data, {
-      new: true,
-    });
+    const res = await this.noteBlockModel.findById(id);
     if (res == null) throw new NotFoundException();
-    else return { statusCode: 200, message: 'NoteBlock updated' };
+    if (String(res.userId) != userId) throw new UnauthorizedException();
+    else {
+      await this.noteBlockModel.findByIdAndUpdate(id, data, {
+        new: true,
+      });
+      return { statusCode: 200, message: 'NoteBlock updated' };
+    }
   }
 
   async remove(id: string, userId: string) {
-    const res = await this.noteBlockModel.findByIdAndDelete(id);
+    const res = await this.noteBlockModel.findById(id);
     if (res == null) throw new NotFoundException();
-    else return { statusCode: 200, message: 'NoteBlock deleted' };
+    else if (String(res.userId) != userId) throw new UnauthorizedException();
+    else {
+      await this.noteBlockModel.findByIdAndDelete(id);
+      return { statusCode: 200, message: 'NoteBlock deleted' };
+    }
   }
 }
