@@ -23,14 +23,17 @@
                 <div class="ml-2 my-2">
                     <h3>Tasks:</h3>
                     <ul>
-                        <div *ngFor="let task of tasks.controls; let i=index " class="my-2 " [formGroupName]="i">
+                        <div *ngFor="let task of tasks.controls; let i=index "
+                            class="border-2 border-black p-5 max-w-lg my-4 " [formGroupName]="i">
                             <input formControlName="title" type="text" class="formInput mr-2" name="title"
                                 placeholder="titel" id="title">
                             <input formControlName="completed" type="checkbox" id="scales" name="scales" [checked]="">
-                            <button type="button" (click)="deleteTask(i)" class="formInput">Remove Task</button>
+                            <button type="button" (click)="deleteTask(i)" class="formInput ml-2 ">Remove
+                                Task</button>
                             <div *ngIf="tasks?.invalid && (tasks?.dirty || tasks?.touched)">
 
-                                <div *ngIf="tasks.controls[i].get('title')?.errors?.['required']" class="formError w-52 mt-2">
+                                <div *ngIf="tasks.controls[i].get('title')?.errors?.['required']"
+                                    class="formError w-52 mt-2">
                                     Title is required.
                                 </div>
                                 <div *ngIf="tasks.controls[i].get('title')?.errors?.['maxlength']" class="formError">
