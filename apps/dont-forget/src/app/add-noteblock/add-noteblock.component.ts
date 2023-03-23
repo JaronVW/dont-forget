@@ -14,10 +14,7 @@ export class AddNoteblockComponent implements OnInit {
   title: string;
   description: string;
 
-  notes: {
-    title: string;
-    id: string;
-  }[] = [];
+  notes: Note[] = [];
 
   constructor(
     private fb: FormBuilder,
@@ -26,53 +23,38 @@ export class AddNoteblockComponent implements OnInit {
   ) {}
   ngOnInit(): void {
     this.addNoteblockForm = this.fb.group({
-      title: '',
-      description: '',
-      notes: this.fb.array([]),
+      title: new FormControl(''),
+      description: new FormControl(''),
+      notes: this.fb.array([
+        new FormGroup({
+          title: new FormControl(''),
+          id: new FormControl(''),
+        }),
+      ]),
     });
 
-    this.addNoteblockForm.valueChanges.subscribe((data) => {
-      this.title = data.title;
-      this.description = data.description;
-      this.notes = data.notes;
+    this.notesService.getNotes().subscribe((res) => {
+      console.log(res);
+      this.setExistingNotes(res);
     });
-    this.getNotes();
-  }  
-  
+  }
+
   get notesDropDownArray() {
     return this.addNoteblockForm.get('notes') as FormArray;
   }
 
-  getNotes() {
-    this.notesService.getNotes().subscribe((res) => {
-      res.forEach((note) => {
-        this.notes.push({ title: note.title, id: String(note._id) });
-      });
-      this.setExistingNotes(this.notes);
+  setExistingNotes(notes: any[]) {
+    notes.forEach((note) => {
+      this.addNote(note);
     });
   }
 
-
-
-  private addNote(note: { title: string; id: string }) {
+  addNote(note: any) {
     const noteForm = this.fb.group({
-      title: note.title,
-      id: note.id,
+      title: new FormControl(note.title),
+      id: new FormControl(note._id),
     });
-
     this.notesDropDownArray.push(noteForm);
-  }
-
-  setExistingNotes(
-    item: {
-      title: string;
-      id: string;
-    }[]
-  ) {
-    item.forEach((task) => {
-      console.log(task);
-      this.addNote(task);
-    });
   }
 
   exec() {

@@ -10,7 +10,8 @@ import {
 @Component({
   selector: 'dont-forget-follow-user',
   template: `<div class="mb-12 rounded-sm border-black border-2 p-2 bg-white">
-      <form [formGroup]="nameForm" (ngSubmit)="followUser()">
+      <h2 class="text-2xl">Follow a user:</h2>
+      <form [formGroup]="nameForm" (ngSubmit)="followUser()" class="mt-4 mb-4">
         <input
           type="text"
           placeholder="Username"
@@ -23,7 +24,10 @@ import {
             (usernameControl?.dirty || usernameControl?.touched)
           "
         >
-          <div *ngIf="usernameControl?.errors?.['required']" class="formError mt-2 w-80">
+          <div
+            *ngIf="usernameControl?.errors?.['required']"
+            class="formError mt-2 w-80"
+          >
             Username is required.
           </div>
         </div>
@@ -43,7 +47,7 @@ import {
       >
     </div>
     <div class="border-black border-2 p-2 mb-12 bg-white">
-      <h2>Followers:</h2>
+      <h2 class="text-2xl">Followers:</h2>
       <div *ngFor="let f of followers" class="">
         <div>
           {{ f.username }}
@@ -54,7 +58,7 @@ import {
       </div>
     </div>
     <div class="border-black border-2 p-2 mb-12 bg-white">
-      <h2>Currently following:</h2>
+      <h2 class="text-2xl">Currently following:</h2>
       <div *ngFor="let f of following" class="">
         <div>
           {{ f.username }}
@@ -63,7 +67,7 @@ import {
       </div>
     </div>
     <div class="border-black border-2 p-2 bg-white">
-      <h2>People you follow are following:</h2>
+      <h2 class="text-2xl">People you follow are following:</h2>
       <div *ngFor="let f of followingFollowing" class="">
         <p>{{ f.username }}</p>
       </div>

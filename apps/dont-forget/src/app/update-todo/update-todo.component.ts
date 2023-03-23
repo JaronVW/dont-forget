@@ -29,7 +29,7 @@ export class UpdateTodoComponent implements OnInit {
 
     this.updateTodoForm = this.fb.group({
       title: new FormControl('', [Validators.required, Validators.maxLength(50)]),
-      description: '',
+      description: new FormControl(''),
       dueDate: new FormControl('', [Validators.required]),
       tasksArray: this.fb.array([]),
     });

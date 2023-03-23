@@ -1,5 +1,7 @@
-<h1>Beschikbare Notitieblokken</h1>
-<a  [routerLink]="['/addnoteblock']" class="sitelink sitelink-info">Notitieblok toevoegen</a>
+<div class="bg-white p-4  border-2 border-black mb-4">
+    <h1 class="pageMainHeader">Beschikbare Notitieblokken</h1>
+    <a [routerLink]="['/addnoteblock']" class="sitelink sitelink-info">Notitieblok toevoegen</a>
+</div>
 <div class="grid sm:grid-cols-1  lg:grid-cols-2 gap-4">
 
     <div *ngFor="let item of res" class="bg-white p-4  border-2 border-black text-left hover: w-10/12">
@@ -7,7 +9,8 @@
         <p></p>
         <ul>
             <li><a [routerLink]="[item._id]" class="sitelink sitelink-success">Details </a></li>
-            <li><a role="button" (click)="deleteNoteBlock(item._id.toString())" class="sitelink sitelink-danger">Verwijderen </a></li>
+            <li><a role="button" (click)="deleteNoteBlock(item._id.toString())"
+                    class="sitelink sitelink-danger">Verwijderen </a></li>
             <li><a [routerLink]="['/updateNoteBlock',item._id]" class="sitelink sitelink-info">Aanpassen </a></li>
         </ul>
 

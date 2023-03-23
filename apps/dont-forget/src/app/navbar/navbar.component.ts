@@ -24,14 +24,14 @@ import { Router } from '@angular/router';
             </li>
             <li class="list-none inline-block">
               <a
-                class="block px-3 cursor-pointer "
+                class="block px-3 cursor-pointer select-none"
                 (click)="toggleDropdown()"
                 >{{ dropdownText }}</a
               >
             </li>
             <li *ngIf="Show" class="list-none inline-block ">
               <div
-                class="absolute right-40 top-12 border-2 bg-stickyNoteBeige border-black "
+                class="absolute right-60 top-12 border-2 bg-stickyNoteBeige border-black "
               >
                 <div class="">
                   <a class=" block px-2 py-1 " [routerLink]="['/noteblocks']"
