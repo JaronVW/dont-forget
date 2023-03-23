@@ -1,7 +1,7 @@
 <div class="bg-stickyNoteLila  border-black border-2  rounded-sm p-4">
     <h1 class="pageMainHeader">{{title}}</h1>
     <p>{{text}}</p>
-    <p>{{dateCreated}}</p>
+    <p>{{formatDate(dateCreated)}}</p>
     <ul>
         <li><a role="button" class="sitelink sitelink-danger" (click)="deleteNote(id)">Verwijderen </a></li>
         <li><a [routerLink]="['/updatenote', id]"  class="sitelink sitelink-info">Aanpassen </a></li>

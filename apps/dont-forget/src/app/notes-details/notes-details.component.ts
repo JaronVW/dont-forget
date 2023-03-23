@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotesService } from '../notes/services/notes.service';
+import * as dayjs from 'dayjs';
 
 @Component({
   selector: 'dont-forget-notes-details',
@@ -11,7 +12,7 @@ export class NotesDetailsComponent implements OnInit {
   id: string;
   title: string;
   text: string;
-  dateCreated: string;
+  dateCreated: Date;
 
   constructor(
     private router: Router,
@@ -27,7 +28,7 @@ export class NotesDetailsComponent implements OnInit {
     this.notesService.getNoteById(this.id).subscribe((res) => {
       this.title = res.title;
       this.text = res.text;
-      this.dateCreated = res.dateCreated.toString();
+      this.dateCreated = res.dateCreated;
     });
   }
 
@@ -41,5 +42,7 @@ export class NotesDetailsComponent implements OnInit {
     });
   }
 
-
+  formatDate(date: Date) {
+    return dayjs(date).format('DD/MM/YYYY');
+  }
 }
