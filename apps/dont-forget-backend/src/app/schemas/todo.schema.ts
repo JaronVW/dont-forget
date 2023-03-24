@@ -5,8 +5,12 @@ import { Task } from './task';
 
 export type TodoDocument = HydratedDocument<Todo>;
 
-@Schema()
-export class Todo  {
+@Schema({
+  toJSON: {
+    virtuals: true,
+  },
+})
+export class Todo {
   _id?: any;
 
   @Prop()
@@ -31,5 +35,9 @@ export class Todo  {
   tasks: [Task];
   data: mongoose.Types.ObjectId;
 }
+const TodoSchema = SchemaFactory.createForClass(Todo);
+TodoSchema.virtual('numberOfTasks').get(function (this: TodoDocument) {
+  return this.tasks.length;
+});
 
-export const TodoSchema = SchemaFactory.createForClass(Todo);
+export { TodoSchema };

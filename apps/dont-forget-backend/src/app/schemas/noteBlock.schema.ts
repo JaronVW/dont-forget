@@ -4,7 +4,11 @@ import { Note } from './note.schema';
 
 export type NoteBlockDocument = HydratedDocument<NoteBlock>;
 
-@Schema()
+@Schema({
+  toJSON: {
+    virtuals: true,
+  },
+})
 export class NoteBlock {
   @Prop()
   userId?: ObjectId;
@@ -18,8 +22,13 @@ export class NoteBlock {
   @Prop()
   dateCreated: Date;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Note'}])
-  notes: mongoose.Types.ObjectId[]
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Note' }])
+  notes: mongoose.Types.ObjectId[];
 }
+const NoteBlockSchema = SchemaFactory.createForClass(NoteBlock);
 
-export const NoteBlockSchema = SchemaFactory.createForClass(NoteBlock);
+NoteBlockSchema.virtual('numberOfNotes').get(function (this: NoteBlockDocument) {
+  return this.notes.length;
+});
+
+export { NoteBlockSchema };

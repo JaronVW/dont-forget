@@ -107,4 +107,10 @@ export class NoteBlocksController {
       });
     return res;
   }
+
+  @Get('numberofnotes/:id')
+  getNumberOfNotes(@Param('id') id: string) {
+    return this.noteBlocksService.numberOfNotes(id);
+  }
+
 }

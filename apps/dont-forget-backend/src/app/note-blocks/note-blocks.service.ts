@@ -56,4 +56,13 @@ export class NoteBlocksService {
       return { statusCode: 200, message: 'NoteBlock deleted' };
     }
   }
+
+  async numberOfNotes(id: string) {
+    console.log(id);
+    const res = await this.noteBlockModel.findById(id);
+    if (res == null) throw new NotFoundException();
+    else {
+      return {bruh: res};
+    }
+  }
 }
