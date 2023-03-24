@@ -8,16 +8,16 @@ export type UserDocument = HydratedDocument<User>;
 export class User implements IUser {
   _id?: string;
 
-  @Prop()
+  @Prop({ required: true, unique: true })
   email: string;
 
-  @Prop()
+  @Prop({ required: true })
   password: string;
 
-  @Prop()
+  @Prop({ required: true })
   dateCreated: Date;
 
-  @Prop()
+  @Prop({ required: true, unique: true  })
   username: string;
 }
 

@@ -3,7 +3,7 @@
 
     <div *ngFor="let item of res" class="bg-white p-4  border-2 border-black text-left hover: w-10/12">
         <h2 class="text-3xl">{{item.title}}</h2>
-        <p></p>
+        <p>Number of Notes: {{item.numberOfNotes}}</p>
         <ul>
             <li><a [routerLink]="['/sharednoteblock', item._id]" class="sitelink sitelink-success">Details </a></li>
             <li><a (click)="unshare(item._id)" class="sitelink sitelink-danger" >Delete for me</a></li>

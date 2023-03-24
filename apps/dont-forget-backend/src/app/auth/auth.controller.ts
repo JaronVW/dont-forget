@@ -5,6 +5,7 @@ import {
   UseGuards,
   Request,
   Body,
+  UseFilters,
 } from '@nestjs/common';
 import { Public } from '../decorators/public.route.decorator';
 import { LocalAuthGuard } from './local-auth.guard';

@@ -1,5 +1,5 @@
 <div class="bg-white p-4  border-2 border-black mb-4">
-    <h1 class="pageMainHeader" >Beschikbare todos</h1>
+    <h1 class="pageMainHeader">Beschikbare todos</h1>
     <a [routerLink]="['/addtodo']" class="sitelink sitelink-info">Todo toevoegen</a>
 </div>
 <div class="flex flex-col  gap-4  ">
@@ -11,24 +11,21 @@
             <p>{{"Due: "+ formatDate(item.dueDate)}}</p>
             <p>{{item.description}}</p>
             <div>
-                <h3>Tasks:</h3>
+                <h3>Number of Tasks: {{item.numberOfTasks}}</h3>
+
+            </div>
+
+            <div class="mt-5">
                 <ul>
-                    <li *ngFor="let i of item.tasks ">{{i.title}}: {{i.completed ? "✔️" : "❌"}} </li>
+                    <li><a [routerLink]="[item._id]" class="sitelink sitelink-success">Details </a></li>
+                    <li><a role="button" (click)="deleteTodo(item._id.toString())"
+                            class="sitelink sitelink-danger">Verwijderen
+                        </a></li>
+                    <li><a [routerLink]="['/updatetodo',item._id]" class="sitelink sitelink-info">Aanpassen </a></li>
                 </ul>
             </div>
-        </div>
 
-        <div class="mt-5">
-            <ul>
-                <li><a [routerLink]="[item._id]" class="sitelink sitelink-success">Details </a></li>
-                <li><a role="button" (click)="deleteTodo(item._id.toString())"
-                        class="sitelink sitelink-danger">Verwijderen
-                    </a></li>
-                <li><a [routerLink]="['/updatetodo',item._id]" class="sitelink sitelink-info">Aanpassen </a></li>
-            </ul>
-        </div>
 
+        </div>
 
     </div>
-
-</div>

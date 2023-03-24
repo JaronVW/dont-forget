@@ -12,7 +12,7 @@ export class NotesComponent implements OnInit {
   constructor(private notesService: NotesService) {}
 
   res: Array<Note>;
-  createdDate: string;
+
  
 
   ngOnInit(): void {
@@ -26,7 +26,7 @@ export class NotesComponent implements OnInit {
   getNotes() {
     this.notesService.getNotes().subscribe((data) => {
       this.res = data;
-      this.createdDate = dayjs().format('YYYY-MM-DD');
+      
     });
    
   }

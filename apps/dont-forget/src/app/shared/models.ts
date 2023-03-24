@@ -24,6 +24,7 @@ export class Todo implements ITodo {
   dateCreated: Date;
   completed: boolean;
   tasks: Task[];
+  numberOfTasks: number;
 }
 
 export class Task {
@@ -39,4 +40,5 @@ export class NoteBlock {
   description: number;
   dateCreated: Date;
   notes: Note[];
+  numberOfNotes: number;
 }
