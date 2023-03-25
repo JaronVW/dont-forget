@@ -1,5 +1,9 @@
+import { IsNotEmpty } from 'class-validator';
+
 export class TodoDTO {
+  @IsNotEmpty()
   title: string;
+  @IsNotEmpty()
   description: string;
   dueDate: Date;
   dateCreated: Date;
@@ -12,4 +16,3 @@ export class TodoDTO {
   numberOfTasks: number;
   userRef: string;
 }
-

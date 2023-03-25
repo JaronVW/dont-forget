@@ -11,6 +11,7 @@ import { Public } from '../decorators/public.route.decorator';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
 import { userSignUpDto } from './UserSignUpDto';
+import { MongoExceptionFilter } from '../../exceptionfilters/MongoFilter';
 
 @Controller('auth')
 export class AuthController {
@@ -20,18 +21,13 @@ export class AuthController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   async login(@Request() req) {
-    return this.authService.login(req.user._doc);
-  }
-
-
-  @Get('profile')
-  getProfile(@Request() req) {
-    return req.user;
+    return await this.authService.login(req.user._doc);
   }
 
   @Public()
   @Post('register')
+  @UseFilters(MongoExceptionFilter)
   async register(@Body() user: userSignUpDto) {
-    return this.authService.register(user);
+    return await this.authService.register(user);
   }
 }
