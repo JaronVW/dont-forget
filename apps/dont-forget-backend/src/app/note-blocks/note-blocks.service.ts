@@ -7,6 +7,7 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { NoteBlock, NoteBlockDocument } from '../schemas/noteBlock.schema';
+import { NoteBlockDTO } from './NoteBlockDTO';
 
 @Injectable()
 export class NoteBlocksService {
@@ -15,16 +16,18 @@ export class NoteBlocksService {
     private noteBlockModel: Model<NoteBlockDocument>
   ) {}
 
-  create(userId: string, data: NoteBlock) {
+  async create(userId: string, data: NoteBlockDTO) {
     data.dateCreated = new Date();
-    data.userRef = new mongoose.Schema.Types.ObjectId(userId);
-    this.noteBlockModel.create(data, function (err) {
-      if (err) throw new BadRequestException();
-    });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    data.userRef = new mongoose.Types.ObjectId(userId);
+    const res = await this.noteBlockModel.create(data);
+    res.save();
+    return res;
   }
 
   async findAll(userId: string) {
-    return this.noteBlockModel.find({ userRef: userId }).populate('notes'); // key to populate
+    return this.noteBlockModel.find({ userRef: userId }).populate('notes'); 
   }
 
   async findShared(ids: string[]) {
@@ -35,34 +38,31 @@ export class NoteBlocksService {
     return await this.noteBlockModel.findById(id).populate('notes');
   }
 
-  async update(id: string, data: NoteBlock, userId: string) {
-    const res = await this.noteBlockModel.findById(id);
+  async update(id: string, data: NoteBlockDTO, userId: string) {
+    const res = await this.noteBlockModel.findById(id).populate({
+      path: 'userRef',
+      select: '-password -email',
+    });
     if (res == null) throw new NotFoundException();
-    if (String(res.userRef) != userId) throw new UnauthorizedException();
-    else {
-      await this.noteBlockModel.findByIdAndUpdate(id, data, {
+    if (String(res.userRef._id) != userId) throw new UnauthorizedException();
+    const updatedNoteBlock = await this.noteBlockModel.findByIdAndUpdate(
+      id,
+      data,
+      {
         new: true,
-      });
-      return { statusCode: 200, message: 'NoteBlock updated' };
-    }
+      }
+    );
+    return updatedNoteBlock;
   }
 
   async remove(id: string, userId: string) {
-    const res = await this.noteBlockModel.findById(id);
+    const res = await this.noteBlockModel.findById(id).populate({
+      path: 'userRef',
+      select: '-password -email',
+    });
     if (res == null) throw new NotFoundException();
-    else if (String(res.userRef) != userId) throw new UnauthorizedException();
-    else {
-      await this.noteBlockModel.findByIdAndDelete(id);
-      return { statusCode: 200, message: 'NoteBlock deleted' };
-    }
-  }
-
-  async numberOfNotes(id: string) {
-    console.log(id);
-    const res = await this.noteBlockModel.findById(id);
-    if (res == null) throw new NotFoundException();
-    else {
-      return {bruh: res};
-    }
+    if (String(res.userRef._id) != userId) throw new UnauthorizedException();
+    const deletedNoteBlock = await this.noteBlockModel.findByIdAndDelete(id);
+    return deletedNoteBlock;
   }
 }

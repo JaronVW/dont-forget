@@ -3,12 +3,6 @@ export interface INote {
   _id?: any;
   title: string;
   text: string;
-  noteBlocks: [
-    {
-      NoteBlockId: any;
-    }
-  ];
-  dateCreated: Date;
 }
 
 export interface ITodo {

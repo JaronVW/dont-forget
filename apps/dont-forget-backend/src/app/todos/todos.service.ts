@@ -51,7 +51,7 @@ export class TodosService {
     });
     if (todo == null) throw new NotFoundException();
     if (String(todo.userRef._id) != userId) throw new UnauthorizedException();
-    const updatedTodo = await this.todoModel.findByIdAndDelete(id);
-    return updatedTodo;
+    const deletedTodo = await this.todoModel.findByIdAndDelete(id);
+    return deletedTodo;
   }
 }

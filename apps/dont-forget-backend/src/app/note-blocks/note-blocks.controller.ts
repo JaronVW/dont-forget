@@ -10,7 +10,6 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { NoteBlock } from '../schemas/noteBlock.schema';
 import { NoteBlocksService } from './note-blocks.service';
 import { AuthUser } from '../decorators/user.decorator';
 import { Neo4jService } from '../neo4j/neo4j.service';
@@ -19,6 +18,7 @@ import {
   getSharedNoteBlocks,
   shareNoteBlockWith,
 } from '../neo4j/cypherQueries';
+import { NoteBlockDTO } from './NoteBlockDTO';
 
 @Controller('noteblocks')
 export class NoteBlocksController {
@@ -28,7 +28,7 @@ export class NoteBlocksController {
   ) {}
 
   @Post()
-  create(@AuthUser() user: any, @Body() noteBlock: NoteBlock) {
+  create(@AuthUser() user: any, @Body() noteBlock: NoteBlockDTO) {
     return this.noteBlocksService.create(user.userId, noteBlock);
   }
 
@@ -76,11 +76,11 @@ export class NoteBlocksController {
     return this.noteBlocksService.findOne(id, user.userId);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @AuthUser() user: any,
     @Param('id') id: string,
-    @Body() noteBlock: NoteBlock
+    @Body() noteBlock: NoteBlockDTO
   ) {
     return this.noteBlocksService.update(id, noteBlock, user.userId);
   }
@@ -106,11 +106,6 @@ export class NoteBlocksController {
         return { StatusCode: 200, message: 'Shared noteblock deleted' };
       });
     return res;
-  }
-
-  @Get('numberofnotes/:id')
-  getNumberOfNotes(@Param('id') id: string) {
-    return this.noteBlocksService.numberOfNotes(id);
   }
 
 }

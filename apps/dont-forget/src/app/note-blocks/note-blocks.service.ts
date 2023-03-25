@@ -30,7 +30,7 @@ export class NoteBlocksService {
   }
 
   updateNoteBlock(_id: string, title: string, text: string) {
-    this.http.patch(this.url + `/${_id}`, { id: _id, title, text }).subscribe();
+    this.http.put(this.url + `/${_id}`, { id: _id, title, text }).subscribe();
   }
 
   getNoteBlockById(_id: string): Observable<NoteBlock> {

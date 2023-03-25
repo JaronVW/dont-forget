@@ -1,5 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, ObjectId } from 'mongoose';
+import { User } from './user.schema';
 
 export type NoteBlockDocument = HydratedDocument<NoteBlock>;
 
@@ -10,18 +11,18 @@ export type NoteBlockDocument = HydratedDocument<NoteBlock>;
 })
 export class NoteBlock {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
-  userRef?: ObjectId;
+  userRef?: User;
 
-  @Prop({ required: true })
+  @Prop({ type: String, required: true })
   title: string;
 
-  @Prop({ required: true })
+  @Prop({ type: String, required: true })
   description: number;
 
   @Prop({ type: Date, default: Date.now })
   dateCreated: Date;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Note' }])
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Note', default: [] }])
   notes: mongoose.Types.ObjectId[];
 }
 const NoteBlockSchema = SchemaFactory.createForClass(NoteBlock);

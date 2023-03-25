@@ -18,8 +18,6 @@ export class Note implements INote {
 
   @Prop({ type: Date, default: Date.now})
   dateCreated: Date;
-
-  noteBlocks: [{ NoteBlockId: ObjectId }];
 }
 
 export const NoteSchema = SchemaFactory.createForClass(Note);
