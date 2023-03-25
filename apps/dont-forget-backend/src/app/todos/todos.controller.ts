@@ -23,26 +23,26 @@ export class TodosController {
   }
 
   @Get()
-  findAll(@AuthUser() user: any) {
-    return this.todosService.findAll(user.userId);
+  async findAll(@AuthUser() user: any) {
+    return await this.todosService.findAll(user.userId);
   }
 
   @Get(':id')
-  findOne(@AuthUser() user: any, @Param('id') id: string) {
-    return this.todosService.findOne(user.userId, id);
+  async findOne(@AuthUser() user: any, @Param('id') id: string) {
+    return await this.todosService.findOne(user.userId, id);
   }
 
   @Put(':id')
-  update(
+  async update(
     @AuthUser() user: any,
     @Param('id') id: string,
     @Body() data: TodoDTO
   ) {
-    return this.todosService.update(user.userId, id, data);
+    return await this.todosService.update(user.userId, id, data);
   }
 
   @Delete(':id')
-  remove(@AuthUser() user: any, @Param('id') id: string) {
-    return this.todosService.remove(user.userId, id);
+  async remove(@AuthUser() user: any, @Param('id') id: string) {
+    return await this.todosService.remove(user.userId, id);
   }
 }

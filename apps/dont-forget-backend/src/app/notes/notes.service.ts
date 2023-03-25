@@ -7,18 +7,20 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { Note, NoteDocument } from '../schemas/note.schema';
+import { NoteDTO } from './NoteDTO';
 
 @Injectable()
 export class NotesService {
   constructor(@InjectModel(Note.name) private noteModel: Model<NoteDocument>) {}
 
-  async create(userId: string, data: Note) {
+  async create(userId: string, data: NoteDTO) {
     data.dateCreated = new Date();
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     data.userRef = new mongoose.Types.ObjectId(userId);
     const res = await this.noteModel.create(data);
-    res.save()
+    res.save();
+    return res;
   }
 
   async findAll(userId: string) {
@@ -29,25 +31,27 @@ export class NotesService {
     return await this.noteModel.findById(id).exec();
   }
 
-  async update(id: string, userId: string, data: Note) {
-    const res = await this.noteModel.findById(id);
+  async update(id: string, userId: string, data: NoteDTO) {
+    const res = await this.noteModel.findById(id).populate({
+      path: 'userRef',
+      select: '-password -email',
+    });
     if (res == null) throw new NotFoundException();
-    if (String(res.userRef) !== userId) throw new UnauthorizedException();
-    else {
-      await this.noteModel.findByIdAndUpdate(id, data, {
-        new: true,
-      });
-      return { statusCode: 200, message: 'Note updated' };
-    }
+    if (String(res.userRef._id) !== userId) throw new UnauthorizedException();
+    const updatedNote = await this.noteModel.findByIdAndUpdate(id, data, {
+      new: true,
+    });
+    return updatedNote;
   }
 
   async remove(id: string, userId: string) {
-    const res = await this.noteModel.findById(id);
-    if (res == null) throw new NotFoundException();
-    if (String(res.userRef) !== userId) throw new UnauthorizedException();
-    else {
-      await this.noteModel.findByIdAndDelete(id);
-      return { statusCode: 200, message: 'Note deleted' };
-    }
+    const todo = await this.noteModel.findById(id).populate({
+      path: 'userRef',
+      select: '-password -email',
+    });
+    if (todo == null) throw new NotFoundException();
+    if (String(todo.userRef._id) != userId) throw new UnauthorizedException();
+    const updatedNote = await this.noteModel.findByIdAndDelete(id);
+    return updatedNote;
   }
 }

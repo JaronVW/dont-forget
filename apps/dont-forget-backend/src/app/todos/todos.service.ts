@@ -24,7 +24,6 @@ export class TodosService {
   }
 
   async findAll(userId: string): Promise<Todo[]> {
-    console.log(userId);
     return await this.todoModel.find({ userRef: userId }).exec();
   }
 
