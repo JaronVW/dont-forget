@@ -11,7 +11,7 @@ export class userSignUpDto {
   email: string;
 
   @IsString()
-  @MinLength(8)
+  @MinLength(6)
   @MaxLength(120)
   password: string;
 

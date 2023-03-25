@@ -19,14 +19,4 @@ export class AppController {
     return this.appService.getData();
   }
 
-  @Public()
-  @Get('helloneo')
-  async getHello(): Promise<any> {
-    const res = await this.neo4jService.read(
-      `MATCH (n) RETURN count(n) AS count`,
-      {}
-    );
-    return `There are ${res.records[0].get('count')} nodes in the database`;
-  }
-
 }
