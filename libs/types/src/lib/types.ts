@@ -1,7 +1,6 @@
 
 export interface INote {
   _id?: any;
-  userId: any;
   title: string;
   text: string;
   noteBlocks: [

@@ -24,6 +24,7 @@ export class TodosService {
   }
 
   async findAll(userId: string): Promise<Todo[]> {
+    console.log(userId);
     return await this.todoModel.find({ userRef: userId }).exec();
   }
 
@@ -36,10 +37,8 @@ export class TodosService {
       path: 'userRef',
       select: '-password -email',
     });
-    console.log(todo);
-    // if (!todo) throw new NotFoundException();
-    // if (String(todo.userRef._id) !== userId) throw new UnauthorizedException();
-
+    if (todo == null) throw new NotFoundException();
+    if (String(todo.userRef._id) != userId) throw new UnauthorizedException();
     const updatedTodo = await this.todoModel.findByIdAndUpdate(id, data, {
       new: true,
     });
@@ -47,12 +46,13 @@ export class TodosService {
   }
 
   async remove(userId: string, id: string) {
-    const res = await this.todoModel.findById(id);
-    if (res == null) throw new NotFoundException();
-    if (String(res.userRef) != userId) throw new UnauthorizedException();
-    else {
-      await this.todoModel.findByIdAndDelete(id);
-      return res;
-    }
+    const todo = await this.todoModel.findById(id).populate({
+      path: 'userRef',
+      select: '-password -email',
+    });
+    if (todo == null) throw new NotFoundException();
+    if (String(todo.userRef._id) != userId) throw new UnauthorizedException();
+    const updatedTodo = await this.todoModel.findByIdAndDelete(id);
+    return updatedTodo;
   }
 }

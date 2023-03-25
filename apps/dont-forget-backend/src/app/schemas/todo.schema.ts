@@ -12,13 +12,7 @@ export type TodoDocument = HydratedDocument<Todo>;
   },
 })
 export class Todo {
-  @Prop({
-    type: mongoose.Schema.Types.ObjectId,
-    validators: [mongoose.Types.ObjectId.isValid, 'Invalid ObjectId'],
-  })
-  id: ObjectId;
-
-  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true })
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
   userRef: User;
 
   @Prop({ type: String, required: true })
@@ -30,7 +24,7 @@ export class Todo {
   @Prop({ type: Date })
   dueDate: Date;
 
-  @Prop({ type: Date })
+  @Prop({ type: Date, default: Date.now })
   dateCreated: Date;
 
   @Prop({ type: Boolean })

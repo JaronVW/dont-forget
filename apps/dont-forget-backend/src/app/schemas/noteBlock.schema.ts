@@ -10,16 +10,16 @@ export type NoteBlockDocument = HydratedDocument<NoteBlock>;
   },
 })
 export class NoteBlock {
-  @Prop()
-  userId?: ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+  userRef?: ObjectId;
 
-  @Prop()
+  @Prop({ required: true })
   title: string;
 
-  @Prop()
+  @Prop({ required: true })
   description: number;
 
-  @Prop()
+  @Prop({ type: Date, default: Date.now })
   dateCreated: Date;
 
   @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Note' }])
@@ -27,7 +27,9 @@ export class NoteBlock {
 }
 const NoteBlockSchema = SchemaFactory.createForClass(NoteBlock);
 
-NoteBlockSchema.virtual('numberOfNotes').get(function (this: NoteBlockDocument) {
+NoteBlockSchema.virtual('numberOfNotes').get(function (
+  this: NoteBlockDocument
+) {
   return this.notes.length;
 });
 

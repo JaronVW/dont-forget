@@ -2,8 +2,7 @@ import { INote, ITask, ITodo, IUser } from '@dont-forget/types';
 import { Schema } from 'mongoose';
 
 export class Note implements INote {
-  _id: Schema.Types.ObjectId;
-  userId: Schema.Types.ObjectId;
+  _id?: any;
   title: string;
   text: string;
   noteBlocks: [{ NoteBlockId: Schema.Types.ObjectId }];
@@ -17,7 +16,7 @@ export class User implements IUser {
 }
 
 export class Todo implements ITodo {
-  _id: Schema.Types.ObjectId;
+  _id: any;
   title: string;
   description: string;
   dueDate: Date;

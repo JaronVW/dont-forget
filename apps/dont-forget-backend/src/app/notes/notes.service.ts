@@ -16,13 +16,13 @@ export class NotesService {
     data.dateCreated = new Date();
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    data.userId = new mongoose.Types.ObjectId(userId);
+    data.userRef = new mongoose.Types.ObjectId(userId);
     const res = await this.noteModel.create(data);
     res.save()
   }
 
   async findAll(userId: string) {
-    return await this.noteModel.find({ userId }).exec();
+    return await this.noteModel.find({ userRef: userId }).exec();
   }
 
   async findOne(id: string, userId: string) {
@@ -32,7 +32,7 @@ export class NotesService {
   async update(id: string, userId: string, data: Note) {
     const res = await this.noteModel.findById(id);
     if (res == null) throw new NotFoundException();
-    if (String(res.userId) !== userId) throw new UnauthorizedException();
+    if (String(res.userRef) !== userId) throw new UnauthorizedException();
     else {
       await this.noteModel.findByIdAndUpdate(id, data, {
         new: true,
@@ -44,7 +44,7 @@ export class NotesService {
   async remove(id: string, userId: string) {
     const res = await this.noteModel.findById(id);
     if (res == null) throw new NotFoundException();
-    if (String(res.userId) !== userId) throw new UnauthorizedException();
+    if (String(res.userRef) !== userId) throw new UnauthorizedException();
     else {
       await this.noteModel.findByIdAndDelete(id);
       return { statusCode: 200, message: 'Note deleted' };

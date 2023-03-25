@@ -38,12 +38,11 @@ export class TodosController {
     @Param('id') id: string,
     @Body() data: TodoDTO
   ) {
-    console.log(data);
-    return this.todosService.update(user.id, id, data);
+    return this.todosService.update(user.userId, id, data);
   }
 
   @Delete(':id')
   remove(@AuthUser() user: any, @Param('id') id: string) {
-    return this.todosService.remove(user.id, id);
+    return this.todosService.remove(user.userId, id);
   }
 }
