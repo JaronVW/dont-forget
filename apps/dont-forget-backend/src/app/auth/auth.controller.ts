@@ -26,7 +26,6 @@ export class AuthController {
 
   @Public()
   @Post('register')
-  @UseFilters(MongoExceptionFilter)
   async register(@Body() user: userSignUpDto) {
     return await this.authService.register(user);
   }

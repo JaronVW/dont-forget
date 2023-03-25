@@ -3,14 +3,12 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
   Put,
 } from '@nestjs/common';
 import { NotesService } from './notes.service';
-import { Note } from '../schemas/note.schema';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AuthUser } from '../decorators/user.decorator';
 import { NoteDTO } from './NoteDTO';

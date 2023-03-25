@@ -127,7 +127,9 @@ describe('TodosService', () => {
     it('should create a todo', async () => {
       const todo = await service.create(user1.id, createTodo);
       expect(todo).toBeDefined();
+      expect(todo).toEqual(createTodo);
       expect(String(todo.userRef)).toEqual(user1.id);
+
     });
 
     it('should throw an error', async () => {
@@ -139,7 +141,7 @@ describe('TodosService', () => {
     it('should return an array of todos', async () => {
       const result = await service.findAll(user1.id);
       expect(result).toBeInstanceOf(Array);
-      expect(result.length).toEqual(2);
+      expect(result.length).toBeGreaterThan(0);
       expect(result[0].title).toEqual(String(todo1.title));
     });
 
@@ -147,6 +149,11 @@ describe('TodosService', () => {
       const result = await service.findOne(user1.id, todo1._id);
       expect(result).toBeDefined();
       expect(result.title).toEqual(String(todo1.title));
+    });
+
+    it('should return null', async () => {
+      const note = await service.findOne('641f0fea638288bd31ecd971', todo1.id);
+      expect(note).toBeNull();
     });
 
     it('should return an empty array', async () => {

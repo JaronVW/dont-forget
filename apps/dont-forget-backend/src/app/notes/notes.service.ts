@@ -51,7 +51,7 @@ export class NotesService {
     });
     if (todo == null) throw new NotFoundException();
     if (String(todo.userRef._id) != userId) throw new UnauthorizedException();
-    const updatedNote = await this.noteModel.findByIdAndDelete(id);
-    return updatedNote;
+    const deletedNote = await this.noteModel.findByIdAndDelete(id);
+    return deletedNote;
   }
 }
