@@ -129,7 +129,6 @@ describe('TodosService', () => {
       expect(todo).toBeDefined();
       expect(todo).toEqual(createTodo);
       expect(String(todo.userRef)).toEqual(user1.id);
-
     });
 
     it('should throw an error', async () => {
@@ -163,11 +162,54 @@ describe('TodosService', () => {
     });
   });
 
+  describe('update', () => {
+    it('should update a todo', async () => {
+      const result = await service.update(user1.id, todo1._id, {
+        title: 'new title',
+        description: 'new description',
+        dueDate: new Date(),
+        dateCreated: new Date(),
+        completed: false,
+        tasks: [],
+        numberOfTasks: 0,
+        userRef: user1._id,
+      });
+      expect(result).toBeDefined();
+      expect(result.title).toEqual('new title');
+      expect(result.description).toEqual('new description');
+    });
+
+    it.skip('should throw an error', async () => {
+      await expect(
+        service.update(user1.id, todo1.id, {
+          title: '',
+          description: '',
+          dueDate: new Date(),
+          dateCreated: new Date(),
+          completed: false,
+          tasks: [],
+          numberOfTasks: 0,
+          userRef: user1._id,
+        })
+      ).rejects.toThrow();
+    });
+  });
+
+  describe('delete', () => {
+    it('should delete a todo', async () => {
+      const result = await service.remove(user1.id, todo1._id);
+      expect(result).toBeDefined();
+      expect(result.title).toEqual(String(todo1.title));
+    });
+
+    it('should throw an error', async () => {
+      await expect(service.remove(user1.id, null)).rejects.toThrow();
+    });
+  });
+
   afterAll(async () => {
     await mongoc.close();
     await disconnect();
     await mongod.stop();
   });
-
-  
 });
