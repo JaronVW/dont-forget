@@ -12,23 +12,21 @@ import { Note, NoteDocument } from '../schemas/note.schema';
 export class NotesService {
   constructor(@InjectModel(Note.name) private noteModel: Model<NoteDocument>) {}
 
-  create(userId: string, data: Note) {
+  async create(userId: string, data: Note) {
     data.dateCreated = new Date();
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     data.userId = new mongoose.Types.ObjectId(userId);
-    this.noteModel.create(data, function (err) {
-      console.log(err);
-      if (err) throw new BadRequestException();
-    });
+    const res = await this.noteModel.create(data);
+    res.save()
   }
 
-  findAll(userId: string) {
-    return this.noteModel.find({ userId }).exec();
+  async findAll(userId: string) {
+    return await this.noteModel.find({ userId }).exec();
   }
 
-  findOne(id: string, userId: string) {
-    return this.noteModel.findById(id).exec();
+  async findOne(id: string, userId: string) {
+    return await this.noteModel.findById(id).exec();
   }
 
   async update(id: string, userId: string, data: Note) {

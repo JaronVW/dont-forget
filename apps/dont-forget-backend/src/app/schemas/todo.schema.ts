@@ -2,6 +2,7 @@ import { ITodo } from '@dont-forget/types';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, ObjectId } from 'mongoose';
 import { Task } from './task';
+import { User } from './user.schema';
 
 export type TodoDocument = HydratedDocument<Todo>;
 
@@ -11,29 +12,32 @@ export type TodoDocument = HydratedDocument<Todo>;
   },
 })
 export class Todo {
-  _id?: any;
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    validators: [mongoose.Types.ObjectId.isValid, 'Invalid ObjectId'],
+  })
+  id: ObjectId;
 
-  @Prop()
-  userId: ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'user', required: true })
+  userRef: User;
 
-  @Prop()
+  @Prop({ type: String, required: true })
   title: string;
 
-  @Prop()
+  @Prop({ type: String, required: true })
   description: string;
 
-  @Prop()
+  @Prop({ type: Date })
   dueDate: Date;
 
-  @Prop()
+  @Prop({ type: Date })
   dateCreated: Date;
 
-  @Prop()
+  @Prop({ type: Boolean })
   completed: boolean;
 
-  @Prop()
-  tasks: [Task];
-  data: mongoose.Types.ObjectId;
+  @Prop({ type: [], default: [] })
+  tasks: Task[];
 }
 const TodoSchema = SchemaFactory.createForClass(Todo);
 TodoSchema.virtual('numberOfTasks').get(function (this: TodoDocument) {

@@ -41,7 +41,6 @@ export class AuthService {
   }
 
   async register(user: userSignUpDto): Promise<{ access_token: string }> {
-    try {
       const hashedPassword = await argon2.hash(user.password);
       const newUser: User = {
         username: user.username,
@@ -59,8 +58,6 @@ export class AuthService {
       return {
         access_token: accessToken,
       };
-    } catch (error) {
-     throw new BadRequestException(error);
-    }
+
   }
 }
