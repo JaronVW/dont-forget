@@ -8,8 +8,11 @@ import { AuthService } from './auth.service';
 import { Neo4jModule } from '../neo4j/neo4j.module';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import { UsersService } from '../users/users.service';
+import { JwtService } from '@nestjs/jwt';
 
 jest.mock('neo4j-driver/lib/driver');
+
+// import { mockNode, mockResult } from 'nest-neo4j/dist/test'
 
 describe('AuthService', () => {
   let service: AuthService;
@@ -37,17 +40,10 @@ describe('AuthService', () => {
           username: 'neo4j',
           password: 'neox',
         }),
-        MongooseModule.forRootAsync({
-          useFactory: async () => {
-            mongod = await MongoMemoryServer.create();
-            uri = mongod.getUri();
-            return { uri };
-          },
-        }),
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
       ],
-      providers: [AuthService, UsersService],
+      providers: [AuthService, UsersService, Neo4jService, JwtService],
     }).compile();
     service = app.get<AuthService>(AuthService);
     neo4jService = app.get(Neo4jService);
@@ -70,14 +66,14 @@ describe('AuthService', () => {
     await user1.save();
   });
 
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+
   afterAll(async () => {
     await mongoc.close();
     await disconnect();
     await mongod.stop();
-  });
-
-  it('should be defined', () => {
-    expect(service).toBeDefined();
   });
 
   it('should register a user', async () => {

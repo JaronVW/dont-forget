@@ -27,7 +27,7 @@ export class NoteBlocksService {
   }
 
   async findAll(userId: string) {
-    return this.noteBlockModel.find({ userRef: userId }).populate('notes'); 
+    return this.noteBlockModel.find({ userRef: userId }).populate('notes');
   }
 
   async findShared(ids: string[]) {
@@ -43,6 +43,7 @@ export class NoteBlocksService {
       path: 'userRef',
       select: '-password -email',
     });
+    console.log(res);
     if (res == null) throw new NotFoundException();
     if (String(res.userRef._id) != userId) throw new UnauthorizedException();
     const updatedNoteBlock = await this.noteBlockModel.findByIdAndUpdate(

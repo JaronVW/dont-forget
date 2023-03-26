@@ -6,7 +6,7 @@ export class NoteBlockDTO {
   @IsNotEmpty()
   title: string;
   @IsNotEmpty()
-  description: number;
+  description: string;
   dateCreated: Date;
   notes: {
     title: string;
