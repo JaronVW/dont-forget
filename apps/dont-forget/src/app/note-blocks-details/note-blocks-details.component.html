@@ -14,6 +14,7 @@
     <ul>
         <li><a role="button" class="sitelink sitelink-danger" (click)="deleteNoteBlock(id)">Verwijderen </a></li>
         <li><a role="button" class="sitelink sitelink-success" [routerLink]="['/sharewith',noteBlock._id]" >delen </a></li>
-        <li><a [routerLink]="['/updatetodo,id']" class="sitelink sitelink-info">Aanpassen </a></li>
+        <li><a [routerLink]="['/updatenoteblock',id]" class="sitelink sitelink-info">Aanpassen </a></li>
+        <li><a [routerLink]="['/addnotestonoteblock',id]" class="sitelink sitelink-info">Notities toevoegen </a></li>
     </ul>
 </div>

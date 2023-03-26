@@ -5,7 +5,7 @@ export class Note implements INote {
   _id?: any;
   title: string;
   text: string;
-  noteBlocks: [{ NoteBlockId: Schema.Types.ObjectId }];
+ 
   dateCreated: Date;
 }
 
@@ -34,10 +34,21 @@ export class Task {
 
 export class NoteBlock {
   _id?: any
-  userId: any;
+  userRef: any;
   title: string;
   description: string;
   dateCreated: Date;
   notes: Note[];
   numberOfNotes: number;
+}
+
+export class NoteBlockToSave {
+  _id?: any;
+  userRef: any;
+  title: string;
+  description: string;
+  dateCreated: Date;
+  notes: {
+    _id: string;
+  }[];
 }

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NoteBlocksService } from '../note-blocks/note-blocks.service';
 import * as dayjs from 'dayjs';
-import { NoteBlock } from '../shared/models';
+import { NoteBlock, NoteBlockToSave } from '../shared/models';
 import { NotesService } from '../notes/services/notes.service';
 
 @Component({
@@ -12,9 +12,11 @@ import { NotesService } from '../notes/services/notes.service';
 })
 export class AppendNotesComponent implements OnInit {
   id: string;
-  noteBlock: NoteBlock = {  } as NoteBlock;
+  noteBlock: NoteBlock = {} as NoteBlock;
+  noteBlockToSave: NoteBlockToSave;
+
   notes: {
-    name: string;
+    title: string;
     _id: string;
     added: boolean;
   }[] = [];
@@ -33,8 +35,9 @@ export class AppendNotesComponent implements OnInit {
 
     this.noteBlocksService.getNoteBlockById(this.id).subscribe((res) => {
       this.noteBlock = res;
+      console.log(this.noteBlock);
+      this.getNotes();
     });
-    this.getNotes();
   }
 
   deleteNoteBlock(_id: string) {
@@ -48,23 +51,45 @@ export class AppendNotesComponent implements OnInit {
   }
 
   getNotes() {
+    const alreadyAdded = this.noteBlock.notes.map((note) => note._id);
     this.notesService.getNotes().subscribe((res) => {
-      this.noteBlock.notes.forEach((note) => {
-        res.forEach((resNote) => {
-          if (note == resNote._id) {
-            this.notes.push({
-              name: resNote.title,
-              _id: resNote._id,
-              added: true,
-            });
-          }
+      res.forEach((resnote) => {
+        const added = alreadyAdded.includes(resnote._id);
+        this.notes.push({
+          _id: resnote._id,
+          title: resnote.title,
+          added,
         });
       });
-      console.log(this.notes);
     });
   }
 
   formatDate(date: Date) {
     return dayjs(date).format('DD/MM/YYYY');
+  }
+
+  checkboxvalue($event: any, index: number) {
+    this.notes[index].added = $event.target.checked;
+  }
+
+  addNotes($event: any) {
+    $event.preventDefault();
+    this.noteBlockToSave = {
+      _id: this.noteBlock._id,
+      title: this.noteBlock.title,
+      description: this.noteBlock.description,
+      dateCreated: this.noteBlock.dateCreated,
+      userRef: this.noteBlock.userRef,
+      notes: [],
+    };
+    this.notes.forEach((note) => {
+      if (note.added) {
+        this.noteBlockToSave.notes.push({
+          _id: note._id,
+        });
+      }
+    });
+    console.log(this.noteBlockToSave);
+    this.noteBlocksService.updateNoteBlockRef(this.id, this.noteBlockToSave);
   }
 }
