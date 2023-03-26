@@ -36,7 +36,7 @@ export class NoteBlock {
   _id?: any
   userId: any;
   title: string;
-  description: number;
+  description: string;
   dateCreated: Date;
   notes: Note[];
   numberOfNotes: number;

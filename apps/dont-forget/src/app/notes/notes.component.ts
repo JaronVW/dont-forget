@@ -11,9 +11,14 @@ import * as dayjs from 'dayjs';
 export class NotesComponent implements OnInit {
   constructor(private notesService: NotesService) {}
 
-  res: Array<Note>;
+  private _res: Array<Note>;
 
- 
+  public get res(): Array<Note> {
+    return this._res;
+  }
+  public set res(value: Array<Note>) {
+    this._res = value;
+  }
 
   ngOnInit(): void {
     this.getNotes();
@@ -26,18 +31,12 @@ export class NotesComponent implements OnInit {
   getNotes() {
     this.notesService.getNotes().subscribe((data) => {
       this.res = data;
-      
     });
-   
   }
 
   deleteNote(_id: string) {
     this.notesService.deleteNote(_id.toString()).subscribe((data) => {
-      if (data.statusCode == 200) {
-        this.getNotes();
-      } else {
-        ('');
-      }
+      this.getNotes();
     });
   }
 }

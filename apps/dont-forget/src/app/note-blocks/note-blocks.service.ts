@@ -25,8 +25,8 @@ export class NoteBlocksService {
     return this.http.delete(this.url + `/${_id}`);
   }
 
-  addNoteBlock(title: string, text: string) {
-    this.http.post(this.url, { title, text }).subscribe();
+  addNoteBlock(title: string, description: string) {
+    this.http.post(this.url, { title, description, notes: [] }).subscribe();
   }
 
   updateNoteBlock(_id: string, title: string, text: string) {

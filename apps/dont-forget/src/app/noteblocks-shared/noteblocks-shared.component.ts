@@ -8,7 +8,13 @@ templateUrl: './noteblocks-shared.component.html',
   styleUrls: ['./noteblocks-shared.component.scss'],
 })
 export class NoteblocksSharedComponent implements OnInit {
-  res: Array<NoteBlock>;
+  private _res: Array<NoteBlock>;
+  public get res(): Array<NoteBlock> {
+    return this._res;
+  }
+  public set res(value: Array<NoteBlock>) {
+    this._res = value;
+  }
 
   constructor(private noteBlocksService: NoteBlocksService) {}
 
@@ -24,7 +30,6 @@ export class NoteblocksSharedComponent implements OnInit {
 
   unshare(id: string) {
     this.noteBlocksService.unshareNoteBlock(id).subscribe((data) => {
-      console.log("hier");
       this.getNoteBlocks();
     });
   }

@@ -13,5 +13,4 @@ export class NoteBlockDTO {
     text: string;
     dateCreated: Date;
   }[];
-  numberOfNotes: number;
 }
