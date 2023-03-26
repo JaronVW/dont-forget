@@ -13,19 +13,19 @@ export class AuthService {
   constructor(private http: HttpClient, private router: Router) {}
 
   loginUser(username: string, password: string) {
-    this.http
-      .post(`${this.url}/login`, {
-        username,
-        password,
-      })
-      .subscribe((data) => {
-        this.setSession(data);
-      });
+    return this.http.post(`${this.url}/login`, {
+      username,
+      password,
+    });
   }
 
   logoutUser() {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
+  }
+
+  public createSession(data: any) {
+    this.setSession(data);
   }
 
   private setSession(data: any) {
@@ -48,14 +48,10 @@ export class AuthService {
   }
 
   registerUser(username: string, email: string, password: string) {
-    this.http
-      .post(`${this.url}/register`, {
-        username,
-        email,
-        password,
-      })
-      .subscribe((data) => {
-        this.setSession(data);
-      });
+    return this.http.post(`${this.url}/register`, {
+      username,
+      email,
+      password,
+    });
   }
 }

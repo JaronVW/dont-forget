@@ -6,8 +6,7 @@
             <input required formControlName="username" type="text" class="formInput" name="username"
                 placeholder="username" id="username">
 
-            <div *ngIf="usernameControl?.invalid && (usernameControl?.dirty || usernameControl?.touched)"
-                >
+            <div *ngIf="usernameControl?.invalid && (usernameControl?.dirty || usernameControl?.touched)">
 
                 <div *ngIf="usernameControl?.errors?.['required']" class="formError">
                     Username is required.
@@ -23,8 +22,7 @@
             <input required formControlName="email" type="text" class="formInput" name="email" placeholder="email"
                 id="email">
 
-            <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)"
-                >
+            <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)">
 
                 <div *ngIf="emailControl?.errors?.['required']" class="formError">
                     Email is required.
@@ -39,8 +37,7 @@
                 placeholder="password" id="password">
 
 
-            <div *ngIf="passwordControl?.invalid && (passwordControl?.dirty || passwordControl?.touched)"
-                >
+            <div *ngIf="passwordControl?.invalid && (passwordControl?.dirty || passwordControl?.touched)">
 
                 <div *ngIf="passwordControl?.errors?.['required']" class="formError">
                     Password is required.
@@ -49,7 +46,7 @@
                     Password must consist of at least 6 characters.
                 </div>
             </div>
-            
+
             <label for="passwordRepeat">repeat password</label>
             <input formControlName="passwordRepeat" class="formInput" type="password" name="passwordRepeat"
                 placeholder="password" id="password">
@@ -61,7 +58,10 @@
                     Passwords do not match.
                 </div>
 
+
+
             </div>
+            <div class="formError" *ngIf="errorMessage !== ''">{{errorMessage}}</div>
             <input type="submit" (click)="register()" value="register" class="actionButton">
 
 
