@@ -27,7 +27,7 @@ export class NoteBlocksService {
   }
 
   async findAll(userId: string) {
-    return this.noteBlockModel.find({ userRef: userId }).populate('notes');
+    return await this.noteBlockModel.find({ userRef: userId }).populate('notes');
   }
 
   async findShared(ids: string[]) {

@@ -1,20 +1,13 @@
 <div class="bg-white  border-black border-2  rounded-sm p-4">
-    <h1 class="pageMainHeader">{{noteBlock.title}}</h1>
-    <p>{{noteBlock.description}}</p>
-    <p>{{formatDate(noteBlock.dateCreated)}}</p>
+    <h1 class="pageMainHeader">Add Notes to: {{noteBlock.title}}</h1>
 
-    <div *ngIf="noteBlock.notes.length > 0">
-        <h3>notes:</h3>
-        <ul>
-            <li *ngFor="let i of noteBlock.notes "> <a [routerLink]="['/notes',i._id]">{{i.text}}</a> </li>
-        </ul>
-    </div>
+    <form action="">
+        <div *ngFor="let i of notes" >
+            <p>{{i.name}}</p> 
+            <input  type="checkbox" id="horns" value="{{i._id}}" name="horns">
+        </div>
+    </form>
+   
 
-
-    <ul>
-        <li><a role="button" class="sitelink sitelink-danger" (click)="deleteNoteBlock(id)">Verwijderen </a></li>
-        <li><a role="button" class="sitelink sitelink-success" [routerLink]="['/sharewith',noteBlock._id]">delen </a>
-        </li>
-        <li><a [routerLink]="['/updatetodo,id']" class="sitelink sitelink-info">Aanpassen </a></li>
-    </ul>
+    <a [routerLink]="['/updatetodo,id']" class="sitelink sitelink-info">Aanpassen </a>
 </div>

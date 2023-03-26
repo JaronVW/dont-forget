@@ -22,7 +22,7 @@ export class NoteBlock {
   @Prop({ type: Date, default: Date.now })
   dateCreated: Date;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Note', default: [] }])
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Note', }])
   notes: mongoose.Types.ObjectId[];
 }
 const NoteBlockSchema = SchemaFactory.createForClass(NoteBlock);

@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NoteBlocksService } from '../note-blocks/note-blocks.service';
 import * as dayjs from 'dayjs';
 import { NoteBlock } from '../shared/models';
+import { NotesService } from '../notes/services/notes.service';
 
 @Component({
   selector: 'dont-forget-append-notes',
@@ -11,14 +12,18 @@ import { NoteBlock } from '../shared/models';
 })
 export class AppendNotesComponent implements OnInit {
   id: string;
-
- noteBlock: NoteBlock;
-
+  noteBlock: NoteBlock = {  } as NoteBlock;
+  notes: {
+    name: string;
+    _id: string;
+    added: boolean;
+  }[] = [];
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private noteBlocksService: NoteBlocksService
+    private noteBlocksService: NoteBlocksService,
+    private notesService: NotesService
   ) {}
 
   ngOnInit(): void {
@@ -27,10 +32,9 @@ export class AppendNotesComponent implements OnInit {
     });
 
     this.noteBlocksService.getNoteBlockById(this.id).subscribe((res) => {
-      this.noteBlock.title = res.title;
-      this.noteBlock.description = res.description;
-      this.noteBlock.dateCreated = res.dateCreated;
+      this.noteBlock = res;
     });
+    this.getNotes();
   }
 
   deleteNoteBlock(_id: string) {
@@ -40,6 +44,23 @@ export class AppendNotesComponent implements OnInit {
       } else {
         ('');
       }
+    });
+  }
+
+  getNotes() {
+    this.notesService.getNotes().subscribe((res) => {
+      this.noteBlock.notes.forEach((note) => {
+        res.forEach((resNote) => {
+          if (note == resNote._id) {
+            this.notes.push({
+              name: resNote.title,
+              _id: resNote._id,
+              added: true,
+            });
+          }
+        });
+      });
+      console.log(this.notes);
     });
   }
 
