@@ -6,7 +6,7 @@
         <p>Number of Notes: {{item.numberOfNotes}}</p>
         <ul>
             <li><a [routerLink]="['/sharednoteblock', item._id]" class="sitelink sitelink-success">Details </a></li>
-            <li><a (click)="unshare(item._id)" class="sitelink sitelink-danger" >Delete for me</a></li>
+            <li><a (click)="unshare(item._id)" class="sitelink sitelink-danger cursor-pointer" >Delete for me</a></li>
         </ul>
 
     </div>

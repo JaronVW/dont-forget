@@ -14,6 +14,7 @@ import { NoteBlocksService } from './note-blocks.service';
 import { AuthUser } from '../decorators/user.decorator';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import {
+  createNoteBlockNode,
   deleteShared,
   getSharedNoteBlocks,
   shareNoteBlockWith,
@@ -42,33 +43,58 @@ export class NoteBlocksController {
     const data = await this.neo4jService.read(getSharedNoteBlocks, {
       idParam: user.userId,
     });
+    console.log(data);
     const noteblockIds = data.records.map(
       (record) => record.get('c').properties.name
     );
     return this.noteBlocksService.findShared(noteblockIds);
   }
 
+  // @Put('sharenoteblock/:userId/:noteBlockId')
+  // async shareNoteBlock(
+  //   @Param('userId') userId: string,
+  //   @Param('noteBlockId') noteBlockId: string
+  // ) {
+  //   const res = await this.neo4jService
+  //     .write(shareNoteBlockWith, {
+  //       nbIdParam: noteBlockId,
+  //       idParam: userId,
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       if (err.message.includes('already exists')) {
+  //         throw new BadRequestException();
+  //       }
+  //       throw new NotFoundException();
+  //     })
+  //     .then(() => {
+
+  //       return { StatusCode: 200, message: 'NoteBlock shared' };
+  //     });
+  //   return res;
+  // }
+
   @Put('sharenoteblock/:userId/:noteBlockId')
   async shareNoteBlock(
     @Param('userId') userId: string,
     @Param('noteBlockId') noteBlockId: string
-  ) {
-    const res = await this.neo4jService
-      .write(shareNoteBlockWith, {
+  ): Promise<void> {
+    try {
+      await this.neo4jService.write(createNoteBlockNode, {
         nbIdParam: noteBlockId,
-        idParam: userId,
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.message.includes('already exists')) {
-          throw new BadRequestException();
-        }
-        throw new NotFoundException();
-      })
-      .then(() => {
-        return { StatusCode: 200, message: 'NoteBlock shared' };
       });
-    return res;
+      await this.neo4jService.write(shareNoteBlockWith, {
+        idParam: userId,
+        nbIdParam: noteBlockId,
+      });
+    } catch (err) {
+      if (err.message.includes('already exists')) {
+        throw new BadRequestException();
+      }
+      throw new NotFoundException();
+    }
+
+    return Promise.resolve();
   }
 
   @Get(':id')
@@ -107,5 +133,4 @@ export class NoteBlocksController {
       });
     return res;
   }
-
 }

@@ -27,11 +27,15 @@ export class NoteBlocksService {
   }
 
   async findAll(userId: string) {
-    return await this.noteBlockModel.find({ userRef: userId }).populate('notes');
+    return await this.noteBlockModel
+      .find({ userRef: userId })
+      .populate('notes');
   }
 
   async findShared(ids: string[]) {
-    return this.noteBlockModel.find({ _id: { $in: ids } });
+    return this.noteBlockModel
+      .find({ _id: { $in: ids } })
+      .populate('userRef', '-password -email');
   }
 
   async findOne(id: string, userId: string) {

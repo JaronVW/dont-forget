@@ -35,7 +35,6 @@ export class AppendNotesComponent implements OnInit {
 
     this.noteBlocksService.getNoteBlockById(this.id).subscribe((res) => {
       this.noteBlock = res;
-      console.log(this.noteBlock);
       this.getNotes();
     });
   }
@@ -53,12 +52,12 @@ export class AppendNotesComponent implements OnInit {
   getNotes() {
     const alreadyAdded = this.noteBlock.notes.map((note) => note._id);
     this.notesService.getNotes().subscribe((res) => {
-      res.forEach((resnote) => {
-        const added = alreadyAdded.includes(resnote._id);
+      console.log(res);
+      res.forEach((resnote: any) => {
         this.notes.push({
           _id: resnote._id,
           title: resnote.title,
-          added,
+          added: alreadyAdded.includes(resnote._id),
         });
       });
     });
@@ -89,7 +88,6 @@ export class AppendNotesComponent implements OnInit {
         });
       }
     });
-    console.log(this.noteBlockToSave);
     this.noteBlocksService.updateNoteBlockRef(this.id, this.noteBlockToSave);
   }
 }
