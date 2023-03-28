@@ -1,5 +1,4 @@
 import {
-  BadRequestException,
   ConflictException,
   Injectable,
   InternalServerErrorException,
@@ -8,16 +7,13 @@ import argon2 = require('argon2');
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { userSignUpDto } from './UserSignUpDto';
-import { Neo4jService } from '../neo4j/neo4j.service';
 import { User } from '../schemas/user.schema';
-import { createUserNode } from '../neo4j/cypherQueries';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService,
-    private readonly neo4jService: Neo4jService
+    private jwtService: JwtService
   ) {}
 
   async validateUser(username: string, password: string) {
@@ -40,7 +36,9 @@ export class AuthService {
     };
   }
 
-  async register(user: userSignUpDto): Promise<{ access_token: string }> {
+  async register(
+    user: userSignUpDto
+  ): Promise<{ access_token: string; id: string }> {
     try {
       const hashedPassword = await argon2.hash(user.password);
       const newUser: User = {
@@ -50,14 +48,12 @@ export class AuthService {
         dateCreated: new Date(),
       };
       const data = await this.usersService.createUser(newUser);
-      await this.neo4jService.write(createUserNode, {
-        idParam: data._id.toString(),
-        usernameParam: data.username,
-      });
+
       const payload = { username: data.email, sub: data._id.toString() };
       const accessToken = this.jwtService.sign(payload);
       return {
         access_token: accessToken,
+        id: data._id,
       };
     } catch (error) {
       if (error.code === 11000) {

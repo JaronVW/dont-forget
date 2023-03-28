@@ -10,7 +10,7 @@ export class AccountService {
     private noteBlockModel: Model<UserDocument>
   ) {}
 
-  getFollowing(followingIds: string[]) {
+  getUsersList(followingIds: string[]) {
     return this.noteBlockModel.find({ _id: { $in: followingIds } }, 'username',);
   }
 }

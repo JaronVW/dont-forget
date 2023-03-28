@@ -82,7 +82,7 @@ describe('AccountService', () => {
   describe('getFollowing', () => {
     it('should return the following users', async () => {
       const followingIds = [user1._id, user2._id];
-      const following = await service.getFollowing(followingIds);
+      const following = await service.getUsersList(followingIds);
       expect(following).toBeDefined();
       expect(following).toHaveLength(2);
       expect(following[0].username).toEqual(user1.username);
@@ -91,7 +91,7 @@ describe('AccountService', () => {
 
     it('should return an empty array if there are no users passed', async () => {
       const followingIds = [];
-      const following = await service.getFollowing(followingIds);
+      const following = await service.getUsersList(followingIds);
       expect(following).toBeDefined();
       expect(following).toBeInstanceOf(Array);
       expect(following).toHaveLength(0);
@@ -99,7 +99,7 @@ describe('AccountService', () => {
 
     it('should return an empty array if objectId is unknown', async () => {
       const followingIds = ['5f6c9a9a2c8e2a2d1c6b1f1b'];
-      const following = await service.getFollowing(followingIds);
+      const following = await service.getUsersList(followingIds);
       expect(following).toBeDefined();
       expect(following).toBeInstanceOf(Array);
       expect(following).toHaveLength(0);

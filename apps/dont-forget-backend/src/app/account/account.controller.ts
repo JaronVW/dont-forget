@@ -12,11 +12,11 @@ import {
   followUser,
   followsMe,
   followsMeRemove,
-  getFollowersFollowing,
+  getFollowersFollowing as getFollowingFollowing,
   getFollowing,
   unfollowUser,
 } from '../neo4j/cypherQueries';
-
+import fs = require('fs');
 @Controller('account')
 export class AccountController {
   constructor(
@@ -74,23 +74,27 @@ export class AccountController {
     const res = await this.neo4jService.read(getFollowing, {
       idParam: user.userId,
     });
+    fs.writeFileSync('test.json', JSON.stringify(res));
+    let followingIds = [];
+    if (res.records.length > 1) {
+      followingIds = res.records.map(
+        (record) => record.get('b').properties.mongoId
+      );
+    }
 
-    const followingIds = res.records.map(
-      (record) => record.get('b').properties.mongoId
-    );
-    return this.accountService.getFollowing(followingIds);
+    return this.accountService.getUsersList(followingIds);
   }
 
   @Get('followingfollowing')
   async getFollowingFollowing(@AuthUser() user: any) {
-    const res = await this.neo4jService.read(getFollowersFollowing, {
+    const res = await this.neo4jService.read(getFollowingFollowing, {
       idParam: user.userId,
     });
 
     const followingIds = res.records.map(
       (record) => record.get('user').properties.mongoId
     );
-    return this.accountService.getFollowing(followingIds);
+    return this.accountService.getUsersList(followingIds);
   }
 
   @Get('followers')
@@ -102,7 +106,7 @@ export class AccountController {
     const followersIds = res.records.map(
       (record) => record.get('b').properties.mongoId
     );
-    return this.accountService.getFollowing(followersIds);
+    return this.accountService.getUsersList(followersIds);
   }
 
   @Post('followersunfollow/:username')

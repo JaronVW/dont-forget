@@ -6,16 +6,22 @@ import {
   Request,
   Body,
   UseFilters,
+  BadRequestException,
 } from '@nestjs/common';
 import { Public } from '../decorators/public.route.decorator';
 import { LocalAuthGuard } from './local-auth.guard';
 import { AuthService } from './auth.service';
 import { userSignUpDto } from './UserSignUpDto';
 import { MongoExceptionFilter } from '../../exceptionfilters/MongoFilter';
+import { Neo4jService } from '../neo4j/neo4j.service';
+import { createUserNode } from '../neo4j/cypherQueries';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly neo4jService: Neo4jService
+  ) {}
 
   @Public()
   @UseGuards(LocalAuthGuard)
@@ -27,6 +33,16 @@ export class AuthController {
   @Public()
   @Post('register')
   async register(@Body() user: userSignUpDto) {
-    return await this.authService.register(user);
+    try {
+      const newUser = await this.authService.register(user);
+      await this.neo4jService.write(createUserNode, {
+        idParam: newUser.id.toString(),
+        usernameParam: user.username,
+      });
+      return newUser;
+    } catch (error) {
+      console.log(error);
+      return new BadRequestException();
+    }
   }
 }
