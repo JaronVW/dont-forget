@@ -5,6 +5,7 @@ import { Neo4jService } from '../neo4j/neo4j.service';
 import { Node, int } from 'neo4j-driver';
 import { getFollowing } from '../neo4j/cypherQueries';
 import { mockNode, mockResult } from '../neo4j/neo4jMockObjects';
+import { NotFoundException } from '@nestjs/common';
 
 jest.mock('neo4j-driver/lib/driver');
 
@@ -231,6 +232,51 @@ describe('AccountController', () => {
       });
       expect(getFollowing).toBeCalledTimes(1);
       expect(result).toStrictEqual([]);
+    });
+  });
+
+  describe('follow', () => {
+    it('makes a follow relationship', async () => {
+      const data = {
+        idParam: '6419e36ed9d21671647ddd1e',
+        usernameParam: 'testuser',
+      };
+
+      const follow = jest.spyOn(neo4jService, 'write').mockResolvedValue(
+        mockResult([
+          {
+            b: mockNode('NoteBlock', {
+              mongoId: '6423216b756f83fbbecab412',
+              username: 'testuser',
+            }),
+          },
+        ])
+      );
+
+      const result = await controller.followUser('testuser', {
+        userId: '6419e36ed9d21671647ddd1e',
+      });
+      expect(follow).toBeCalledTimes(1);
+      expect(result).toStrictEqual({
+        statusCode: 200,
+        message: 'User testuser followed',
+      });
+    });
+
+    it('returns an error if no user found', async () => {
+      const data = {
+        idParam: '6419e36ed9d21671647ddd1e',
+        usernameParam: 'testuser',
+      };
+
+      const follow = jest.spyOn(neo4jService, 'write').mockResolvedValue(
+        mockResult([
+          {
+            b: [],
+          },
+        ])
+      );
+        
     });
   });
 });

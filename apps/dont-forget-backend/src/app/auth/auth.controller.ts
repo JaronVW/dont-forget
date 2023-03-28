@@ -7,6 +7,7 @@ import {
   Body,
   UseFilters,
   BadRequestException,
+  ConflictException,
 } from '@nestjs/common';
 import { Public } from '../decorators/public.route.decorator';
 import { LocalAuthGuard } from './local-auth.guard';
@@ -41,8 +42,9 @@ export class AuthController {
       });
       return newUser;
     } catch (error) {
-      console.log(error);
-      return new BadRequestException();
+      error instanceof ConflictException;
+      if (error instanceof ConflictException) throw error;
+      else throw new BadRequestException();
     }
   }
 }

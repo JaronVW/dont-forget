@@ -32,6 +32,7 @@ export class AccountController {
         usernameParam: username,
       })
       .then((res) => {
+        console.log(res.records[0].get('b'));
         return {
           statusCode: 200,
           message: `User ${
