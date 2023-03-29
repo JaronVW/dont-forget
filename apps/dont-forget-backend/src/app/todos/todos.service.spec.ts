@@ -68,6 +68,7 @@ describe('TodosService', () => {
     });
 
     createTodo = new todoModel({
+      id: '64249002f6c6175e6a2a5fd4',
       title: 'test',
       description: 'test',
       dueDate: new Date(),
@@ -79,6 +80,7 @@ describe('TodosService', () => {
     });
 
     todo1 = new todoModel({
+      id: '64248ff958deb110871b921e',
       title: 'test',
       description: 'test',
       dueDate: new Date(),
@@ -90,6 +92,7 @@ describe('TodosService', () => {
     });
 
     todo2 = new todoModel({
+      id: '64248feb707216a67d453af6',
       title: 'test',
       description: 'test',
       dueDate: new Date(),
@@ -101,6 +104,7 @@ describe('TodosService', () => {
     });
 
     todo3 = new todoModel({
+      id: '64248fe19e6379636a49c6d7',
       title: 'test',
       description: 'test',
       dueDate: new Date(),
@@ -132,7 +136,7 @@ describe('TodosService', () => {
     });
 
     it('should throw an error', async () => {
-      await expect(service.create(user1.id, null)).rejects.toThrow();
+      await expect(service.create(user1.id, )).rejects.toThrow();
     });
   });
 
@@ -151,7 +155,7 @@ describe('TodosService', () => {
     });
 
     it('should return null', async () => {
-      const note = await service.findOne('641f0fea638288bd31ecd971', todo1.id);
+      const note = await service.findOne(user1.id, '64248fa7173fe376152dc172');
       expect(note).toBeNull();
     });
 

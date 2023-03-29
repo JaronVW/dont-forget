@@ -50,7 +50,7 @@ export class AuthService {
       };
       const data = await this.usersService.createUser(newUser);
 
-      const payload = { username: data.email, sub: data._id.toString() };
+      const payload = { username: data.email, sub: String(data._id) };
       const accessToken = this.jwtService.sign(payload);
       return {
         access_token: accessToken,

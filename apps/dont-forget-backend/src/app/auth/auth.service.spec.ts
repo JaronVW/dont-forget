@@ -6,7 +6,7 @@ import { User, UserSchema } from '../schemas/user.schema';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
-import { JwtService } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 
 jest.mock('neo4j-driver/lib/driver');
 
@@ -15,6 +15,7 @@ describe('AuthService', () => {
   let mongod: MongoMemoryServer;
   let mongoc: MongoClient;
   let userModel: Model<User>;
+  let jwtService: JwtService;
   let user1;
 
   beforeAll(async () => {
@@ -30,10 +31,21 @@ describe('AuthService', () => {
         }),
 
         MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
+        JwtModule,
       ],
-      providers: [AuthService, UsersService, JwtService],
+      providers: [
+        AuthService,
+        UsersService,
+        {
+          provide: JwtService,
+          useValue: {
+            sign: jest.fn(),
+          },
+        },
+      ],
     }).compile();
     service = app.get<AuthService>(AuthService);
+    jwtService = app.get<JwtService>(JwtService);
 
     userModel = app.get<Model<User>>(getModelToken(User.name));
 
@@ -51,6 +63,8 @@ describe('AuthService', () => {
     });
 
     await user1.save();
+
+    jest.clearAllMocks();
   });
 
   it('should be defined', () => {
@@ -64,10 +78,23 @@ describe('AuthService', () => {
   });
 
   it('should register a user', async () => {
+    jest.spyOn(jwtService, 'sign').mockImplementation(() => 'token');
+
     const user = await service.register({
       username: 'John Doe',
       email: 'mock@email.com',
       password: 'password',
+    });
+    expect(user).toBeDefined();
+  });
+
+  it('should login a user', async () => {
+    jest.spyOn(jwtService, 'sign').mockImplementation(() => 'token');
+
+    const user = await service.login({
+      username: 'John Doe',
+      email: 'mock@email.com',
+      _id: '123',
     });
     expect(user).toBeDefined();
   });

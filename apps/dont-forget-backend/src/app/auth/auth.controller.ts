@@ -37,11 +37,12 @@ export class AuthController {
     try {
       const newUser = await this.authService.register(user);
       await this.neo4jService.write(createUserNode, {
-        idParam: newUser.id.toString(),
+        idParam: String(newUser.id),
         usernameParam: user.username,
       });
       return newUser;
     } catch (error) {
+      console.log(error);
       error instanceof ConflictException;
       if (error instanceof ConflictException) throw error;
       else throw new BadRequestException();

@@ -214,7 +214,6 @@ describe('AccountController', () => {
     it('returns an empty array if no following', async () => {
       const getFollowing = jest
         .spyOn(neo4jService, 'read')
-
         .mockResolvedValue(
           mockResult([
             {
