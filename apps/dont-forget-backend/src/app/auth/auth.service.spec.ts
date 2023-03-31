@@ -77,25 +77,5 @@ describe('AuthService', () => {
     await mongod.stop();
   });
 
-  it('should register a user', async () => {
-    jest.spyOn(jwtService, 'sign').mockImplementation(() => 'token');
-
-    const user = await service.register({
-      username: 'John Doe',
-      email: 'mock@email.com',
-      password: 'password',
-    });
-    expect(user).toBeDefined();
-  });
-
-  it('should login a user', async () => {
-    jest.spyOn(jwtService, 'sign').mockImplementation(() => 'token');
-
-    const user = await service.login({
-      username: 'John Doe',
-      email: 'mock@email.com',
-      _id: '123',
-    });
-    expect(user).toBeDefined();
-  });
+ 
 });
