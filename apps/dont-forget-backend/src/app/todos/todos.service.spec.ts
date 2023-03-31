@@ -6,6 +6,7 @@ import { Todo, TodoSchema } from '../schemas/todo.schema';
 import { MongoClient } from 'mongodb';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { User, UserSchema } from '../schemas/user.schema';
+import { BadRequestException } from '@nestjs/common';
 
 describe('TodosService', () => {
   let service: TodosService;
@@ -136,16 +137,23 @@ describe('TodosService', () => {
     });
 
     it('should throw an error', async () => {
-      await expect(service.create(user1.id, )).rejects.toThrow();
+      await expect(service.create(user1.id, null)).rejects.toThrow(
+        BadRequestException
+      );
     });
   });
 
-  describe('find', () => {
+  describe('findone and findall', () => {
     it('should return an array of todos', async () => {
       const result = await service.findAll(user1.id);
       expect(result).toBeInstanceOf(Array);
       expect(result.length).toBeGreaterThan(0);
       expect(result[0].title).toEqual(String(todo1.title));
+    });
+    it('should return an empty array', async () => {
+      const result = await service.findAll(user2.id);
+      expect(result).toBeInstanceOf(Array);
+      expect(result.length).toEqual(0);
     });
 
     it('should return a todo', async () => {
@@ -157,12 +165,6 @@ describe('TodosService', () => {
     it('should return null', async () => {
       const note = await service.findOne(user1.id, '64248fa7173fe376152dc172');
       expect(note).toBeNull();
-    });
-
-    it('should return an empty array', async () => {
-      const result = await service.findAll(user2.id);
-      expect(result).toBeInstanceOf(Array);
-      expect(result.length).toEqual(0);
     });
   });
 
@@ -183,19 +185,8 @@ describe('TodosService', () => {
       expect(result.description).toEqual('new description');
     });
 
-    it.skip('should throw an error', async () => {
-      await expect(
-        service.update(user1.id, todo1.id, {
-          title: '',
-          description: '',
-          dueDate: new Date(),
-          dateCreated: new Date(),
-          completed: false,
-          tasks: [],
-          numberOfTasks: 0,
-          userRef: user1._id,
-        })
-      ).rejects.toThrow();
+    it('should return a bad request', async () => {
+      await expect(service.update(user1.id, todo1._id, null)).rejects.toThrow(BadRequestException);
     });
   });
 

@@ -10,7 +10,7 @@ export class Note implements INote {
   @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User' })
   userRef: User;
 
-  @Prop({ type: String, required: true})
+  @Prop({ type: String, required: true,})
   title: string;
 
   @Prop({ type: String, required: true})

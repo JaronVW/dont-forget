@@ -14,13 +14,17 @@ export class TodosService {
   constructor(@InjectModel(Todo.name) private todoModel: Model<TodoDocument>) {}
 
   async create(userId: string, data: TodoDTO) {
-    data.dateCreated = new Date();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    data.userRef = new mongoose.Types.ObjectId(userId);
-    const res = await this.todoModel.create(data);
-    res.save();
-    return res;
+    try {
+      data.dateCreated = new Date();
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      data.userRef = new mongoose.Types.ObjectId(userId);
+      const res = await this.todoModel.create(data);
+      res.save();
+      return res;
+    } catch {
+      throw new BadRequestException();
+    }
   }
 
   async findAll(userId: string): Promise<Todo[]> {
@@ -32,16 +36,21 @@ export class TodosService {
   }
 
   async update(userId: string, id: string, data: TodoDTO) {
-    const todo = await this.todoModel.findById(id).populate({
-      path: 'userRef',
-      select: '-password -email',
-    });
-    if (todo == null) throw new NotFoundException();
-    if (String(todo.userRef._id) != userId) throw new UnauthorizedException();
-    const updatedTodo = await this.todoModel.findByIdAndUpdate(id, data, {
-      new: true,
-    });
-    return updatedTodo;
+    try {
+      const todo = await this.todoModel.findById(id).populate({
+        path: 'userRef',
+        select: '-password -email',
+      });
+      if (todo == null) throw new NotFoundException();
+      if(data == null) throw new BadRequestException();
+      if (String(todo.userRef._id) != userId) throw new UnauthorizedException();
+      const updatedTodo = await this.todoModel.findByIdAndUpdate(id, data, {
+        new: true,
+      });
+      return updatedTodo;
+    } catch {
+      throw new BadRequestException();
+    }
   }
 
   async remove(userId: string, id: string) {

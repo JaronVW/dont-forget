@@ -6,7 +6,7 @@ import { MongoClient } from 'mongodb';
 import { MongooseModule, getModelToken } from '@nestjs/mongoose';
 import { User, UserSchema } from '../schemas/user.schema';
 import { Note, NoteSchema } from '../schemas/note.schema';
-import { NotFoundException } from '@nestjs/common';
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 describe('NotesService', () => {
   let service: NotesService;
@@ -76,12 +76,14 @@ describe('NotesService', () => {
     });
 
     createNote = new noteModel({
+      id: '5f9f1b5b9b1b9c0b1c8c1c1b',
       title: 'test',
       text: 'test',
       dateCreated: new Date(),
     });
 
     note1 = new noteModel({
+      id: '5f9f1b5b9b1b9c0b1c8c1c1c',
       title: 'test1',
       text: 'test1',
       dateCreated: new Date(),
@@ -89,6 +91,7 @@ describe('NotesService', () => {
     });
 
     note2 = new noteModel({
+      id: '5f9f1b5b9b1b9c0b1c8c1c1d',
       title: 'test2',
       text: 'test2',
       dateCreated: new Date(),
@@ -96,6 +99,7 @@ describe('NotesService', () => {
     });
 
     note3 = new noteModel({
+      id: '5f9f1b5b9b1b9c0b1c8c1c1e',
       title: 'test3',
       text: 'test3',
       dateCreated: new Date(),
@@ -124,7 +128,9 @@ describe('NotesService', () => {
     });
 
     it('should throw an error', async () => {
-      await expect(service.create(user1.id, null)).rejects.toThrow();
+      await expect(service.create(user1.id, null)).rejects.toThrowError(
+        BadRequestException
+      );
     });
   });
 
@@ -146,7 +152,7 @@ describe('NotesService', () => {
 
   describe('getNote', () => {
     it('should return a note', async () => {
-      const note = await service.findOne(user1.id, note1.id);
+      const note = await service.findOne(note1.id, user1.id);
       expect(note).toBeDefined();
       expect(note.title).toEqual(note1.title);
     });
@@ -169,14 +175,8 @@ describe('NotesService', () => {
       expect(note.text).toEqual('new text');
     });
 
-    it('should throw an error', async () => {
-      await expect(
-        service.update(user1.id, note1.id, {
-          title: '',
-          text: '',
-          dateCreated: new Date(),
-        })
-      ).rejects.toThrow();
+    it('should return a bad request', async () => {
+      await expect(service.update(user1.id, note1._id, null)).rejects.toThrow(BadRequestException);
     });
   });
 

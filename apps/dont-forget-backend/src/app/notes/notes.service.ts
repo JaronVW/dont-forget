@@ -14,13 +14,17 @@ export class NotesService {
   constructor(@InjectModel(Note.name) private noteModel: Model<NoteDocument>) {}
 
   async create(userId: string, data: NoteDTO) {
-    data.dateCreated = new Date();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    data.userRef = new mongoose.Types.ObjectId(userId);
-    const res = await this.noteModel.create(data);
-    res.save();
-    return res;
+    try {
+      data.dateCreated = new Date();
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      data.userRef = new mongoose.Types.ObjectId(userId);
+      const res = await this.noteModel.create(data);
+      res.save();
+      return res;
+    } catch {
+      throw new BadRequestException();
+    }
   }
 
   async findAll(userId: string) {
@@ -32,16 +36,21 @@ export class NotesService {
   }
 
   async update(id: string, userId: string, data: NoteDTO) {
-    const res = await this.noteModel.findById(id).populate({
-      path: 'userRef',
-      select: '-password -email',
-    });
-    if (res == null) throw new NotFoundException();
-    if (String(res.userRef._id) !== userId) throw new UnauthorizedException();
-    const updatedNote = await this.noteModel.findByIdAndUpdate(id, data, {
-      new: true,
-    });
-    return updatedNote;
+    try {
+      const res = await this.noteModel.findById(id).populate({
+        path: 'userRef',
+        select: '-password -email',
+      });
+      if (res == null) throw new NotFoundException();
+      if (data == null) throw new BadRequestException();
+      if (String(res.userRef._id) !== userId) throw new UnauthorizedException();
+      const updatedNote = await this.noteModel.findByIdAndUpdate(id, data, {
+        new: true,
+      });
+      return updatedNote;
+    } catch {
+      throw new BadRequestException();
+    }
   }
 
   async remove(id: string, userId: string) {
