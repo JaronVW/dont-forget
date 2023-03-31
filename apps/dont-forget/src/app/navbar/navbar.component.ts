@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
   selector: 'dont-forget-navbar',
   template: `
     <header
-      class=" p-5 flex justify-end items-center border-b-2 bg-stickyNoteBeige border-black mb-10"
+      class=" p-5 flex justify-end items-center border-b-2 bg-stickyNoteBlue border-black mb-10"
     >
       <h2 class=" px-3 mr-auto">
         <a [routerLink]="['/']">
