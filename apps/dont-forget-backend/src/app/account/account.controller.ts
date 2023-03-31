@@ -26,24 +26,19 @@ export class AccountController {
 
   @Post('follow/:username')
   async followUser(@Param('username') username: string, @AuthUser() user: any) {
-    const res = await this.neo4jService
-      .write(followUser, {
+    try {
+      const res = await this.neo4jService.write(followUser, {
         idParam: user.userId,
         usernameParam: username,
-      })
-      .then((res) => {
-        console.log(res.records[0].get('b'));
-        return {
-          statusCode: 200,
-          message: `User ${
-            res.records[0].get('b').properties.username
-          } followed`,
-        };
-      })
-      .catch(() => {
-        throw new NotFoundException('User not found');
       });
-    return res;
+
+      return {
+        statusCode: 200,
+        message: `User ${res.records[0].get('b').properties.username} followed`,
+      };
+    } catch {
+      throw new NotFoundException('User not found');
+    }
   }
 
   @Post('unfollow/:username')
@@ -51,63 +46,65 @@ export class AccountController {
     @Param('username') username: string,
     @AuthUser() user: any
   ) {
-    const res = await this.neo4jService
-      .write(unfollowUser, {
+    try {
+      const res = await this.neo4jService.write(unfollowUser, {
         idParam: user.userId,
         usernameParam: username,
-      })
-      .then((res) => {
-        console.log(res.records);
-        return {
-          statusCode: 200,
-          message: `User ${username} unfollowed`,
-        };
-      })
-      .catch((err) => {
-        console.log(err);
-        throw new NotFoundException('User not found');
       });
-    return res;
+      return {
+        statusCode: 200,
+        message: `User ${res.records[0].get('b').properties.username} unfollowed`,
+      };
+    } catch {
+      throw new NotFoundException('User not found');
+    }
   }
 
   @Get('following')
   async getFollowing(@AuthUser() user: any) {
-    const res = await this.neo4jService.read(getFollowing, {
-      idParam: user.userId,
-    });
-    fs.writeFileSync('test.json', JSON.stringify(res));
-    let followingIds = [];
-    if (res.records.length > 1) {
-      followingIds = res.records.map(
+    try {
+      const res = await this.neo4jService.read(getFollowing, {
+        idParam: user.userId,
+      });
+      const followingIds = res.records.map(
         (record) => record.get('b').properties.mongoId
       );
+      return this.accountService.getUsersList(followingIds);
+    } catch {
+      return [];
     }
-
-    return this.accountService.getUsersList(followingIds);
   }
 
   @Get('followingfollowing')
   async getFollowingFollowing(@AuthUser() user: any) {
-    const res = await this.neo4jService.read(getFollowingFollowing, {
-      idParam: user.userId,
-    });
+    try {
+      const res = await this.neo4jService.read(getFollowingFollowing, {
+        idParam: user.userId,
+      });
 
-    const followingIds = res.records.map(
-      (record) => record.get('user').properties.mongoId
-    );
-    return this.accountService.getUsersList(followingIds);
+      const followingIds = res.records.map(
+        (record) => record.get('user').properties.mongoId
+      );
+      return this.accountService.getUsersList(followingIds);
+    } catch (err) {
+      return [];
+    }
   }
 
   @Get('followers')
   async getFollowers(@AuthUser() user: any) {
-    const res = await this.neo4jService.read(followsMe, {
-      idParam: user.userId,
-    });
+    try {
+      const res = await this.neo4jService.read(followsMe, {
+        idParam: user.userId,
+      });
 
-    const followersIds = res.records.map(
-      (record) => record.get('b').properties.mongoId
-    );
-    return this.accountService.getUsersList(followersIds);
+      const followersIds = res.records.map(
+        (record) => record.get('b').properties.mongoId
+      );
+      return this.accountService.getUsersList(followersIds);
+    } catch {
+      return [];
+    }
   }
 
   @Post('followersunfollow/:username')
@@ -115,22 +112,17 @@ export class AccountController {
     @Param('username') username: string,
     @AuthUser() user: any
   ) {
-    const res = await this.neo4jService
-      .write(followsMeRemove, {
+    try {
+      const res = await this.neo4jService.write(followsMeRemove, {
         idParam: user.userId,
         usernameParam: username,
-      })
-      .then((res) => {
-        console.log(res.records);
-        return {
-          statusCode: 200,
-          message: `User ${username} removed`,
-        };
-      })
-      .catch((err) => {
-        console.log(err);
-        throw new NotFoundException('User not found');
       });
-    return res;
+      return {
+        statusCode: 200,
+        message: `User ${res.records[0].get('b').properties.username} removed from followers`,
+      };
+    } catch {
+      throw new NotFoundException('User not found');
+    }
   }
 }

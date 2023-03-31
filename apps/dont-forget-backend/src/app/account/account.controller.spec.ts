@@ -86,7 +86,7 @@ describe('AccountController', () => {
       ]);
     });
 
-    it('returns an empty array if no following', async () => {
+    it('returns an empty array if no results', async () => {
       const getFollowing = jest
         .spyOn(neo4jService, 'read')
 
@@ -117,16 +117,13 @@ describe('AccountController', () => {
         username: 'testuser',
       };
 
-      const getFollowing = jest
-        .spyOn(neo4jService, 'read')
-
-        .mockResolvedValue(
-          mockResult([
-            {
-              user: mockNode('NoteBlock', { ...data, id: 'id123' }),
-            },
-          ])
-        );
+      const getFollowing = jest.spyOn(neo4jService, 'read').mockResolvedValue(
+        mockResult([
+          {
+            user: mockNode('User', { ...data, id: 'test-note' }),
+          },
+        ])
+      );
       jest
         .spyOn(accountService, 'getUsersList')
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -149,7 +146,7 @@ describe('AccountController', () => {
       ]);
     });
 
-    it('returns an empty array if no following', async () => {
+    it('returns an empty array if no results', async () => {
       const getFollowing = jest
         .spyOn(neo4jService, 'read')
 
@@ -211,16 +208,14 @@ describe('AccountController', () => {
       ]);
     });
 
-    it('returns an empty array if no following', async () => {
-      const getFollowing = jest
-        .spyOn(neo4jService, 'read')
-        .mockResolvedValue(
-          mockResult([
-            {
-              b: [],
-            },
-          ])
-        );
+    it('returns an empty array if no results', async () => {
+      const getFollowing = jest.spyOn(neo4jService, 'read').mockResolvedValue(
+        mockResult([
+          {
+            b: [],
+          },
+        ])
+      );
       jest
         .spyOn(accountService, 'getUsersList')
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -263,6 +258,24 @@ describe('AccountController', () => {
     });
 
     it('returns an error if no user found', async () => {
+      jest.spyOn(neo4jService, 'write').mockResolvedValue(
+        mockResult([
+          {
+            b: [],
+          },
+        ])
+      );
+
+      await expect(
+        controller.followUser('testuser', {
+          userId: '6419e36ed9d21671647ddd1e',
+        })
+      ).rejects.toThrowError(NotFoundException);
+    });
+  });
+
+  describe('unfollow', () => {
+    it('deletes a follow relationship', async () => {
       const data = {
         idParam: '6419e36ed9d21671647ddd1e',
         usernameParam: 'testuser',
@@ -271,11 +284,81 @@ describe('AccountController', () => {
       const follow = jest.spyOn(neo4jService, 'write').mockResolvedValue(
         mockResult([
           {
+            b: mockNode('NoteBlock', {
+              mongoId: '6423216b756f83fbbecab412',
+              username: 'testuser',
+            }),
+          },
+        ])
+      );
+
+      const result = await controller.unfollowUser('testuser', {
+        userId: '6419e36ed9d21671647ddd1e',
+      });
+      expect(follow).toBeCalledTimes(1);
+      expect(result).toStrictEqual({
+        statusCode: 200,
+        message: 'User testuser unfollowed',
+      });
+    });
+
+    it('returns an error if no user found', async () => {
+      jest.spyOn(neo4jService, 'write').mockResolvedValue(
+        mockResult([
+          {
             b: [],
           },
         ])
       );
-        
+      await expect(
+        controller.unfollowUser('testuser', {
+          userId: '6419e36ed9d21671647ddd1e',
+        })
+      ).rejects.toThrowError(NotFoundException);
+    });
+  });
+
+  describe('followersRemove', () => {
+    it('deletes a follow relationship', async () => {
+      const data = {
+        idParam: '6419e36ed9d21671647ddd1e',
+        usernameParam: 'testuser',
+      };
+
+      const follow = jest.spyOn(neo4jService, 'write').mockResolvedValue(
+        mockResult([
+          {
+            b: mockNode('NoteBlock', {
+              mongoId: '6423216b756f83fbbecab412',
+              username: 'testuser',
+            }),
+          },
+        ])
+      );
+
+      const result = await controller.getFollowersUnfollow('testuser', {
+        userId: '6419e36ed9d21671647ddd1e',
+      });
+      expect(follow).toBeCalledTimes(1);
+      expect(result).toStrictEqual({
+        statusCode: 200,
+        message: 'User testuser removed from followers',
+      });
+    });
+
+    it('returns an error if no user found', async () => {
+      jest.spyOn(neo4jService, 'write').mockResolvedValue(
+        mockResult([
+          {
+            b: [],
+          },
+        ])
+      );
+      await expect(
+        controller.getFollowersUnfollow('testuser', {
+          userId: '6419e36ed9d21671647ddd1e',
+        })
+      ).rejects.toThrowError(NotFoundException);
     });
   });
 });
