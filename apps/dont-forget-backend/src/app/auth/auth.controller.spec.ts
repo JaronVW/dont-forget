@@ -76,7 +76,7 @@ describe('AuthController', () => {
       expect(result).toEqual(mockServiceResponse);
     });
 
-    it('should throw a Bad Request Exception if the service throws an error', async () => {
+    it('should throw a Bad Request Exception if the data is wrong', async () => {
       jest
         .spyOn(authService, 'register')
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -102,7 +102,7 @@ describe('AuthController', () => {
       ).rejects.toThrowError(BadRequestException);
     });
 
-    it('should throw a conflict Exception if the service throws an error', async () => {
+    it('should throw a conflict Exception if the user already exists', async () => {
       const mockServiceResponse = {
         access_token: 'token',
       };
@@ -130,6 +130,22 @@ describe('AuthController', () => {
           email: 'email@email.com',
         })
       ).rejects.toThrowError(ConflictException);
+    });
+  });
+
+  describe('Login', () => {
+    it('should call login on the service', async () => {
+      const response = {
+        access_token: 'token',
+      };
+      jest.spyOn(authService, 'login').mockResolvedValue(response);
+      const result = await controller.login({
+        user: {
+          _doc: { username: 'username', password: '1234aA!' },
+        },
+      });
+      expect(result).toBeDefined();
+      expect(result).toEqual(response);
     });
   });
 });
