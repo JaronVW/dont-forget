@@ -5,7 +5,7 @@ export function selectUserValidator(username: string): ValidatorFn {
     const forbidden = username == control.value;
 
     const res = forbidden ? { forbiddenName: { value: control.value } } : null;
-    console.log(res);
+    
     return res;
   };
 }

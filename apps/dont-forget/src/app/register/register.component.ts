@@ -83,7 +83,7 @@ export class RegisterComponent implements OnInit {
             this.authService.createSession(data);
           },
           error: (error) => {
-            console.log(error.status);
+            
             if (error.status && error.status == 409) {
               this.errorMessage = 'Username/email taken';
             } else {

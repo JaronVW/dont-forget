@@ -52,7 +52,7 @@ export class AppendNotesComponent implements OnInit {
   getNotes() {
     const alreadyAdded = this.noteBlock.notes.map((note) => note._id);
     this.notesService.getNotes().subscribe((res) => {
-      console.log(res);
+      
       res.forEach((resnote: any) => {
         this.notes.push({
           _id: resnote._id,

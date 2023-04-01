@@ -19,7 +19,7 @@ describe('TodosService', () => {
 
   beforeAll(async () => {
     let uri: string;
-    const app = await Test.createTestingModule({
+    const module = await Test.createTestingModule({
       imports: [
         MongooseModule.forRootAsync({
           useFactory: async () => {
@@ -34,17 +34,17 @@ describe('TodosService', () => {
       ],
       providers: [TodosService],
     }).compile();
-    service = app.get<TodosService>(TodosService);
+    service = module.get<TodosService>(TodosService);
 
-    todoModel = app.get<Model<Todo>>(getModelToken(Todo.name));
-    userModel = app.get<Model<User>>(getModelToken(User.name));
+    todoModel = module.get<Model<Todo>>(getModelToken(Todo.name));
+    userModel = module.get<Model<User>>(getModelToken(User.name));
 
     mongoc = new MongoClient(uri);
     await mongoc.connect();
   });
 
   beforeEach(async () => {
-    await mongoc.db('test').collection('todos').deleteMany({});
+    // await mongoc.db('test').collection('todos').deleteMany({}); // TODO not emptying the collection works?
     await mongoc.db('test').collection('users').deleteMany({});
 
     user1 = new userModel({
@@ -67,6 +67,8 @@ describe('TodosService', () => {
       password: 'password',
       dateCreated: new Date(),
     });
+
+   
 
     createTodo = new todoModel({
       id: '64249002f6c6175e6a2a5fd4',
@@ -116,12 +118,20 @@ describe('TodosService', () => {
       userRef: user3._id,
     });
 
-    await user1.save();
-    await user2.save();
-    await user3.save();
-    await todo1.save();
-    await todo2.save();
-    await todo3.save();
+    await Promise.all([
+      await todo1.save(),
+      await todo2.save(),
+      await todo3.save(),
+      await user1.save(),
+      await user2.save(),
+      await user3.save(),
+    ]);
+  });
+
+  afterAll(async () => {
+    await mongoc.close();
+    await disconnect();
+    await mongod.stop();
   });
 
   it('should be defined', () => {
@@ -186,7 +196,9 @@ describe('TodosService', () => {
     });
 
     it('should return a bad request', async () => {
-      await expect(service.update(user1.id, todo1._id, null)).rejects.toThrow(BadRequestException);
+      await expect(service.update(user1.id, todo1._id, null)).rejects.toThrow(
+        BadRequestException
+      );
     });
   });
 
@@ -200,11 +212,5 @@ describe('TodosService', () => {
     it('should throw an error', async () => {
       await expect(service.remove(user1.id, null)).rejects.toThrow();
     });
-  });
-
-  afterAll(async () => {
-    await mongoc.close();
-    await disconnect();
-    await mongod.stop();
   });
 });

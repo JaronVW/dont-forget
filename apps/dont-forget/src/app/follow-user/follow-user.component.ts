@@ -161,9 +161,9 @@ export class FollowUserComponent implements OnInit {
     if (this.nameForm.valid) {
       this.accountService.followUser(this.username).subscribe({
         next: (res: any) => {
-          console.log(res);
+          
           this.response = res.message;
-          console.log(this.response);
+          
           this.getFollowing();
         },
         error: () => {
@@ -178,7 +178,7 @@ export class FollowUserComponent implements OnInit {
     this.accountService.unfollowUser(username).subscribe({
       next: (res: any) => {
         this.response = res.message;
-        console.log(this.response);
+        
         this.getFollowing();
       },
       error: () => {
@@ -192,7 +192,7 @@ export class FollowUserComponent implements OnInit {
     this.accountService.getFollowersUnfollow(username).subscribe({
       next: (res: any) => {
         this.response = res.message;
-        console.log(this.response);
+        
         this.getFollowers();
       },
       error: () => {

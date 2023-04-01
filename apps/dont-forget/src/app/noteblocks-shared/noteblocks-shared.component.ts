@@ -25,7 +25,7 @@ export class NoteblocksSharedComponent implements OnInit {
   getNoteBlocks() {
     this.noteBlocksService.getNoteBlocksShared().subscribe((data) => {
       this.res = data;
-      console.log(this.res);
+      
     });
   }
 

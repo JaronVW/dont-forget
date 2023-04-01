@@ -8,8 +8,7 @@ import { Todo, TodoSchema } from '../schemas/todo.schema';
 import { User, UserSchema } from '../schemas/user.schema';
 import { NoteBlock, NoteBlockSchema } from '../schemas/noteBlock.schema';
 import { Note, NoteSchema } from '../schemas/note.schema';
-
-
+import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 describe('NoteBlocksService', () => {
   let service: NoteBlocksService;
@@ -17,7 +16,6 @@ describe('NoteBlocksService', () => {
   let mongoc: MongoClient;
   let noteBlockModel: Model<NoteBlock>;
   let userModel: Model<User>;
-  let noteModel: Model<Note>;
   let createNB, NB1, NB2, NB3;
   let user1, user2, user3;
 
@@ -47,7 +45,6 @@ describe('NoteBlocksService', () => {
       getModelToken(NoteBlock.name)
     );
     userModel = module.get<Model<User>>(getModelToken(User.name));
-    noteModel = module.get<Model<Note>>(getModelToken(Note.name));
 
     mongoc = new MongoClient(uri);
     await mongoc.connect();
@@ -55,12 +52,12 @@ describe('NoteBlocksService', () => {
 
   afterAll(async () => {
     await mongoc.close();
-    await mongod.stop();
     await disconnect();
+    await mongod.stop();
   });
 
   beforeEach(async () => {
-    await mongoc.db('test').collection('todos').deleteMany({});
+    // await mongoc.db('test').collection('noteblocks').deleteMany({}); // TODO not emptying the collection works?
     await mongoc.db('test').collection('users').deleteMany({});
 
     user1 = new userModel({
@@ -97,6 +94,7 @@ describe('NoteBlocksService', () => {
     });
 
     NB1 = new noteBlockModel({
+      id: '5f9f1b9b9b9b9b9b9b9b9b9b',
       title: 'title1',
       description: 'description1',
       dateCreated: new Date(),
@@ -105,6 +103,7 @@ describe('NoteBlocksService', () => {
     });
 
     NB2 = new noteBlockModel({
+      id: '5f9f1b9b9b9b9b9b9b9b9b9c',
       title: 'title2',
       description: 'description2',
       dateCreated: new Date(),
@@ -113,6 +112,7 @@ describe('NoteBlocksService', () => {
     });
 
     NB3 = new noteBlockModel({
+      id: '5f9f1b9b9b9b9b9b9b9b9b9d',
       title: 'title3',
       description: 'description3',
       dateCreated: new Date(),
@@ -166,7 +166,6 @@ describe('NoteBlocksService', () => {
           notes: [],
           userRef: user1._id,
           description: 'updated description',
-          numberOfNotes: 0,
         },
         user1.id
       );
@@ -176,21 +175,22 @@ describe('NoteBlocksService', () => {
       expect(String(result.userRef)).toEqual(user1.id);
     });
 
-    it.skip('should throw an error', async () => {
-     const result = await service.update(
-        NB1.id,
-        {
-          title: '',
-          dateCreated: new Date(),
-          notes: [],
-          userRef: user1._id,
-          description: '',
-          numberOfNotes: 0,
-        },
-        user1.id
-      );
-      expect(result).toBeNull();
-      
+    it('should throw an error', async () => {
+      await expect(service.update(NB1.id, null, user1.id)).rejects.toThrow(BadRequestException);
+    });
+  });
+
+  describe('delete NoteBlock', () => {
+    it('should delete a noteBlock', async () => {
+      const result = await service.remove(NB1.id, user1.id);
+      expect(result).toBeDefined();
+      expect(String(result.userRef)).toEqual(user1.id);
+    });
+
+    it('should throw an error', async () => {
+      await expect(
+        service.remove('641f0fea638288bd31ecd971', user1.id)
+      ).rejects.toThrow(NotFoundException);
     });
   });
 });

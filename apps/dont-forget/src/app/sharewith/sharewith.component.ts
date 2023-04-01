@@ -40,7 +40,7 @@ export class SharewithComponent implements OnInit {
     });
     this.nameForm.valueChanges.subscribe((data) => {
       this.userId = data.username;
-      console.log(this.userId);
+      
     });
   }
 

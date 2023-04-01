@@ -26,7 +26,7 @@ export class NoteblockSharedDetailsComponent implements OnInit {
 
     this.noteBlocksService.getNoteBlockById(this.id).subscribe((res) => {
       this.noteBlock = res;
-      console.log(this.noteBlock);
+      
     });
   }
 

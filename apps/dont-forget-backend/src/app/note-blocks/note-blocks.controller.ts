@@ -43,7 +43,7 @@ export class NoteBlocksController {
     const data = await this.neo4jService.read(getSharedNoteBlocks, {
       idParam: user.userId,
     });
-    console.log(data);
+    
     const noteblockIds = data.records.map(
       (record) => record.get('c').properties.name
     );
@@ -61,7 +61,7 @@ export class NoteBlocksController {
   //       idParam: userId,
   //     })
   //     .catch((err) => {
-  //       console.log(err);
+  //       
   //       if (err.message.includes('already exists')) {
   //         throw new BadRequestException();
   //       }
@@ -124,11 +124,11 @@ export class NoteBlocksController {
         nbIdParam: id,
       })
       .catch((err) => {
-        console.log(err);
+        
         throw new NotFoundException();
       })
       .then((res) => {
-        console.log(res);
+        
         return { StatusCode: 200, message: 'Shared noteblock deleted' };
       });
     return res;

@@ -50,8 +50,9 @@ describe('NotesService', () => {
     await mongod.stop();
   });
 
+
   beforeEach(async () => {
-    await mongoc.db('test').collection('notes').deleteMany({});
+    // await mongoc.db('test').collection('notes').deleteMany({}); // TODO not emptying the collection works?
     await mongoc.db('test').collection('users').deleteMany({});
 
     user1 = new userModel({
@@ -183,7 +184,7 @@ describe('NotesService', () => {
   describe('deleteNote', () => {
     it('should delete a note', async () => {
       const result = await service.remove(note1.id, user1.id);
-      console.log(result);
+      
       expect(result).toBeDefined();
       expect(String(result.userRef)).toEqual(user1.id);
     });

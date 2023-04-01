@@ -43,21 +43,26 @@ export class NoteBlocksService {
   }
 
   async update(id: string, data: NoteBlockDTO, userId: string) {
-    const res = await this.noteBlockModel.findById(id).populate({
-      path: 'userRef',
-      select: '-password -email',
-    });
-    console.log(res);
-    if (res == null) throw new NotFoundException();
-    if (String(res.userRef._id) != userId) throw new UnauthorizedException();
-    const updatedNoteBlock = await this.noteBlockModel.findByIdAndUpdate(
-      id,
-      data,
-      {
-        new: true,
-      }
-    );
-    return updatedNoteBlock;
+    try {
+      const res = await this.noteBlockModel.findById(id).populate({
+        path: 'userRef',
+        select: '-password -email',
+      });
+      
+      if (res == null) throw new NotFoundException();
+      if (String(res.userRef._id) != userId) throw new UnauthorizedException();
+      if (data == null) throw new BadRequestException();
+      const updatedNoteBlock = await this.noteBlockModel.findByIdAndUpdate(
+        id,
+        data,
+        {
+          new: true,
+        }
+      );
+      return updatedNoteBlock;
+    } catch {
+      throw new BadRequestException();
+    }
   }
 
   async remove(id: string, userId: string) {
