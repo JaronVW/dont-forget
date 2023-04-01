@@ -9,6 +9,7 @@ import {
   Put,
   BadRequestException,
   NotFoundException,
+  ConflictException,
 } from '@nestjs/common';
 import { NoteBlocksService } from './note-blocks.service';
 import { AuthUser } from '../decorators/user.decorator';
@@ -43,7 +44,7 @@ export class NoteBlocksController {
     const data = await this.neo4jService.read(getSharedNoteBlocks, {
       idParam: user.userId,
     });
-    
+
     const noteblockIds = data.records.map(
       (record) => record.get('c').properties.name
     );
@@ -61,7 +62,7 @@ export class NoteBlocksController {
   //       idParam: userId,
   //     })
   //     .catch((err) => {
-  //       
+  //
   //       if (err.message.includes('already exists')) {
   //         throw new BadRequestException();
   //       }
@@ -78,7 +79,10 @@ export class NoteBlocksController {
   async shareNoteBlock(
     @Param('userId') userId: string,
     @Param('noteBlockId') noteBlockId: string
-  ): Promise<void> {
+  ): Promise<{
+    StatusCode: number;
+    message?: string;
+  }> {
     try {
       await this.neo4jService.write(createNoteBlockNode, {
         nbIdParam: noteBlockId,
@@ -89,12 +93,15 @@ export class NoteBlocksController {
       });
     } catch (err) {
       if (err.message.includes('already exists')) {
-        throw new BadRequestException();
+        throw new ConflictException();
       }
       throw new NotFoundException();
     }
 
-    return Promise.resolve();
+    return Promise.resolve({
+      StatusCode: 200,
+      message: 'NoteBlock shared',
+    });
   }
 
   @Get(':id')
@@ -118,19 +125,14 @@ export class NoteBlocksController {
 
   @Delete('deleteshared/:id')
   removeShared(@AuthUser() user: any, @Param('id') id: string) {
-    const res = this.neo4jService
-      .write(deleteShared, {
+    try {
+      this.neo4jService.write(deleteShared, {
         idParam: user.userId,
         nbIdParam: id,
-      })
-      .catch((err) => {
-        
-        throw new NotFoundException();
-      })
-      .then((res) => {
-        
-        return { StatusCode: 200, message: 'Shared noteblock deleted' };
       });
-    return res;
+      return { StatusCode: 200, message: 'Shared noteblock deleted' };
+    } catch {
+      throw new NotFoundException();
+    }
   }
 }

@@ -2,6 +2,16 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { NoteBlocksController } from './note-blocks.controller';
 import { NoteBlocksService } from './note-blocks.service';
 import { Neo4jService } from '../neo4j/neo4j.service';
+import {
+  BadRequestException,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
+import {
+  mockResult,
+  mockNode,
+  mockRelationship,
+} from '../neo4j/neo4jMockObjects';
 
 jest.mock('neo4j-driver/lib/driver');
 
@@ -23,6 +33,8 @@ describe('NoteBlocksController', () => {
             findOne: jest.fn(),
             update: jest.fn(),
             remove: jest.fn(),
+            shareNoteBlock: jest.fn(),
+            removeShared: jest.fn(),
           },
         },
         {
@@ -84,11 +96,10 @@ describe('NoteBlocksController', () => {
 
     it('calls findOne on the service', async () => {
       const exampleNoteBlock = {
-        id: 'id123',
-        userId: 'id123',
         title: 'title',
         description: 'description',
-        dueDate: new Date(),
+        dateCreated: new Date(),
+        notes: [],
       };
 
       const getNoteBlock = jest
@@ -97,138 +108,103 @@ describe('NoteBlocksController', () => {
         //@ts-ignore
         .mockImplementation(async () => exampleNoteBlock);
 
-      const result = await controller.findOne('id123', 'id123');
+      const result = await controller.findOne(
+        {
+          userId: 'id123',
+        },
+        'id123'
+      );
 
       expect(getNoteBlock).toBeCalledTimes(1);
       expect(getNoteBlock).toBeCalledWith('id123', 'id123');
       expect(result).toStrictEqual(exampleNoteBlock);
     });
-  });
 
-  describe('createNote', () => {
-    it('calls create on the service', async () => {
-      const exampleNoteBlock = {
-        id: 'id123',
-        userId: 'id123',
-        title: 'title',
-        description: 'description',
-        dueDate: new Date(),
-      };
+    describe('shareNoteBlock', () => {
+      it('calls share noteblock on the service', async () => {
+        const data = {
+          mongoId: '6419e36ed9d21671647ddd1e',
+          username: 'testuser',
+        };
 
-      const createNote = jest
-        .spyOn(noteBlocksService, 'create')
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
-        .mockImplementation(async () => exampleNote);
+        const makeNoteBlockNode = jest
+          .spyOn(neo4jService, 'write')
 
-      const result = await controller.create(
-        {
-          userId: 'id123',
-        },
-        exampleNote
-      );
+          .mockResolvedValue(
+            mockResult([
+              {
+                b: mockNode('NoteBlock', { ...data, id: 'id123' }),
+              },
+            ])
+          );
 
-      expect(createNote).toBeCalledTimes(1);
-      expect(createNote).toBeCalledWith('id123', exampleNote);
-      expect(result).toStrictEqual(exampleNote);
-    });
-
-    it('throws a bad request if title is missing', async () => {
-      const create = jest
-        .spyOn(notesService, 'create')
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        .mockImplementation(async () => {
-          throw new BadRequestException();
+        jest.spyOn(neo4jService, 'write').mockResolvedValue(
+          mockResult([
+            {
+              b: mockRelationship('NoteBlock', { ...data, id: 'id123' }),
+            },
+          ])
+        );
+        const result = await controller.shareNoteBlock('id123', '');
+        expect(makeNoteBlockNode).toBeCalledTimes(2);
+        expect(result).toStrictEqual({
+          StatusCode: 200,
+          message: 'NoteBlock shared',
         });
-      await expect(
-        controller.create(
-          { userId: 'id123' },
-          {
-            title: '',
-            text: 'text',
-            dateCreated: new Date(),
-          }
-        )
-      ).rejects.toThrow(BadRequestException);
-
-      expect(create).toBeCalledTimes(1);
-    });
-
-    it('throws a bad request if text is missing', async () => {
-      const create = jest
-        .spyOn(notesService, 'create')
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        .mockImplementation(async () => {
-          throw new BadRequestException();
-        });
-
-      await expect(
-        controller.create(
-          { userId: 'id123' },
-          {
-            title: '',
-            text: 'text',
-            dateCreated: new Date(),
-          }
-        )
-      ).rejects.toThrow(BadRequestException);
-
-      expect(create).toBeCalledTimes(1);
-    });
-  });
-
-  describe('updateNote', () => {
-    it('calls update on the service', async () => {
-      const exampleNoteBlock = {
-        id: 'id123',
-        userId: 'id123',
-        title: 'title',
-        description: 'description',
-        dueDate: new Date(),
-      };
-
-      const updateNote = jest
-        .spyOn(notesService, 'update')
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
-        .mockImplementation(async () => exampleNote);
-
-      const result = await controller.update(
-        {
-          userId: 'id123',
-        },
-        'id123',
-        exampleNoteBlock
-      );
-
-      expect(updateNote).toBeCalledTimes(1);
-      expect(updateNote).toBeCalledWith('id123', 'id123', exampleNoteBlock);
-      expect(result).toStrictEqual(exampleNoteBlock);
-    });
-  });
-
-  describe('deleteNote', () => {
-    it('calls remove on the service', async () => {
-      const exampleNote = {
-        id: 'id123',
-        title: 'title',
-        text: 'text',
-        dateCreated: new Date(),
-      };
-
-      const removeNote = jest
-        .spyOn(notesService, 'remove')
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        //@ts-ignore
-        .mockImplementation(async () => exampleNote);
-
-      const result = await controller.remove('id123', {
-        userId: 'id123',
       });
 
-      expect(removeNote).toBeCalledTimes(1);
-      expect(removeNote).toBeCalledWith('id123', 'id123');
-      expect(result).toStrictEqual(exampleNote);
+      it('throws a Conflict exception ', async () => {
+        jest
+          .spyOn(neo4jService, 'write')
+          .mockRejectedValue(new Error('already exists'));
+        await expect(
+          controller.shareNoteBlock('id123', '')
+        ).rejects.toThrowError(ConflictException);
+      });
+
+      it('throws a not found exception ', async () => {
+        jest
+          .spyOn(neo4jService, 'write')
+          .mockRejectedValue(new Error('Not found'));
+        await expect(
+          controller.shareNoteBlock('id123', '')
+        ).rejects.toThrowError(NotFoundException);
+      });
+    });
+  });
+
+  describe('deleteShared', () => {
+    it('calls delete shared on the service', async () => {
+      const data = {
+        mongoId: '6419e36ed9d21671647ddd1e',
+        username: 'testuser',
+      };
+
+      const makeNoteBlockNode = jest
+        .spyOn(neo4jService, 'write')
+
+        .mockResolvedValue(
+          mockResult([
+            {
+              b: mockNode('NoteBlock', { ...data, id: 'id123' }),
+            },
+          ])
+        );
+      const result = await controller.removeShared({ userId: 'id123' }, '');
+      expect(makeNoteBlockNode).toBeCalledTimes(1);
+      expect(result).toStrictEqual({
+        StatusCode: 200,
+        message: 'Shared noteblock deleted',
+      });
+    });
+
+    it('throws a not found exception ', async () => {
+      jest
+        .spyOn(neo4jService, 'write')
+        .mockRejectedValue(new Error('Not found'));
+      await expect(controller.shareNoteBlock('id123', '')).rejects.toThrowError(
+        NotFoundException
+      );
     });
   });
 });
