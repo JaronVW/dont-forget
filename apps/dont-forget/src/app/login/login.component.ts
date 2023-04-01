@@ -15,10 +15,26 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   emailOrUsername: string;
   password: string;
+  _errorMessage = '';
 
+  get errorMessage() {
+    return this._errorMessage;
+  }
+
+  set errorMessage(value: string) {
+    this._errorMessage = value;
+  }
+  
+  get emailOrUsernameControl() {
+    return this.loginForm.get('emailOrUsername');
+  }
+
+  get passwordControl() {
+    return this.loginForm.get('password');
+  }
   constructor(
     private fb: FormBuilder,
-    private readonly authService: AuthService,
+    private readonly authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -32,17 +48,22 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  get emailOrUsernameControl() {
-    return this.loginForm.get('emailOrUsername');
-  }
-
-  get passwordControl() {
-    return this.loginForm.get('password');
-  }
-
   login() {
     if (this.loginForm.valid) {
-      this.authService.loginUser(this.emailOrUsername, this.password);
+      this.authService
+        .loginUser(this.emailOrUsername, this.password)
+        .subscribe({
+          next: (data) => {
+            this.authService.createSession(data);
+          },
+          error: (error) => {
+            if (error.status && error.status === 401) {
+              this.errorMessage = 'Invalid username or password';
+            } else {
+              this.errorMessage = 'An error occurred';
+            }
+          },
+        });
     }
   }
 }

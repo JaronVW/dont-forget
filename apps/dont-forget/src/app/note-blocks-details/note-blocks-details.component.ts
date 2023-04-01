@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NoteBlocksService } from '../note-blocks/note-blocks.service';
-import { NoteBlock, Todo } from '../shared/models';
-import { TodosService } from '../todos/services/todos.service';
+import { NoteBlock } from '../shared/models';
+import * as dayjs from 'dayjs';
+
 
 @Component({
   selector: 'dont-forget-note-blocks-details',
@@ -26,7 +27,7 @@ export class NoteBlocksDetailsComponent implements OnInit {
 
     this.noteBlocksService.getNoteBlockById(this.id).subscribe((res) => {
       this.noteBlock = res;
-      console.log(this.noteBlock);
+      
     });
   }
 
@@ -38,5 +39,9 @@ export class NoteBlocksDetailsComponent implements OnInit {
         ('');
       }
     });
+  }
+
+  formatDate(date: Date) {
+    return dayjs(date).format('DD/MM/YYYY');
   }
 }

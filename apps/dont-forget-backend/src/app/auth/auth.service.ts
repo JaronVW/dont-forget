@@ -1,18 +1,19 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import argon2 = require('argon2');
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { userSignUpDto } from './UserSignUpDto';
-import { Neo4jService } from '../neo4j/neo4j.service';
 import { User } from '../schemas/user.schema';
-import { createUserNode } from '../neo4j/cypherQueries';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService,
-    private readonly neo4jService: Neo4jService
+    private jwtService: JwtService
   ) {}
 
   async validateUser(username: string, password: string) {
@@ -29,36 +30,37 @@ export class AuthService {
   }
 
   async login(user: any) {
+    
     const payload = { username: user.email, sub: user._id };
-    return {
+    return await {
       access_token: this.jwtService.sign(payload),
     };
   }
 
-  async register(user: userSignUpDto) {
+  async register(
+    user: userSignUpDto
+  ): Promise<{ access_token: string; id: string }> {
     try {
+      const hashedPassword = await argon2.hash(user.password);
       const newUser: User = {
         username: user.username,
         email: user.email,
-        password: await argon2.hash(user.password),
+        password: hashedPassword,
         dateCreated: new Date(),
       };
-      const res = this.usersService.createUser(newUser).then((data) => {
-        this.neo4jService.write(createUserNode, {
-          idParam: data._id.toString(),
-          usernameParam: data.username,
-        });
-        const payload = { username: data.email, sub: data._id.toString() };
-        const res = this.jwtService.sign(payload);
-        console.log(res);
-        return {
-          access_token: res,
-        };
-      });
-      return res;
-    } catch (e) {
-      console.log(e);
-      return new BadRequestException();
+      const data = await this.usersService.createUser(newUser);
+
+      const payload = { username: data.email, sub: String(data._id) };
+      const accessToken = this.jwtService.sign(payload);
+      return {
+        access_token: accessToken,
+        id: data._id,
+      };
+    } catch (error) {
+      if (error.code === 11000) {
+        throw new ConflictException('Email/username is already in use');
+      }
+      throw new InternalServerErrorException();
     }
   }
 }

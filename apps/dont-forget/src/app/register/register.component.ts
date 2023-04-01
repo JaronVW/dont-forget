@@ -19,6 +19,16 @@ export class RegisterComponent implements OnInit {
   email: string;
   password: string;
 
+  _errorMessage = '';
+
+  get errorMessage() {
+    return this._errorMessage;
+  }
+
+  set errorMessage(value: string) {
+    this._errorMessage = value;
+  }
+
   constructor(
     private fb: FormBuilder,
     private readonly authService: AuthService,
@@ -66,7 +76,21 @@ export class RegisterComponent implements OnInit {
 
   register() {
     if (this.registerForm.valid) {
-      this.authService.registerUser(this.username, this.email, this.password);
+      this.authService
+        .registerUser(this.username, this.email, this.password)
+        .subscribe({
+          next: (data) => {
+            this.authService.createSession(data);
+          },
+          error: (error) => {
+            
+            if (error.status && error.status == 409) {
+              this.errorMessage = 'Username/email taken';
+            } else {
+              this.errorMessage = 'An error occurred';
+            }
+          },
+        });
     }
   }
 }

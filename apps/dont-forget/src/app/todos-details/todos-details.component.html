@@ -15,6 +15,6 @@
 
     <ul>
         <li><a role="button" class="sitelink sitelink-danger" (click)="deleteTodo(id)">Verwijderen </a></li>
-        <li><a href="updatetodo/{{id}} " class="sitelink sitelink-info">Aanpassen </a></li>
+        <li><a [routerLink]="['/updatetodo', id]" class="sitelink sitelink-info">Aanpassen </a></li>
     </ul>
 </div>

@@ -8,8 +8,13 @@ import { NoteBlocksService } from './note-blocks.service';
   styleUrls: ['./note-blocks.component.scss'],
 })
 export class NoteBlocksComponent implements OnInit {
-
-  res: Array<NoteBlock>;
+  private _res: Array<NoteBlock>;
+  public get res(): Array<NoteBlock> {
+    return this._res;
+  }
+  public set res(value: Array<NoteBlock>) {
+    this._res = value;
+  }
 
   constructor(private noteBlocksService: NoteBlocksService) {}
 
@@ -25,11 +30,7 @@ export class NoteBlocksComponent implements OnInit {
 
   deleteNoteBlock(_id: string) {
     this.noteBlocksService.deleteNoteBlock(_id.toString()).subscribe((data) => {
-      if (data.statusCode == 200) {
-        this.getNoteBlocks();
-      } else {
-        ('');
-      }
+      this.getNoteBlocks();
     });
   }
 }

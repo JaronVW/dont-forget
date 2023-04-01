@@ -1,0 +1,16 @@
+<div class="bg-white  border-black border-2  rounded-sm p-4">
+    <h1 class="pageMainHeader">Add Notes to: {{noteBlock.title}}</h1>
+
+    <form action="">
+        <div *ngFor="let note of notes; let i = index">
+            <p>{{note.title}}</p>
+            <input *ngIf="note.added; else unchecked" type="checkbox" id="horns" checked value="{{note._id}}"
+                (change)="checkboxvalue($event, i)" name="horns">
+            <ng-template #unchecked>
+                <input type="checkbox" id="horns" value="{{note._id}}" (change)="checkboxvalue($event, i)" name="horns">
+            </ng-template>
+        </div>
+
+        <input type="submit" (click)="addNotes($event)" preventDefault value="Aanpassen" class="actionButton mt-4">
+    </form>
+</div>

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../account.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { selectUserValidator } from '../shared/select-user.directive';
 
 @Component({
   selector: 'dont-forget-sharewith',
@@ -35,11 +36,11 @@ export class SharewithComponent implements OnInit {
     this.getFollowers();
 
     this.nameForm = this.fb.group({
-      username: '',
+      username: new FormControl('', [Validators.required, Validators.maxLength(50),selectUserValidator("default")])
     });
     this.nameForm.valueChanges.subscribe((data) => {
       this.userId = data.username;
-      console.log(this.userId);
+      
     });
   }
 
@@ -51,4 +52,9 @@ export class SharewithComponent implements OnInit {
   share(){
     this.accountService.share(this.userId,this.noteBlockId, ).subscribe();
   }
+
+  get username() {
+    return this.nameForm.get('username');
+  }
+  
 }

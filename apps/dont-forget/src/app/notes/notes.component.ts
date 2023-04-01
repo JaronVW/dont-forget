@@ -11,33 +11,32 @@ import * as dayjs from 'dayjs';
 export class NotesComponent implements OnInit {
   constructor(private notesService: NotesService) {}
 
-  res: Array<Note>;
-  createdDate: string;
- 
+  private _res: Array<Note>;
+
+  public get res(): Array<Note> {
+    return this._res;
+  }
+  public set res(value: Array<Note>) {
+    this._res = value;
+  }
 
   ngOnInit(): void {
     this.getNotes();
   }
 
   formatDate(date: Date): string {
-    return dayjs(date).format('YYYY-MM-DD');
+    return dayjs(date).format('DD/MM/YYYY');
   }
 
   getNotes() {
     this.notesService.getNotes().subscribe((data) => {
       this.res = data;
-      this.createdDate = dayjs().format('YYYY-MM-DD');
     });
-   
   }
 
   deleteNote(_id: string) {
     this.notesService.deleteNote(_id.toString()).subscribe((data) => {
-      if (data.statusCode == 200) {
-        this.getNotes();
-      } else {
-        ('');
-      }
+      this.getNotes();
     });
   }
 }

@@ -1,16 +1,25 @@
-<h1>Beschikbare notities</h1>
-<a href="addnote " class="sitelink sitelink-info">Notitie toevoegen</a>
-<div class="grid sm:grid-cols-1  lg:grid-cols-2 gap-4">
-
-    <div *ngFor="let item of res" class="bg-white p-4  border-2 border-black text-left hover: w-10/12">
-        <h2 class="text-3xl">{{item.title}}</h2>
-        <p>{{formatDate(item.dateCreated)}}</p>
-        <ul>
-            <li><a [routerLink]="['/notes', item._id]" class="sitelink sitelink-success">Details </a></li>
-            <li><a role="button" (click)="deleteNote(item._id.toString())" class="sitelink sitelink-danger">Verwijderen </a></li>
-            <li><a href="updatenote/{{item._id}}" class="sitelink sitelink-info">Aanpassen </a></li>
-        </ul>
-
+<div class="bg-white p-4  border-2 border-black mb-4 rounded-md">
+    <div class="mb-5">
+        <h1 class="pageMainHeader">Beschikbare notities</h1>
+        <a [routerLink]="['/addnote']" class="sitelink sitelink-info ">Notitie toevoegen</a>
     </div>
 
+
+    <div class=" flex flex-col gap-4">
+
+        <div *ngFor="let item of res" class="bg-white p-4  border-2 border-black text-left hover: w-10/12 rounded-md">
+            <h2 class="text-3xl">{{item.title}}</h2>
+            <p>{{formatDate(item.dateCreated)}}</p>
+            <ul>
+                <li><a [routerLink]="['/notes', item._id]" class="sitelink sitelink-success">Details </a></li>
+                <li><a role="button" (click)="deleteNote(item._id.toString())"
+                        class="sitelink sitelink-danger">Verwijderen
+                    </a></li>
+                <li><a [routerLink]="['/updatenote', item._id]" class="sitelink sitelink-info">Aanpassen </a></li>
+            </ul>
+
+        </div>
+        
+
+    </div>
 </div>

@@ -1,25 +1,36 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import mongoose, { HydratedDocument, ObjectId } from 'mongoose';
-import { Note } from './note.schema';
+import { User } from './user.schema';
 
 export type NoteBlockDocument = HydratedDocument<NoteBlock>;
 
-@Schema()
+@Schema({
+  toJSON: {
+    virtuals: true,
+  },
+})
 export class NoteBlock {
-  @Prop()
-  userId?: ObjectId;
+  @Prop({ type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true })
+  userRef?: User;
 
-  @Prop()
+  @Prop({ type: String, required: true })
   title: string;
 
-  @Prop()
+  @Prop({ type: String, required: true })
   description: number;
 
-  @Prop()
+  @Prop({ type: Date, default: Date.now })
   dateCreated: Date;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Note'}])
-  notes: mongoose.Types.ObjectId[]
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Note', }])
+  notes: mongoose.Types.ObjectId[];
 }
+const NoteBlockSchema = SchemaFactory.createForClass(NoteBlock);
 
-export const NoteBlockSchema = SchemaFactory.createForClass(NoteBlock);
+NoteBlockSchema.virtual('numberOfNotes').get(function (
+  this: NoteBlockDocument
+) {
+  return this.notes.length;
+});
+
+export { NoteBlockSchema };

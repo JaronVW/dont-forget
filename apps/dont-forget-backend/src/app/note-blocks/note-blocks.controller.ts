@@ -10,15 +10,16 @@ import {
   BadRequestException,
   NotFoundException,
 } from '@nestjs/common';
-import { NoteBlock } from '../schemas/noteBlock.schema';
 import { NoteBlocksService } from './note-blocks.service';
 import { AuthUser } from '../decorators/user.decorator';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import {
+  createNoteBlockNode,
   deleteShared,
   getSharedNoteBlocks,
   shareNoteBlockWith,
 } from '../neo4j/cypherQueries';
+import { NoteBlockDTO } from './NoteBlockDTO';
 
 @Controller('noteblocks')
 export class NoteBlocksController {
@@ -28,7 +29,7 @@ export class NoteBlocksController {
   ) {}
 
   @Post()
-  create(@AuthUser() user: any, @Body() noteBlock: NoteBlock) {
+  create(@AuthUser() user: any, @Body() noteBlock: NoteBlockDTO) {
     return this.noteBlocksService.create(user.userId, noteBlock);
   }
 
@@ -42,33 +43,58 @@ export class NoteBlocksController {
     const data = await this.neo4jService.read(getSharedNoteBlocks, {
       idParam: user.userId,
     });
+    
     const noteblockIds = data.records.map(
       (record) => record.get('c').properties.name
     );
     return this.noteBlocksService.findShared(noteblockIds);
   }
 
+  // @Put('sharenoteblock/:userId/:noteBlockId')
+  // async shareNoteBlock(
+  //   @Param('userId') userId: string,
+  //   @Param('noteBlockId') noteBlockId: string
+  // ) {
+  //   const res = await this.neo4jService
+  //     .write(shareNoteBlockWith, {
+  //       nbIdParam: noteBlockId,
+  //       idParam: userId,
+  //     })
+  //     .catch((err) => {
+  //       
+  //       if (err.message.includes('already exists')) {
+  //         throw new BadRequestException();
+  //       }
+  //       throw new NotFoundException();
+  //     })
+  //     .then(() => {
+
+  //       return { StatusCode: 200, message: 'NoteBlock shared' };
+  //     });
+  //   return res;
+  // }
+
   @Put('sharenoteblock/:userId/:noteBlockId')
   async shareNoteBlock(
     @Param('userId') userId: string,
     @Param('noteBlockId') noteBlockId: string
-  ) {
-    const res = await this.neo4jService
-      .write(shareNoteBlockWith, {
+  ): Promise<void> {
+    try {
+      await this.neo4jService.write(createNoteBlockNode, {
         nbIdParam: noteBlockId,
-        idParam: userId,
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.message.includes('already exists')) {
-          throw new BadRequestException();
-        }
-        throw new NotFoundException();
-      })
-      .then(() => {
-        return { StatusCode: 200, message: 'NoteBlock shared' };
       });
-    return res;
+      await this.neo4jService.write(shareNoteBlockWith, {
+        idParam: userId,
+        nbIdParam: noteBlockId,
+      });
+    } catch (err) {
+      if (err.message.includes('already exists')) {
+        throw new BadRequestException();
+      }
+      throw new NotFoundException();
+    }
+
+    return Promise.resolve();
   }
 
   @Get(':id')
@@ -76,11 +102,11 @@ export class NoteBlocksController {
     return this.noteBlocksService.findOne(id, user.userId);
   }
 
-  @Patch(':id')
+  @Put(':id')
   update(
     @AuthUser() user: any,
     @Param('id') id: string,
-    @Body() noteBlock: NoteBlock
+    @Body() noteBlock: NoteBlockDTO
   ) {
     return this.noteBlocksService.update(id, noteBlock, user.userId);
   }
@@ -98,11 +124,11 @@ export class NoteBlocksController {
         nbIdParam: id,
       })
       .catch((err) => {
-        console.log(err);
+        
         throw new NotFoundException();
       })
       .then((res) => {
-        console.log(res);
+        
         return { StatusCode: 200, message: 'Shared noteblock deleted' };
       });
     return res;

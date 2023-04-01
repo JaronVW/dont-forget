@@ -12,7 +12,8 @@ export class UsersService {
     return this.userModel.findOne({ $or: [{ username }, { email: username }] });
   }
 
-  createUser(user: User): Promise<User> {
-    return this.userModel.create(user);
+  async createUser(user: userSignUpDto): Promise<User> {
+    const newUser = new this.userModel(user);
+    return await newUser.save();
   }
 }

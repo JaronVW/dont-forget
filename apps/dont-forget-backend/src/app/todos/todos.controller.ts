@@ -1,37 +1,48 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Put } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  Put,
+} from '@nestjs/common';
 import { Todo } from '../schemas/todo.schema';
 import { TodosService } from './todos.service';
 import { AuthUser } from '../decorators/user.decorator';
-
+import { TodoDTO } from './TodoDTO';
 
 @Controller('todos')
 export class TodosController {
   constructor(private readonly todosService: TodosService) {}
 
   @Post()
-  create(@AuthUser() user: any,@Body() todo: Todo) {
-    console.log(todo);
-    return this.todosService.create(user.userId,todo);
+  async create(@AuthUser() user: any, @Body() todo: TodoDTO) {
+    return await this.todosService.create(user.userId, todo);
   }
 
   @Get()
-  findAll(@AuthUser() user: any) {
-    return this.todosService.findAll(user.userId);
+  async findAll(@AuthUser() user: any) {
+    return await this.todosService.findAll(user.userId);
   }
 
   @Get(':id')
-  findOne(@AuthUser() user: any,@Param('id') id: string) {
-    return this.todosService.findOne(user.userId,id);
+  async findOne(@AuthUser() user: any, @Param('id') id: string) {
+    return await this.todosService.findOne(user.userId, id);
   }
 
   @Put(':id')
-  update(@AuthUser() user: any,@Param('id') id: string, @Body() data: Todo) {
-    console.log(data);
-    return this.todosService.update(user.id,id, data);
+  async update(
+    @AuthUser() user: any,
+    @Param('id') id: string,
+    @Body() data: TodoDTO
+  ) {
+    return await this.todosService.update(user.userId, id, data);
   }
 
   @Delete(':id')
-  remove(@AuthUser() user: any,@Param('id') id: string) {
-    return this.todosService.remove(user.id,id);
+  async remove(@AuthUser() user: any, @Param('id') id: string) {
+    return await this.todosService.remove(user.userId, id);
   }
 }

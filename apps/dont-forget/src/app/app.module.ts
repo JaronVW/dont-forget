@@ -10,6 +10,7 @@ import { NotesComponent } from './notes/notes.component';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule } from '@angular/forms';
 
 import { IndexComponent } from './index/index.component';
 import { AboutComponent } from './about/about.component';
@@ -32,6 +33,7 @@ import { SharewithComponent } from './sharewith/sharewith.component';
 import { AddNoteblockComponent } from './add-noteblock/add-noteblock.component';
 import { UpdateNoteblockComponent } from './update-noteblock/update-noteblock.component';
 import { NoteblockSharedDetailsComponent } from './noteblock-shared-details/noteblock-shared-details.component';
+import { AppendNotesComponent } from './append-notes/append-notes.component';
 
 @NgModule({
   declarations: [
@@ -58,6 +60,7 @@ import { NoteblockSharedDetailsComponent } from './noteblock-shared-details/note
     AddNoteblockComponent,
     UpdateNoteblockComponent,
     NoteblockSharedDetailsComponent,
+    AppendNotesComponent,
   ],
   imports: [
     BrowserModule,
