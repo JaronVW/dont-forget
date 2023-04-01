@@ -13,4 +13,4 @@ export const getFollowersFollowing = `MATCH (u:User {mongoId: $idParam})-[:follo
 export const unfollowUser = `MATCH (a:User {mongoId: $idParam})-[r:follows]->(b:User {username: $usernameParam}) DELETE r return b`;
 export const followsMe = `MATCH (a:User {mongoId: $idParam})<-[r:follows]-(b:User) RETURN b`;
 export const followsMeRemove = `MATCH (a:User {mongoId: $idParam})<-[r:follows]-(b:User {username: $usernameParam}) DELETE r return b`;
-export const deleteShared = 'MATCH (a:User {mongoId: $idParam})-[r:sharedWith]->(b:NoteBlock {name: $nbIdParam}) DELETE r'
+export const deleteShared = 'MATCH (a:User {mongoId: $idParam})-[r:sharedWith]->(b:NoteBlock {name: $nbIdParam}) DELETE r return b'
