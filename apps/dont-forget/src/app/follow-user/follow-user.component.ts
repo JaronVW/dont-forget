@@ -9,7 +9,7 @@ import {
 
 @Component({
   selector: 'dont-forget-follow-user',
-  template: `<div class="mb-12 rounded-sm border-black border-2 p-2 bg-white">
+  template: `<div class="mb-12 rounded-md border-black border-2 p-2 bg-white">
       <h2 class="text-2xl">Follow a user:</h2>
       <form [formGroup]="nameForm" (ngSubmit)="followUser()" class="mt-4 mb-4">
         <input
@@ -46,7 +46,7 @@ import {
         </p></ng-template
       >
     </div>
-    <div class="border-black border-2 p-2 mb-12 bg-white">
+    <div class="border-black border-2 p-2 mb-12 bg-white rounded-md">
       <h2 class="text-2xl">Followers:</h2>
       <div *ngFor="let f of followers" class="">
         <div>
@@ -57,19 +57,20 @@ import {
         </div>
       </div>
     </div>
-    <div class="border-black border-2 p-2 mb-12 bg-white">
+    <div class="border-black border-2 p-2 mb-12 bg-white rounded-md">
       <h2 class="text-2xl">Currently following:</h2>
       <div *ngFor="let f of following" class="">
-        <div>
-          {{ f.username }}
+        <div class="">
+          
+            {{ f.username }}
           <button (click)="unfollowUser(f.username)" class="">Unfollow</button>
         </div>
       </div>
     </div>
-    <div class="border-black border-2 p-2 bg-white">
+    <div class="border-black border-2 p-2 bg-white rounded-md">
       <h2 class="text-2xl">People you follow are following:</h2>
       <div *ngFor="let f of followingFollowing" class="">
-        <p>{{ f.username }}</p>
+        <p >{{ f.username }}</p>
       </div>
     </div>`,
   styles: [],
@@ -161,9 +162,8 @@ export class FollowUserComponent implements OnInit {
     if (this.nameForm.valid) {
       this.accountService.followUser(this.username).subscribe({
         next: (res: any) => {
-          
           this.response = res.message;
-          
+
           this.getFollowing();
         },
         error: () => {
@@ -178,7 +178,7 @@ export class FollowUserComponent implements OnInit {
     this.accountService.unfollowUser(username).subscribe({
       next: (res: any) => {
         this.response = res.message;
-        
+
         this.getFollowing();
       },
       error: () => {
@@ -192,7 +192,7 @@ export class FollowUserComponent implements OnInit {
     this.accountService.getFollowersUnfollow(username).subscribe({
       next: (res: any) => {
         this.response = res.message;
-        
+
         this.getFollowers();
       },
       error: () => {
