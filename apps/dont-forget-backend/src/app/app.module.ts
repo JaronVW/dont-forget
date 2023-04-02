@@ -6,8 +6,7 @@ import { ConfigModule } from '@nestjs/config';
 import { NotesModule } from './notes/notes.module';
 import { TodosModule } from './todos/todos.module';
 import { AuthModule } from './auth/auth.module';
-import { UsersModule } from './users/users.module';
-import { AuthService } from './auth/auth.service';
+
 import { NoteBlocksModule } from './note-blocks/note-blocks.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
