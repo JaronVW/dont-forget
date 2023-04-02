@@ -38,5 +38,6 @@ export class NotesComponent implements OnInit {
     this.notesService.deleteNote(_id.toString()).subscribe((data) => {
       this.getNotes();
     });
+    this.res = this.res.filter((note) => note._id !== _id);
   }
 }
