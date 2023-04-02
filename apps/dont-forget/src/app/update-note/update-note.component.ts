@@ -55,8 +55,10 @@ export class UpdateNoteComponent implements OnInit {
   }
 
   exec() {
-    this.notesService.updateNote(this.id, this.title, this.text);
-    this.router.navigate(['/notes/' + `${this.id}`]);
+    if (this.updateNoteForm.valid) {
+      this.notesService.updateNote(this.id, this.title, this.text);
+      this.router.navigate(['/notes/' + `${this.id}`]);
+    }
   }
 
   get titleControl() {

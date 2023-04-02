@@ -1,4 +1,4 @@
-<div class="bg-white  border-black border-2  rounded-sm p-4">
+<div class="  border-black border-2   p-4 bg-stickyNoteBlue rounded-md">
     <h1 class="pageMainHeader">{{noteBlock.title}}</h1>
     <p>{{noteBlock.description}}</p>
     <p>{{formatDate(noteBlock.dateCreated)}}</p>
@@ -6,14 +6,15 @@
     <div *ngIf="noteBlock.notes.length > 0">
         <h3>notes:</h3>
         <ul>
-            <li *ngFor="let i of noteBlock.notes "> <a [routerLink]="['/notes',i._id]" >{{i.text}}</a>  </li>
+            <li *ngFor="let i of noteBlock.notes "> <a [routerLink]="['/notes',i._id]">{{i.text}}</a> </li>
         </ul>
     </div>
 
 
     <ul>
         <li><a role="button" class="sitelink sitelink-danger" (click)="deleteNoteBlock(id)">Verwijderen </a></li>
-        <li><a role="button" class="sitelink sitelink-success" [routerLink]="['/sharewith',noteBlock._id]" >delen </a></li>
+        <li><a role="button" class="sitelink sitelink-success" [routerLink]="['/sharewith',noteBlock._id]">delen </a>
+        </li>
         <li><a [routerLink]="['/updatenoteblock',id]" class="sitelink sitelink-info">Aanpassen </a></li>
         <li><a [routerLink]="['/addnotestonoteblock',id]" class="sitelink sitelink-info">Notities toevoegen </a></li>
     </ul>

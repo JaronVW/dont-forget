@@ -11,7 +11,7 @@ import * as dayjs from 'dayjs';
 export class NotesComponent implements OnInit {
   constructor(private notesService: NotesService) {}
 
-  private _res: Array<Note>;
+  private _res: Array<Note> = [];
 
   public get res(): Array<Note> {
     return this._res;
@@ -38,5 +38,6 @@ export class NotesComponent implements OnInit {
     this.notesService.deleteNote(_id.toString()).subscribe((data) => {
       this.getNotes();
     });
+    this.res = this.res.filter((note) => note._id !== _id);
   }
 }

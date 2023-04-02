@@ -5,7 +5,6 @@ export class Note implements INote {
   _id?: any;
   title: string;
   text: string;
- 
   dateCreated: Date;
 }
 
@@ -24,6 +23,8 @@ export class Todo implements ITodo {
   completed: boolean;
   tasks: Task[];
   numberOfTasks: number;
+  dueThisWeek?: boolean;
+  overDue?: boolean;
 }
 
 export class Task {
@@ -33,7 +34,7 @@ export class Task {
 }
 
 export class NoteBlock {
-  _id?: any
+  _id?: any;
   userRef: any;
   title: string;
   description: string;
