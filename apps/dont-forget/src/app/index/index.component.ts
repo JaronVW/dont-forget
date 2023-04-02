@@ -2,6 +2,7 @@ import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { NotesService } from '../notes/services/notes.service';
 import { Note, Todo } from '../shared/models';
 import { TodosService } from '../todos/services/todos.service';
+import * as dayjs from 'dayjs';
 
 @Component({
   selector: 'dont-forget-index',
@@ -35,6 +36,10 @@ export class IndexComponent implements OnInit {
     this._note = note;
   }
 
+  formatDate(date: Date): string {
+    return dayjs(date).format('DD-MM-YYYY');
+  }
+
   ngOnInit(): void {
     this.getRecentNote();
     this.gettodoDueComingThreeDays();
@@ -43,18 +48,17 @@ export class IndexComponent implements OnInit {
   getRecentNote() {
     this.notesService.getNotes().subscribe((res) => {
       this.note = res.sort((a, b) => {
-        return (
-          new Date(b.dateCreated).getTime() - new Date(a.dateCreated).getTime()
-        );
+        return dayjs(b.dateCreated).diff(dayjs(a.dateCreated));
       })[0];
 
-      console.log(this.note);
     });
   }
 
   gettodoDueComingThreeDays() {
     this.todosService.getTodos().subscribe((res) => {
-      this.todoDueComingThreeDays = res;
+      this.todoDueComingThreeDays = res.filter((todo) => {
+        return todo.dueThisWeek;
+      });
     });
   }
 }

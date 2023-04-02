@@ -2,4 +2,42 @@
     <h1 class="text-4xl">Dontforget</h1>
 
     <p>Vergeet nooit meer je huiswerk en deel je aantekeningen met anderen!</p>
+
+    <div *ngIf="note !== undefined; else noNotes " class="mb-5">
+        <div class="   border-black border-2  rounded-md p-4 mt-10">
+            <h1 class="pageMainHeader">Meest Recent gemaakte notitie: {{note.title}}</h1>
+            <p>{{note.text}}</p>
+            <p>{{formatDate(note.dateCreated)}}</p>
+
+        </div>
+    </div>
+    <ng-template #noNotes>
+        <div class="mb-5">
+            <div class="   border-black border-2  rounded-md p-4 mt-10">
+                <h1 class="pageMainHeader">Je hebt nog geen notities gemaakt</h1>
+                <p>Maak een notitie aan door op de knop hieronder te klikken</p>
+                <p><a [routerLink]="['/addnote']" class="sitelink sitelink-info">Maak een notitie aan</a></p>
+            </div>
+        </div>
+    </ng-template>
+    <ng-container *ngIf="todoDueComingThreeDays.length > 0">
+        <div class="mb-5">
+            <h2>Notities met deadline deze week:</h2>
+        </div>
+        <div class="flex flex-row  gap-4  ">
+
+            <div *ngFor="let item of todoDueComingThreeDays"
+                class="bg-white p-4  border-2 border-black text-left hover: w-1/2 flex justify-between rounded-md">
+                <div>
+                    <h2 class="text-3xl">{{item.title}}</h2>
+                    <p>{{"Due: "+ formatDate(item.dueDate)}}</p>
+                    <p>{{item.description}}</p>
+                    <div>
+                        <h3>Number of Tasks: {{item.numberOfTasks}}</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+
 </div>
