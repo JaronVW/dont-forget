@@ -11,7 +11,7 @@ import * as dayjs from 'dayjs';
 export class NotesComponent implements OnInit {
   constructor(private notesService: NotesService) {}
 
-  private _res: Array<Note>;
+  private _res: Array<Note> = [];
 
   public get res(): Array<Note> {
     return this._res;
