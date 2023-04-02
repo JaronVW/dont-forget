@@ -86,8 +86,7 @@ describe('NotesComponent', () => {
     jest.spyOn(component, 'deleteNote')
     component.deleteNote('123');
     expect(component.deleteNote).toHaveBeenCalled();
-    console.log(component.res);
     expect(component.res.length).toBe(0);
-    
+
   });
 });
