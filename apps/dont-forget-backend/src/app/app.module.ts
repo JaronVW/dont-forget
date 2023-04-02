@@ -21,7 +21,7 @@ import { AccountModule } from './account/account.module';
     TodosModule,
     AuthModule,
     NoteBlocksModule,
-    Neo4jModule,
+    
     Neo4jModule.forRootAsync({
       scheme: 'neo4j+s',
       host: process.env.NEO4J_HOST,
