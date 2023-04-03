@@ -5,16 +5,27 @@
     </div>
 
 
-    <div class="flex flex-row  gap-4  ">
+    <div class="grid gap-4 grid-cols-1 lg:grid-cols-5 ">
 
         <div *ngFor="let item of res"
-            class="bg-white p-4  border-2 border-black  text-left hover: w-1/2 flex justify-between rounded-md"
-            >
+            class="bg-white p-4  border-2 border-black  text-left  flex justify-between rounded-md">
             <div>
                 <h2 class="text-3xl">{{item.title}}</h2>
-                <p>{{"Due: "+ formatDate(item.dueDate)}}</p>
-                <p> due this week: {{item.dueThisWeek}}</p>
-                <p> overdue: {{item.overDue}}</p>
+
+
+                <ng-container *ngIf="item.dueThisWeek;else second">
+                    <p class="text-orange-500">{{"Due: "+ formatDate(item.dueDate)}}</p>
+                </ng-container>
+                <ng-template #second>
+                    <ng-container *ngIf="item.overDue; else third">
+                        <p class="sitelink-danger">{{"Due: "+ formatDate(item.dueDate)}}</p>
+                    </ng-container>
+                </ng-template>
+                <ng-template #third>
+                    <p>{{"Due: "+ formatDate(item.dueDate)}}</p>
+                </ng-template>
+
+
                 <p>{{item.description}}</p>
                 <div>
                     <h3>Number of Tasks: {{item.numberOfTasks}}</h3>
@@ -23,7 +34,7 @@
 
                 <div class="mt-5">
                     <ul>
-                        <li><a [routerLink]="[item._id]" class="sitelink sitelink-success">Details </a></li>
+                        <li><a [routerLink]="['todos/',item._id]" class="sitelink sitelink-success">Details </a></li>
                         <li><a role="button" (click)="deleteTodo(item._id.toString())"
                                 class="sitelink sitelink-danger">Verwijderen
                             </a></li>

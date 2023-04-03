@@ -8,7 +8,7 @@
             <h1 class="pageMainHeader">Meest Recent gemaakte notitie: {{note.title}}</h1>
             <p>{{note.text}}</p>
             <p>{{formatDate(note.dateCreated)}}</p>
-
+            <a [routerLink]="['notes/',note._id]" class="sitelink sitelink-success">Details </a>
         </div>
     </div>
     <ng-template #noNotes>
@@ -22,19 +22,20 @@
     </ng-template>
     <ng-container *ngIf="todoDueComingThreeDays.length > 0">
         <div class="mb-5">
-            <h2>Notities met deadline deze week:</h2>
+            <h2>Todos met deadline deze week:</h2>
         </div>
-        <div class="flex flex-row  gap-4  ">
+        <div class="grid gap-4 grid-cols-1 lg:grid-cols-2  ">
 
             <div *ngFor="let item of todoDueComingThreeDays"
-                class="bg-white p-4  border-2 border-black text-left hover: w-1/2 flex justify-between rounded-md">
+                class="bg-white p-4  border-2 border-black text-left hover:  flex justify-between rounded-md">
                 <div>
                     <h2 class="text-3xl">{{item.title}}</h2>
-                    <p>{{"Due: "+ formatDate(item.dueDate)}}</p>
+                    <p class="text-orange-500" >{{"Due: "+ formatDate(item.dueDate)}}</p>
                     <p>{{item.description}}</p>
                     <div>
                         <h3>Number of Tasks: {{item.numberOfTasks}}</h3>
                     </div>
+                    <a [routerLink]="['todos/',item._id]" class="sitelink sitelink-success">Details </a>
                 </div>
             </div>
         </div>
