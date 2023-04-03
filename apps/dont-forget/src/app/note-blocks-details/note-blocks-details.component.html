@@ -5,15 +5,22 @@
 
     <div *ngIf="noteBlock.notes.length > 0">
         <h3>notes:</h3>
-        <ul>
-            <li *ngFor="let i of noteBlock.notes "> <a [routerLink]="['/notes',i._id]">{{i.text}}</a> </li>
-        </ul>
+        <div class="ml-4">
+            <ul>
+                <li><a *ngFor="let i of noteBlock.notes " [routerLink]="['/notes',i._id]">
+                        <div class="border-2 border-black my-2 rounded-md p-4 max-w-xs">
+                            {{i.text}}
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
 
 
-    <ul>
-        <li><a role="button" class="sitelink sitelink-danger" (click)="deleteNoteBlock(id)">Verwijderen </a></li>
-        <li><a role="button" class="sitelink sitelink-success" [routerLink]="['/sharewith',noteBlock._id]">delen </a>
+    <ul class="flex gap-4">
+        <li><a role="button" class="sitelink sitelink-danger " (click)="deleteNoteBlock(id)">Verwijderen </a></li>
+        <li><a role="button" class="sitelink sitelink-success " [routerLink]="['/sharewith',noteBlock._id]">delen </a>
         </li>
         <li><a [routerLink]="['/updatenoteblock',id]" class="sitelink sitelink-info">Aanpassen </a></li>
         <li><a [routerLink]="['/addnotestonoteblock',id]" class="sitelink sitelink-info">Notities toevoegen </a></li>
