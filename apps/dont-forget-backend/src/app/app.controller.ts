@@ -15,8 +15,8 @@ export class AppController {
   ) {}
 
   @Get()
+  @Public()
   getData() {
     return this.appService.getData();
   }
-
 }
