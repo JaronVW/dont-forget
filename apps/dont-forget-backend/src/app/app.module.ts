@@ -21,17 +21,17 @@ import { AccountModule } from './account/account.module';
     TodosModule,
     AuthModule,
     NoteBlocksModule,
-    
+    AccountModule,
     Neo4jModule.forRootAsync({
       scheme: 'neo4j+s',
       host: process.env.NEO4J_HOST,
       username: process.env.NEO4J_USR,
       password: process.env.NEO4J_PWD,
       database: process.env.NEO4J_DATABASE,
-  }),
-    AccountModule,
+    }),
   ],
   controllers: [AppController],
+  
   providers: [AppService, { provide: APP_GUARD, useClass: JwtAuthGuard }],
 })
 export class AppModule {}
