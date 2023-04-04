@@ -76,7 +76,7 @@ export class NavbarComponent {
   private _authService: AuthService;
   private router: Router;
   Show = false;
-  dropdownText = 'Person >';
+  dropdownText = 'Person';
 
   constructor(private authService: AuthService, router: Router) {
     this._authService = authService;

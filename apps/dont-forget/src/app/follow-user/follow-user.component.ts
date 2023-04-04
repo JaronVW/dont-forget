@@ -163,46 +163,48 @@ export class FollowUserComponent implements OnInit {
         next: (res: any) => {
           this.response = res.message;
 
-          this.getFollowing();
+          this.refresh();
         },
         error: () => {
           this.response = "User doesn't exist/ already followed";
         },
       });
-      this.getFollowing();
+      this.refresh();
     }
   }
 
   unfollowUser(username: string) {
-    if (this.nameForm.valid) {
-      this.accountService.unfollowUser(username).subscribe({
-        next: (res: any) => {
-          this.response = res.message;
+    this.accountService.unfollowUser(username).subscribe({
+      next: (res: any) => {
+        this.response = res.message;
 
-          this.getFollowing();
-        },
-        error: () => {
-          this.response = "User doesn't exist/ already unfollowed";
-        },
-      });
-      this.getFollowing();
-    }
+        this.refresh();
+      },
+      error: () => {
+        this.response = "User doesn't exist/ already unfollowed";
+      },
+    });
+    this.refresh();
   }
 
   removeFromFollowers(username: string) {
-    if (this.nameForm.valid) {
-      this.accountService.getFollowersUnfollow(username).subscribe({
-        next: (res: any) => {
-          this.response = res.message;
+    this.accountService.getFollowersUnfollow(username).subscribe({
+      next: (res: any) => {
+        this.response = res.message;
 
-          this.getFollowers();
-        },
-        error: () => {
-          this.response = "User doesn't exist/ already unfollowed";
-        },
-      });
-      this.getFollowers();
-    }
+        this.refresh();
+      },
+      error: () => {
+        this.response = "User doesn't exist/ already unfollowed";
+      },
+    });
+    this.refresh();
+  }
+
+  refresh() {
+    this.getFollowing();
+    this.getFollowingFollowing();
+    this.getFollowers();
   }
 
   get usernameControl() {
