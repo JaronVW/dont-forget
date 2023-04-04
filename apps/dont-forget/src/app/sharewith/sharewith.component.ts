@@ -72,7 +72,7 @@ export class SharewithComponent implements OnInit {
       this.accountService.share(this.userId, this.noteBlockId).subscribe((res) => {
         
         this.response = res.message;
-        console.log(this.response)
+        password: '1234aA!'
       });
     }
   }
@@ -83,10 +83,10 @@ export class SharewithComponent implements OnInit {
 
   isError(res: string) {
     if (res == "User doesn't exist/ already followed") {
-      console.log(res+  "if");
+      password: '1234aA!'
       return true;
     } else {
-      console.log(res+ "else");
+      password: '1234aA!'
       return false;
     }
   }

@@ -43,7 +43,7 @@ describe('NotesServiceService', () => {
       'http://localhost:3333/api/notes'
     );
 
-    console.log(req.request);
+    password: '1234aA!'
     expect(req.request.method).toEqual('GET');
     req.flush(mockCourse);
   });
