@@ -25,7 +25,7 @@ describe('NotesServiceService', () => {
   });
 
   it('should get notes and call the right endpoint', () => {
-    const mockNode = {
+    const mockNote = {
       title: 'Make math homework',
       text: 'Do it',
       _id: '123',
@@ -33,34 +33,42 @@ describe('NotesServiceService', () => {
     };
     const mockCourse = [
       {
-        ...mockNode,
+        ...mockNote,
       },
     ];
     service.getNotes().subscribe((courseData) => {
-      expect(courseData[0]).toEqual(mockNode);
+      expect(courseData[0]).toEqual(mockNote);
     });
     const req = httpTestingController.expectOne(
       'http://localhost:3333/api/notes'
     );
+
+    console.log(req.request);
     expect(req.request.method).toEqual('GET');
     req.flush(mockCourse);
   });
 
+  afterEach(() => {
+    httpTestingController.verify();
+  });
+
+
+
   it('should get note by id and call the right endpoint', () => {
-    const mockNode = {
+    const mockNote = {
       title: 'Make math homework',
       text: 'Do it',
       _id: '123',
       dateCreated: '2021-01-01',
     };
     service.getNoteById('123').subscribe((courseData) => {
-      expect(courseData).toEqual(mockNode);
+      expect(courseData).toEqual(mockNote);
     });
     const req = httpTestingController.expectOne(
       'http://localhost:3333/api/notes/123'
     );
     expect(req.request.method).toEqual('GET');
-    req.flush(mockNode);
+    req.flush(mockNote);
   });
 
   it('call non existing note ', () => {
