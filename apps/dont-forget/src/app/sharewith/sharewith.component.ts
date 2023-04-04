@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AccountService } from '../account.service';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { selectUserValidator } from '../shared/select-user.directive';
 
 @Component({
@@ -14,6 +19,16 @@ export class SharewithComponent implements OnInit {
   noteBlockId: string;
   userId: string;
   nameForm: FormGroup;
+
+  private _response: string;
+
+  public get response() {
+    return this._response;
+  }
+
+  public set response(response: string) {
+    this._response = response;
+  }
 
   public get followers() {
     return this._followers;
@@ -36,11 +51,14 @@ export class SharewithComponent implements OnInit {
     this.getFollowers();
 
     this.nameForm = this.fb.group({
-      username: new FormControl('', [Validators.required, Validators.maxLength(50),selectUserValidator("default")])
+      username: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(50),
+        selectUserValidator('default'),
+      ]),
     });
     this.nameForm.valueChanges.subscribe((data) => {
       this.userId = data.username;
-      
     });
   }
 
@@ -49,12 +67,27 @@ export class SharewithComponent implements OnInit {
       this.followers = res;
     });
   }
-  share(){
-    this.accountService.share(this.userId,this.noteBlockId, ).subscribe();
+  share() {
+    if (this.nameForm.valid) {
+      this.accountService.share(this.userId, this.noteBlockId).subscribe((res) => {
+        
+        this.response = res.message;
+        console.log(this.response)
+      });
+    }
   }
 
   get username() {
     return this.nameForm.get('username');
   }
-  
+
+  isError(res: string) {
+    if (res == "User doesn't exist/ already followed") {
+      console.log(res+  "if");
+      return true;
+    } else {
+      console.log(res+ "else");
+      return false;
+    }
+  }
 }

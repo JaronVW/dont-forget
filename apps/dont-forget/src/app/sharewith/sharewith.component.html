@@ -1,4 +1,4 @@
-<div class="bg-stickyNoteLila border-black border-2 rounded-sm p-4">
+<div class="bg-stickyNoteblue border-black border-2 rounded-md p-4">
     <h1 class="pageMainHeader">Share with</h1>
     <form [formGroup]="nameForm" class="mt-4 w-10/12">
         <select formControlName="username" name="" id="" class="p-2">
@@ -13,7 +13,18 @@
             <div *ngIf="username?.errors?.['selectUser']" class="formError">
                 Select a value
             </div>
+
         </div>
+
+        <p *ngIf="response && !isError(response); else error" class="text-green-700">
+            {{ response }}
+        </p>
+
+        <ng-template #error>
+            <p class="text-red-700">
+                {{ response }}
+            </p>
+        </ng-template>
         <button type="submit" class="actionButton" (click)="share()">Share</button>
     </form>
 </div>

@@ -26,8 +26,8 @@ export class AccountService {
     return this.http.get<{_id:string, username: string }[]>(`${this.url}/following`);
   }
 
-  share(userId: string, noteBlockId: string) {
-    return this.http.put(`${this.url2}/sharenoteblock/${userId}/${noteBlockId}`, {});
+  share(userId: string, noteBlockId: string): Observable<{statusCode:number, message: string }>{
+    return this.http.put<{statusCode:number, message: string }>(`${this.url2}/sharenoteblock/${userId}/${noteBlockId}`, {});
   } 
 
 

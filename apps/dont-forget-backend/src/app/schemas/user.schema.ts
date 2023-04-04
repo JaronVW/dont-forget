@@ -8,16 +8,19 @@ export type UserDocument = HydratedDocument<User>;
 export class User implements IUser {
   _id?: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, match: /^\S+@\S+\.\S+$/ })
   email: string;
 
-  @Prop({ required: true })
+  @Prop({
+    required: true,
+    match: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
+  })
   password: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, default: new Date() })
   dateCreated: Date;
 
-  @Prop({ required: true, unique: true  })
+  @Prop({ required: true, unique: true })
   username: string;
 }
 

@@ -1,14 +1,21 @@
-<h1>notitieblokken gedeeld met mij:</h1>
-<div class="grid sm:grid-cols-1  lg:grid-cols-2 gap-4">
+<div class="bg-white p-4  border-2 border-black mb-4 rounded-md">
 
-    <div *ngFor="let item of res" class="bg-white p-4  border-2 border-black text-left hover: w-10/12">
-        <h2 class="text-3xl">{{item.title}}</h2>
-        <p>Number of Notes: {{item.numberOfNotes}}</p>
-        <ul>
-            <li><a [routerLink]="['/sharednoteblock', item._id]" class="sitelink sitelink-success">Details </a></li>
-            <li><a (click)="unshare(item._id)" class="sitelink sitelink-danger cursor-pointer" >Delete for me</a></li>
-        </ul>
-
+    <div class="mb-5">
+        <h1 class="pageMainHeader" >notitieblokken gedeeld met mij:</h1>
     </div>
 
+    <div class="grid sm:grid-cols-1  lg:grid-cols-2 gap-4">
+
+        <div *ngFor="let item of res" class="bg-white p-4  border-2 border-black text-left hover: w-10/12">
+            <h2 class="text-3xl">{{item.title}}</h2>
+            <p>Number of Notes: {{item.numberOfNotes}}</p>
+            <ul>
+                <li><a [routerLink]="['/sharednoteblock', item._id]" class="sitelink sitelink-success">Details </a></li>
+                <li><a (click)="unshare(item._id)" class="sitelink sitelink-danger cursor-pointer">Delete for me</a>
+                </li>
+            </ul>
+
+        </div>
+
+    </div>
 </div>

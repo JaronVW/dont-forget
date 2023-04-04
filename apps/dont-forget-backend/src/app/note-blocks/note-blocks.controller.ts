@@ -92,6 +92,7 @@ export class NoteBlocksController {
         nbIdParam: noteBlockId,
       });
     } catch (err) {
+      console.log(err);
       if (err.message.includes('already exists')) {
         throw new ConflictException();
       }

@@ -34,7 +34,7 @@
 
                 <div class="mt-5">
                     <ul>
-                        <li><a [routerLink]="['todos/',item._id]" class="sitelink sitelink-success">Details </a></li>
+                        <li><a [routerLink]="[item._id]" class="sitelink sitelink-success">Details </a></li>
                         <li><a role="button" (click)="deleteTodo(item._id.toString())"
                                 class="sitelink sitelink-danger">Verwijderen
                             </a></li>

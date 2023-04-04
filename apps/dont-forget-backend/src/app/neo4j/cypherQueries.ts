@@ -6,7 +6,7 @@ export const followUser =
   'MATCH (a:User {mongoId: $idParam}), (b:User {username: $usernameParam}) MERGE (a)-[r:follows]->(b) RETURN b';
 export const getFollowing =
   'MATCH (a:User {mongoId: $idParam})-[r:follows]->(b) RETURN b';
-export const createNoteBlockNode = `CREATE (n:NoteBlock {name: $nbIdParam})`;
+export const createNoteBlockNode = `MERGE(n:NoteBlock{name:$nbIdParam}) `;
 export const shareNoteBlockWith = `MATCH (a:User {mongoId: $idParam}), (b:NoteBlock {name: $nbIdParam}) MERGE (a)-[r:sharedWith]->(b) RETURN b`;
 
 export const getFollowersFollowing = `MATCH (u:User {mongoId: $idParam})-[:follows*2..4]->(user:User) WHERE NOT (u)-[:follows]->(user) AND user <>u return user`;

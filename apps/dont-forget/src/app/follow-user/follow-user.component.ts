@@ -61,8 +61,7 @@ import {
       <h2 class="text-2xl">Currently following:</h2>
       <div *ngFor="let f of following" class="">
         <div class="">
-          
-            {{ f.username }}
+          {{ f.username }}
           <button (click)="unfollowUser(f.username)" class="">Unfollow</button>
         </div>
       </div>
@@ -70,7 +69,7 @@ import {
     <div class="border-black border-2 p-2 bg-white rounded-md">
       <h2 class="text-2xl">People you follow are following:</h2>
       <div *ngFor="let f of followingFollowing" class="">
-        <p >{{ f.username }}</p>
+        <p>{{ f.username }}</p>
       </div>
     </div>`,
   styles: [],
@@ -175,31 +174,35 @@ export class FollowUserComponent implements OnInit {
   }
 
   unfollowUser(username: string) {
-    this.accountService.unfollowUser(username).subscribe({
-      next: (res: any) => {
-        this.response = res.message;
+    if (this.nameForm.valid) {
+      this.accountService.unfollowUser(username).subscribe({
+        next: (res: any) => {
+          this.response = res.message;
 
-        this.getFollowing();
-      },
-      error: () => {
-        this.response = "User doesn't exist/ already unfollowed";
-      },
-    });
-    this.getFollowing();
+          this.getFollowing();
+        },
+        error: () => {
+          this.response = "User doesn't exist/ already unfollowed";
+        },
+      });
+      this.getFollowing();
+    }
   }
 
   removeFromFollowers(username: string) {
-    this.accountService.getFollowersUnfollow(username).subscribe({
-      next: (res: any) => {
-        this.response = res.message;
+    if (this.nameForm.valid) {
+      this.accountService.getFollowersUnfollow(username).subscribe({
+        next: (res: any) => {
+          this.response = res.message;
 
-        this.getFollowers();
-      },
-      error: () => {
-        this.response = "User doesn't exist/ already unfollowed";
-      },
-    });
-    this.getFollowers();
+          this.getFollowers();
+        },
+        error: () => {
+          this.response = "User doesn't exist/ already unfollowed";
+        },
+      });
+      this.getFollowers();
+    }
   }
 
   get usernameControl() {
