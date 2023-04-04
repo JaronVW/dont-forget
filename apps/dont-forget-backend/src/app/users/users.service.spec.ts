@@ -44,7 +44,7 @@ describe('UsersService', () => {
     user1 = new userModel({
       username: 'test1',
       email: 'emailtaken@email.com',
-      password: 'password',
+      password: '1234aA!',
       dateCreated: new Date(),
     });
 
@@ -78,7 +78,7 @@ describe('UsersService', () => {
       const user = new userModel({
         username: 'test2',
         email: 'email2@email.com',
-        password: 'password',
+        password: '1234aA!',
         dateCreated: new Date(),
       });
       const createdUser = await service.createUser(user);
@@ -89,7 +89,7 @@ describe('UsersService', () => {
       const user = new userModel({
         username: 'test2',
         email: 'emailtaken@email.com',
-        password: 'password',
+        password: '1234aA!',
         dateCreated: new Date(),
       });
       await expect(service.createUser(user)).rejects.toThrow();

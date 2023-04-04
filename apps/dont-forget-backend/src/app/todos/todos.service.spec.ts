@@ -50,21 +50,21 @@ describe('TodosService', () => {
     user1 = new userModel({
       username: 'test1',
       email: 'emaila@email.com',
-      password: 'password',
+      password: '1234aA!',
       dateCreated: new Date(),
     });
 
     user2 = new userModel({
       username: 'test2',
       email: 'email2@email.com',
-      password: 'password',
+      password: '1234aA!',
       dateCreated: new Date(),
     });
 
     user3 = new userModel({
       username: 'test3',
       email: 'email3@email.com',
-      password: 'password',
+      password: '1234aA!',
       dateCreated: new Date(),
     });
 
