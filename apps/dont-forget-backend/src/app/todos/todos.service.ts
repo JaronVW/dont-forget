@@ -22,7 +22,8 @@ export class TodosService {
       const res = await this.todoModel.create(data);
       res.save();
       return res;
-    } catch {
+    } catch (err) {
+      console.log(err);
       throw new BadRequestException();
     }
   }
@@ -42,7 +43,7 @@ export class TodosService {
         select: '-password -email',
       });
       if (todo == null) throw new NotFoundException();
-      if(data == null) throw new BadRequestException();
+      if (data == null) throw new BadRequestException();
       if (String(todo.userRef._id) != userId) throw new UnauthorizedException();
       const updatedTodo = await this.todoModel.findByIdAndUpdate(id, data, {
         new: true,

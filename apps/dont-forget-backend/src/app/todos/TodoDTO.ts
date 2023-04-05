@@ -1,9 +1,9 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsOptional } from 'class-validator';
 
 export class TodoDTO {
   @IsNotEmpty()
   title: string;
-  @IsNotEmpty()
+  @IsOptional()
   description: string;
   dueDate: Date;
   dateCreated: Date;

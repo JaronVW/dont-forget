@@ -32,6 +32,7 @@ export class UpdateTodoComponent implements OnInit {
       description: new FormControl(''),
       dueDate: new FormControl('', [Validators.required]),
       tasksArray: this.fb.array([]),
+      completed: new FormControl(false),
     });
 
     this.todosService.getTodoById(this.id).subscribe((res) => {
@@ -43,6 +44,7 @@ export class UpdateTodoComponent implements OnInit {
         description: res.description,
         dueDate: dayjs(res.dueDate).format('YYYY-MM-DD'),
         tasksArray: [],
+        completed: res.completed,
       });
       this.setExistingTasks(taskHolder);
     });
@@ -52,6 +54,7 @@ export class UpdateTodoComponent implements OnInit {
       this.todo.description = data.description;
       this.todo.dueDate = data.dueDate;
       this.todo.tasks = data.tasksArray;
+      this.todo.completed = data.completed;
     });
   }
 

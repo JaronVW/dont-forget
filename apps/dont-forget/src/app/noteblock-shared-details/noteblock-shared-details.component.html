@@ -5,9 +5,16 @@
 
     <div *ngIf="noteBlock.notes.length > 0">
         <h3>notes:</h3>
-        <ul>
-            <li *ngFor="let i of noteBlock.notes "> <a [routerLink]="['/notes',i._id]" >{{i.text}}</a>  </li>
-        </ul>
+        <div class="ml-4">
+            <ul>
+                <li><a *ngFor="let i of noteBlock.notes " [routerLink]="['/sharednote',i._id]">
+                        <div class="border-2 border-black my-2 rounded-md p-4 max-w-xs">
+                            {{i.text}}
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </div>
-  
+
 </div>

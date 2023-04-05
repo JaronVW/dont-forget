@@ -34,6 +34,7 @@ import { AddNoteblockComponent } from './add-noteblock/add-noteblock.component';
 import { UpdateNoteblockComponent } from './update-noteblock/update-noteblock.component';
 import { NoteblockSharedDetailsComponent } from './noteblock-shared-details/noteblock-shared-details.component';
 import { AppendNotesComponent } from './append-notes/append-notes.component';
+import { NotesSharedDetailsComponent } from './notes-shared-details/notes-shared-details.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { AppendNotesComponent } from './append-notes/append-notes.component';
     UpdateNoteblockComponent,
     NoteblockSharedDetailsComponent,
     AppendNotesComponent,
+    NotesSharedDetailsComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,4 +1,4 @@
-<div class="bg-stickyNoteLila  border-black border-2  rounded-sm p-4">
+<div class="bg-stickyNoteBlue  border-black border-2  rounded-md p-4">
     <h1 class="pageMainHeader">Update Todo</h1>
     <form [formGroup]="updateTodoForm">
         <div class="flex flex-col gap-2">
@@ -52,6 +52,12 @@
                     Due date required.
                 </div>
             </div>
+
+            <div class="formInput w-36">
+                <input formControlName="completed" type="checkbox" id="completed" cla class="ml-2 border border-black">
+                <label for="completed" class="ml-2">Completed</label>
+            </div>
+            
             <button type="button" (click)="exec()" value="fdfd" class="actionButton">Aanpassen</button>
         </div>
     </form>

@@ -32,11 +32,12 @@ export class AddTodoComponent implements OnInit {
         Validators.required,
         Validators.maxLength(50),
       ]),
-      description: '',
+      description: new FormControl(''),
       dueDate: new FormControl(dayjs().format('YYYY-MM-DD'), [
         Validators.required,
       ]),
       tasksArray: this.fb.array([]),
+      completed: new FormControl(false),
     });
 
     this.addTodoForm.valueChanges.subscribe((data) => {
@@ -44,6 +45,7 @@ export class AddTodoComponent implements OnInit {
       this._todo.description = data.description;
       this._todo.dueDate = data.dueDate;
       this._todo.tasks = data.tasksArray;
+      this._todo.completed = data.completed;
     });
   }
 
