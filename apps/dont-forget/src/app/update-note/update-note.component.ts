@@ -41,6 +41,7 @@ export class UpdateNoteComponent implements OnInit {
     });
 
     this.notesService.getNoteById(this.id).subscribe((res) => {
+      this.note._id = res._id;
       this.note.title = res.title;
       this.note.text = res.text;
       this.note.dateCreated = res.dateCreated;
@@ -59,7 +60,7 @@ export class UpdateNoteComponent implements OnInit {
     if (this.updateNoteForm.valid) {
       this.note.dateCreated = new Date();
       this.notesService.updateNote(this.note);
-      this.router.navigate(['/notes/' + `${this.id}`]);
+      this.router.navigate(["/notes/"]);
     }
   }
 

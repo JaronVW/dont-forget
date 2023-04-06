@@ -4,7 +4,6 @@ import { NoteBlocksService } from '../note-blocks/note-blocks.service';
 import { NoteBlock } from '../shared/models';
 import * as dayjs from 'dayjs';
 
-
 @Component({
   selector: 'dont-forget-note-blocks-details',
   templateUrl: './note-blocks-details.component.html',
@@ -12,7 +11,14 @@ import * as dayjs from 'dayjs';
 })
 export class NoteBlocksDetailsComponent implements OnInit {
   id: string;
-  noteBlock: NoteBlock = {notes: {}} as  NoteBlock;
+  private _noteBlock: NoteBlock = { notes: {} } as NoteBlock;
+
+  public get noteBlock(): NoteBlock {
+    return this._noteBlock;
+  }
+  public set noteBlock(value: NoteBlock) {
+    this._noteBlock = value;
+  }
 
   constructor(
     private router: Router,
@@ -23,11 +29,13 @@ export class NoteBlocksDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((paramsId) => {
       this.id = paramsId['id'];
+      this.getNoteBlockById(this.id);
     });
+  }
 
+  getNoteBlockById(_id: string) {
     this.noteBlocksService.getNoteBlockById(this.id).subscribe((res) => {
       this.noteBlock = res;
-      
     });
   }
 
@@ -36,7 +44,7 @@ export class NoteBlocksDetailsComponent implements OnInit {
       if (data.statusCode == 200) {
         this.router.navigate(['/notes/']);
       } else {
-        ('');
+        this.router.navigate(['/notes/']);
       }
     });
   }

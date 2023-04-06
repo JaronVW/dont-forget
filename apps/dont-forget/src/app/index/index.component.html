@@ -15,12 +15,12 @@
         <div class="mb-5">
             <div class="   border-black border-2  rounded-md p-4 mt-10">
                 <h1 class="pageMainHeader">Je hebt nog geen notities gemaakt</h1>
-                <p>Maak een notitie aan door op de knop hieronder te klikken</p>
+                <p>Maak een notitie aan door op de knop hieronder te klikken. </p>
                 <p><a [routerLink]="['/addnote']" class="sitelink sitelink-info">Maak een notitie aan</a></p>
             </div>
         </div>
     </ng-template>
-    <ng-container *ngIf="todoDueComingThreeDays.length > 0">
+    <ng-container *ngIf="todoDueComingThreeDays.length > 0; else notodos">
         <div class="mb-5">
             <h2>Todos met deadline deze week:</h2>
         </div>
@@ -30,7 +30,7 @@
                 class="bg-white p-4  border-2 border-black text-left hover:  flex justify-between rounded-md">
                 <div>
                     <h2 class="text-3xl">{{item.title}}</h2>
-                    <p class="text-orange-500" >{{"Due: "+ formatDate(item.dueDate)}}</p>
+                    <p class="text-orange-500">{{"Due: "+ formatDate(item.dueDate)}}</p>
                     <p>{{item.description}}</p>
                     <div>
                         <h3>Number of Tasks: {{item.numberOfTasks}}</h3>
@@ -40,5 +40,14 @@
             </div>
         </div>
     </ng-container>
+
+    <ng-template #notodos>
+        <div class="mb-5">
+            <div class="   border-black border-2  rounded-md p-4 mt-10">
+                <h2>Je hebt geen todos met een deadline deze week</h2>
+            </div>
+
+        </div>
+    </ng-template>
 
 </div>

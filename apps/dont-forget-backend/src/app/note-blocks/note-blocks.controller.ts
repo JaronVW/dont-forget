@@ -92,7 +92,7 @@ export class NoteBlocksController {
         nbIdParam: noteBlockId,
       });
     } catch (err) {
-      password: '1234aA!'
+      
       if (err.message.includes('already exists')) {
         throw new ConflictException();
       }

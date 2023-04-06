@@ -46,7 +46,6 @@ export class UpdateNoteblockComponent implements OnInit {
     this.updateNoteForm.valueChanges.subscribe((data) => {
       this.noteBlock.title = data.title;
       this.noteBlock.description = data.description;
-      
     });
 
     this.noteBlocksService.getNoteBlockById(this.id).subscribe((res) => {
@@ -104,7 +103,9 @@ export class UpdateNoteblockComponent implements OnInit {
         }
       });
       this.noteBlocksService.updateNoteBlockRef(this.id, this.noteBlockToSave);
-      this.router.navigate(['/noteblocks']);
+      this.noteBlocksService.getNoteBlockById(this.id).subscribe(() => {
+        this.router.navigate(['/noteblocks']);
+      });
     }
   }
 }

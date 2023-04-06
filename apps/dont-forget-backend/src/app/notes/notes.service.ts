@@ -48,7 +48,8 @@ export class NotesService {
         new: true,
       });
       return updatedNote;
-    } catch {
+    } catch(err) {
+      console.log(err);
       throw new BadRequestException();
     }
   }

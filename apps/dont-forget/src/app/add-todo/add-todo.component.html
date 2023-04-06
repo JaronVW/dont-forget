@@ -7,10 +7,10 @@
             <div *ngIf="titleControl?.invalid && (titleControl?.dirty || titleControl?.touched)">
 
                 <div *ngIf="titleControl?.errors?.['required']" class="formError">
-                    Title is required.
+                    Titel is verplicht
                 </div>
                 <div *ngIf="titleControl?.errors?.['maxlength']" class="formError">
-                    Title must be at most 50 characters long.
+                    Titel mag maximaal 50 karakters bevatten.
                 </div>
             </div>
             <label for="title">omschrijving</label>
@@ -19,25 +19,25 @@
 
 
             <div formArrayName="tasksArray">
-                <button type="button" (click)="addTask()" class="formInput">Add Task</button>
+                <button type="button" (click)="addTask()" class="formInput">Taak toevoegen</button>
                 <div class="ml-2 my-2">
-                    <h3>Tasks:</h3>
+                    <h3>Taken:</h3>
                     <ul>
                         <div *ngFor="let task of tasks.controls; let i=index "
                             class="border-2 border-black p-5 max-w-lg my-4 " [formGroupName]="i">
                             <input formControlName="title" type="text" class="formInput mr-2" name="title"
                                 placeholder="titel" id="title">
                             <input formControlName="completed" type="checkbox" id="scales" name="scales" [checked]="">
-                            <button type="button" (click)="deleteTask(i)" class="formInput ml-2 ">Remove
-                                Task</button>
+                            <button type="button" (click)="deleteTask(i)" class="formInput ml-2 ">Verwijder
+                                Taak</button>
                             <div *ngIf="tasks?.invalid && (tasks?.dirty || tasks?.touched)">
 
                                 <div *ngIf="tasks.controls[i].get('title')?.errors?.['required']"
                                     class="formError w-52 mt-2">
-                                    Title is required.
+                                    Titel is verplicht.
                                 </div>
                                 <div *ngIf="tasks.controls[i].get('title')?.errors?.['maxlength']" class="formError">
-                                    Title must be at most 25 characters long.
+                                    Titel mag maximaal 25 karakters bevatten.
                                 </div>
                             </div>
                         </div>
@@ -48,12 +48,12 @@
             <input formControlName="dueDate" type="date" class="formInput" name="dueDate" id="dueDate">
             <div *ngIf="dueDateControl?.invalid && (dueDateControl?.dirty || dueDateControl?.touched)">
                 <div *ngIf="dueDateControl?.errors?.['required']" class="formError">
-                    Due date required.
+                    Opleveringsdatum.
                 </div>
             </div>
             <div class="formInput w-36">
                 <input formControlName="completed" type="checkbox" id="completed"  cla class="ml-2 border border-black">
-                <label for="completed" class="ml-2">Completed</label>
+                <label for="completed" class="ml-2">Voltooid</label>
             </div>
 
             <button type="button" (click)="exec()" value="fdfd" class="actionButton">Toevoegen</button>

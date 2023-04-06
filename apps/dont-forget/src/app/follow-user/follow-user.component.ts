@@ -47,27 +47,27 @@ import {
       >
     </div>
     <div class="border-black border-2 p-2 mb-12 bg-white rounded-md">
-      <h2 class="text-2xl">Followers:</h2>
+      <h2 class="text-2xl">Volgers:</h2>
       <div *ngFor="let f of followers" class="">
         <div>
           {{ f.username }}
           <button (click)="removeFromFollowers(f.username)" class="">
-            Remove
+            Verwijder
           </button>
         </div>
       </div>
     </div>
     <div class="border-black border-2 p-2 mb-12 bg-white rounded-md">
-      <h2 class="text-2xl">Currently following:</h2>
+      <h2 class="text-2xl">Momenteel volgend:</h2>
       <div *ngFor="let f of following" class="">
         <div class="">
           {{ f.username }}
-          <button (click)="unfollowUser(f.username)" class="">Unfollow</button>
+          <button (click)="unfollowUser(f.username)" class="">Ontvolgen</button>
         </div>
       </div>
     </div>
     <div class="border-black border-2 p-2 bg-white rounded-md">
-      <h2 class="text-2xl">People you follow are following:</h2>
+      <h2 class="text-2xl">Mogelijk bekend:</h2>
       <div *ngFor="let f of followingFollowing" class="">
         <p>{{ f.username }}</p>
       </div>

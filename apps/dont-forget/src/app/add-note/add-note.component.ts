@@ -39,8 +39,9 @@ export class AddNoteComponent implements OnInit {
 
   exec() {
     if (this.addNoteForm.valid) {
-      this.notesService.addNote(this.title, this.text);
-      this.router.navigate(['/notes']);
+      this.notesService.addNote(this.title, this.text).subscribe((data) => {
+        this.router.navigate(['/notes', data._id]);
+      });
     }
   }
 

@@ -30,7 +30,6 @@ export class TodosComponent implements OnInit {
   getTodos() {
     this.todosService.getTodos().subscribe((data) => {
       this.res = data;
-      password: '1234aA!'
     });
   }
 

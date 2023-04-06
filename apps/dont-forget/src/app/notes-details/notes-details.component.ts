@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotesService } from '../notes/services/notes.service';
 import * as dayjs from 'dayjs';
+import { Note } from '../shared/models';
 
 @Component({
   selector: 'dont-forget-notes-details',
@@ -10,9 +11,15 @@ import * as dayjs from 'dayjs';
 })
 export class NotesDetailsComponent implements OnInit {
   id: string;
-  title: string;
-  text: string;
-  dateCreated: Date;
+
+  private _note: Note = {} as Note;
+
+  public get note(): Note {
+    return this._note;
+  }
+  public set note(value: Note) {
+    this._note = value;
+  }
 
   constructor(
     private router: Router,
@@ -26,9 +33,7 @@ export class NotesDetailsComponent implements OnInit {
     });
 
     this.notesService.getNoteById(this.id).subscribe((res) => {
-      this.title = res.title;
-      this.text = res.text;
-      this.dateCreated = res.dateCreated;
+      this.note = res;
     });
   }
 
@@ -37,7 +42,7 @@ export class NotesDetailsComponent implements OnInit {
       if (data.statusCode == 200) {
         this.router.navigate(['/notes/']);
       } else {
-        ('');
+        this.router.navigate(['/notes/']);
       }
     });
   }

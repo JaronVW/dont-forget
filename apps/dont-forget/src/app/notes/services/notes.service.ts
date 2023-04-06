@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { ApiPaths } from '../../../enums/apiPaths';
-import { Note } from '../../shared/models';
+import { Note, Todo } from '../../shared/models';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -22,7 +22,7 @@ export class NotesService {
   }
 
   addNote(title: string, text: string) {
-    this.http.post(this.url, { title, text }).subscribe();
+    return this.http.post<Note>(this.url, { title, text })
   }
 
   updateNote(note: Note) {

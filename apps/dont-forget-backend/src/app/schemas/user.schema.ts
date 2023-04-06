@@ -13,7 +13,7 @@ export class User implements IUser {
 
   @Prop({
     required: true,
-    match: /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/,
+   
   })
   password: string;
 

@@ -45,6 +45,9 @@ export class RegisterComponent implements OnInit {
       password: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
+        Validators.pattern(
+          /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{6,}$/
+        ),
       ]),
       passwordRepeat: new FormControl('', [
         Validators.required,
@@ -83,7 +86,6 @@ export class RegisterComponent implements OnInit {
             this.authService.createSession(data);
           },
           error: (error) => {
-            
             if (error.status && error.status == 409) {
               this.errorMessage = 'Username/email taken';
             } else {

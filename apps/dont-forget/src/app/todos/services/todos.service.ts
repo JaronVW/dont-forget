@@ -26,7 +26,7 @@ export class TodosService {
   }
 
   addTodo(todo: Todo) {
-    this.http.post(this.url, todo).subscribe();
+    return this.http.post<Todo>(this.url, todo);
   }
 
   updateTodo(_id: string, todo: Todo) {

@@ -9,10 +9,10 @@
             <div *ngIf="usernameControl?.invalid && (usernameControl?.dirty || usernameControl?.touched)">
 
                 <div *ngIf="usernameControl?.errors?.['required']" class="formError">
-                    Username is required.
+                    gebruikersnaam is verplicht.
                 </div>
                 <div *ngIf="usernameControl?.errors?.['minlength']" class="formError">
-                    Username must be at least 4 characters long.
+                    gebruikersnaam moet minimaal 4 tekens zijn.
                 </div>
 
             </div>
@@ -25,11 +25,12 @@
             <div *ngIf="emailControl?.invalid && (emailControl?.dirty || emailControl?.touched)">
 
                 <div *ngIf="emailControl?.errors?.['required']" class="formError">
-                    Email is required.
+                    Email is verplicht
                 </div>
                 <div *ngIf="emailControl?.errors?.['email']" class="formError">
-                    Invalid email
+                    Email ongelidig.
                 </div>
+                
 
             </div>
             <label for="password">password</label>
@@ -40,10 +41,13 @@
             <div *ngIf="passwordControl?.invalid && (passwordControl?.dirty || passwordControl?.touched)">
 
                 <div *ngIf="passwordControl?.errors?.['required']" class="formError">
-                    Password is required.
+                    wachtwoord is verplicht.
                 </div>
                 <div *ngIf="passwordControl?.errors?.['minLength']" class="formError">
-                    Password must consist of at least 6 characters.
+                    wachtwoord moet zes tekens zijn.
+                </div>
+                <div *ngIf="passwordControl?.errors?.['pattern']" class="formError">
+                    wachtwoord moet zes tekens zijn, minimaal 1 hoofdletter, 1 kleine letter, 1 cijfer en 1 speciaal teken bevatten.
                 </div>
             </div>
 

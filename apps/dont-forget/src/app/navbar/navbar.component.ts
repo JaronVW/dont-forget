@@ -19,7 +19,7 @@ import { Router } from '@angular/router';
           <ng-container *ngIf="isLoggedIn(); else loggedOut">
             <li class="list-none inline-block">
               <a class="block px-3 cursor-pointer " (click)="logout()"
-                >Logout</a
+                >Uitloggen</a
               >
             </li>
             <li class="list-none inline-block">
@@ -35,12 +35,12 @@ import { Router } from '@angular/router';
               >
                 <div class="">
                   <a class=" block px-2 py-1 " [routerLink]="['/noteblocks']"
-                    >NoteBlocks</a
+                    >Notitieblokken</a
                   >
                 </div>
                 <div class="">
                   <a class=" block px-2 py-1" [routerLink]="['/notes']"
-                    >Notes</a
+                    >Notities</a
                   >
                 </div>
                 <div class="">
@@ -51,10 +51,10 @@ import { Router } from '@angular/router';
               </div>
             </li>
             <li class="list-none inline-block">
-              <a class="block px-3 " [routerLink]="['/following']">Following</a>
+              <a class="block px-3 " [routerLink]="['/following']">Volgend</a>
             </li>
             <li class="list-none inline-block">
-              <a class="block px-3 " [routerLink]="['/shared']">Shared</a>
+              <a class="block px-3 " [routerLink]="['/shared']">Gedeeld met mij</a>
             </li>
           </ng-container>
 
@@ -65,7 +65,7 @@ import { Router } from '@angular/router';
           </ng-template>
 
           <li class="list-none inline-block">
-            <a class="block px-3 " [routerLink]="['/about']">About</a>
+            <a class="block px-3 " [routerLink]="['/about']">Over</a>
           </li>
         </ul>
       </nav>

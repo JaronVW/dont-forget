@@ -1,5 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormArray, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormArray,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Task, Todo } from '../shared/models';
 import { TodosService } from '../todos/services/todos.service';
@@ -28,7 +34,10 @@ export class UpdateTodoComponent implements OnInit {
     });
 
     this.updateTodoForm = this.fb.group({
-      title: new FormControl('', [Validators.required, Validators.maxLength(50)]),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
       description: new FormControl(''),
       dueDate: new FormControl('', [Validators.required]),
       tasksArray: this.fb.array([]),
@@ -38,7 +47,7 @@ export class UpdateTodoComponent implements OnInit {
     this.todosService.getTodoById(this.id).subscribe((res) => {
       const taskHolder = res.tasks;
       this.todo = res;
-      
+
       this.updateTodoForm.setValue({
         title: res.title,
         description: res.description,
@@ -64,7 +73,10 @@ export class UpdateTodoComponent implements OnInit {
 
   addTask() {
     const taskForm = this.fb.group({
-      title: new FormControl('', [Validators.required, Validators.maxLength(25)]),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(25),
+      ]),
       completed: new FormControl(false),
       dateCreated: new FormControl(new Date()),
     });
@@ -74,7 +86,10 @@ export class UpdateTodoComponent implements OnInit {
 
   private addTaskI(task: Task) {
     const taskForm = this.fb.group({
-      title: new FormControl(task.title, [Validators.required, Validators.maxLength(25)]),
+      title: new FormControl(task.title, [
+        Validators.required,
+        Validators.maxLength(25),
+      ]),
       completed: new FormControl(task.completed),
       dateCreated: new FormControl(task.dateCreated),
     });
@@ -94,14 +109,13 @@ export class UpdateTodoComponent implements OnInit {
 
   exec() {
     this.todosService.updateTodo(this.id, this.todo);
-    
-    this.router.navigate(['/todos/' + `${this.id}`]);
+
+    this.router.navigate(['/todos/']);
   }
 
   get titleControl() {
     return this.updateTodoForm.get('title');
   }
-
 
   get dueDateControl() {
     return this.updateTodoForm.get('dueDate');

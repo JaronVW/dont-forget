@@ -11,7 +11,16 @@ import * as dayjs from 'dayjs';
 })
 export class TodosDetailsComponent implements OnInit {
   id: string;
-  todo: Todo = {tasks: {}} as Todo;
+
+  private _todo: Todo = { tasks: {} } as Todo;
+
+  
+  public get todo(): Todo {
+    return this._todo;
+  }
+  public set todo(value: Todo) {
+    this._todo = value;
+  }
 
 
 
@@ -42,7 +51,7 @@ export class TodosDetailsComponent implements OnInit {
       if (data.statusCode == 200) {
         this.router.navigate(['/notes/']);
       } else {
-        ('');
+        this.router.navigate(['/notes/']);
       }
     });
   }

@@ -26,7 +26,7 @@ export class NoteBlocksService {
   }
 
   addNoteBlock(title: string, description: string) {
-    this.http.post(this.url, { title, description, notes: [] }).subscribe();
+    return this.http.post<NoteBlock>(this.url, { title, description, notes: [] })
   }
 
   updateNoteBlock(_id: string, noteBlock: NoteBlock) {

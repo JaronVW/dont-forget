@@ -80,8 +80,9 @@ export class AddTodoComponent implements OnInit {
 
   exec() {
     if (this.addTodoForm.valid) {
-      this.todosService.addTodo(this._todo);
-      this.router.navigate(['/todos']);
+      this.todosService.addTodo(this._todo).subscribe((data) => {
+        this.router.navigate(['/todos', data._id]);
+      });
     }
   }
 }
