@@ -16,9 +16,7 @@ export class TodosService {
   async create(userId: string, data: TodoDTO) {
     try {
       data.dateCreated = new Date();
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      data.userRef = new mongoose.Types.ObjectId(userId);
+      data.userRef = userId;
       const res = await this.todoModel.create(data);
       res.save();
       return res;

@@ -33,8 +33,8 @@ export class NoteBlocksService {
     this.http.put(this.url + `/${_id}`, { id: _id, noteBlock }).subscribe();
   }
 
-  updateNoteBlockRef(_id: string, noteBlock: NoteBlockToSave) {
-    this.http.put(this.url + `/${_id}`, noteBlock).subscribe();
+  updateNoteBlockRef<NoteBlock>(_id: string, noteBlock: NoteBlockToSave) {
+    return this.http.put<NoteBlock>(this.url + `/${_id}`, noteBlock)
   }
 
   getNoteBlockById(_id: string): Observable<NoteBlock> {

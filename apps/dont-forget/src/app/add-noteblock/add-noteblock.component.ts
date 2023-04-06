@@ -38,7 +38,7 @@ export class AddNoteblockComponent implements OnInit {
       this.noteBlockService
         .addNoteBlock(this.title, this.description)
         .subscribe((data) => {
-          this.router.navigate(['/noteblocks', data._id]);
+          this.router.navigate(['/addnotestonoteblock', data._id]);
         });
     }
   }

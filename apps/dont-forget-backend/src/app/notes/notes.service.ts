@@ -16,9 +16,8 @@ export class NotesService {
   async create(userId: string, data: NoteDTO) {
     try {
       data.dateCreated = new Date();
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      data.userRef = new mongoose.Types.ObjectId(userId);
+
+      data.userRef = userId;
       const res = await this.noteModel.create(data);
       res.save();
       return res;
@@ -48,7 +47,7 @@ export class NotesService {
         new: true,
       });
       return updatedNote;
-    } catch(err) {
+    } catch (err) {
       console.log(err);
       throw new BadRequestException();
     }

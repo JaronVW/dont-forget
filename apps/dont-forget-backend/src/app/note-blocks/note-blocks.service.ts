@@ -18,9 +18,8 @@ export class NoteBlocksService {
 
   async create(userId: string, data: NoteBlockDTO) {
     data.dateCreated = new Date();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    data.userRef = new mongoose.Types.ObjectId(userId);
+
+    data.userRef = userId;
     const res = await this.noteBlockModel.create(data);
     res.save();
     return res;
@@ -48,7 +47,7 @@ export class NoteBlocksService {
         path: 'userRef',
         select: '-password -email',
       });
-      
+
       if (res == null) throw new NotFoundException();
       if (String(res.userRef._id) != userId) throw new UnauthorizedException();
       if (data == null) throw new BadRequestException();

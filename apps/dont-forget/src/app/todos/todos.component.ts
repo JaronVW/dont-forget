@@ -38,4 +38,8 @@ export class TodosComponent implements OnInit {
       this.getTodos();
     });
   }
+
+  filter() {
+    ('');
+  }
 }
