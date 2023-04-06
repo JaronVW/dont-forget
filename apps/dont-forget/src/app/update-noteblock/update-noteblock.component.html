@@ -1,17 +1,25 @@
 <div class="bg-stickyNoteBlue  border-black border-2  rounded-md p-4">
-    <h1 class="pageMainHeader">Add Noteblock</h1>
-    <form [formGroup]="updatenoteBlockForm">
+    <h1 class="pageMainHeader">Add ffff</h1>
+    <form [formGroup]="updateNoteForm">
         <div class="flex flex-col gap-2">
             <label for="title">Titel</label>
             <input formControlName="title" type="text" class="formInput" name="title" placeholder="titel" id="text">
             <label for="text">Tekst</label>
             <input formControlName="description" class="formInput" type="text" name="text" placeholder="tekst" id="text"
                 rows="5" cols="33">
+            <div *ngFor="let note of notes; let i = index">
+                <p>{{note.title}}</p>
+                <input *ngIf="note.added; else unchecked" type="checkbox" id="horns" checked value="{{note._id}}"
+                    (change)="checkboxvalue($event, i)" name="horns">
+                <ng-template #unchecked>
+                    <input type="checkbox" id="horns" value="{{note._id}}" (change)="checkboxvalue($event, i)"
+                        name="horns">
+                </ng-template>
+            </div>
 
-            <button type="button" (click)="exec()" value="fdfd" class="actionButton">Toevoegen</button>
+            <button type="button" (click)="addNotes()" value="fdfd" class="actionButton">Toevoegen</button>
         </div>
 
 
     </form>
-
 </div>
