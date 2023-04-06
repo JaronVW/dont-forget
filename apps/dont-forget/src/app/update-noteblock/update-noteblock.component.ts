@@ -92,7 +92,7 @@ export class UpdateNoteblockComponent implements OnInit {
         _id: this.noteBlock._id,
         title: this.noteBlock.title,
         description: this.noteBlock.description,
-        dateCreated: this.noteBlock.dateCreated,
+        dateCreated: new Date(),
         userRef: this.noteBlock.userRef,
         notes: [],
       };

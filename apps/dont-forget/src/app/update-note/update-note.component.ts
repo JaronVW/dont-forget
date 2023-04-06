@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NotesService } from '../notes/services/notes.service';
+import { Note } from '../shared/models';
 
 @Component({
   selector: 'dont-forget-update-note',
@@ -15,8 +16,7 @@ import { NotesService } from '../notes/services/notes.service';
 })
 export class UpdateNoteComponent implements OnInit {
   updateNoteForm: FormGroup;
-  title: string;
-  text: string;
+  note: Note = {} as Note;
   document: Document;
   id: string;
 
@@ -41,8 +41,9 @@ export class UpdateNoteComponent implements OnInit {
     });
 
     this.notesService.getNoteById(this.id).subscribe((res) => {
-      this.title = res.title;
-      this.text = res.text;
+      this.note.title = res.title;
+      this.note.text = res.text;
+      this.note.dateCreated = res.dateCreated;
       this.updateNoteForm.setValue({
         title: res.title,
         text: res.text,
@@ -50,13 +51,14 @@ export class UpdateNoteComponent implements OnInit {
     });
 
     this.updateNoteForm.valueChanges.subscribe((data) => {
-      (this.title = data.title), (this.text = data.text);
+      (this.note.title = data.title), (this.note.text = data.text);
     });
   }
 
   exec() {
     if (this.updateNoteForm.valid) {
-      this.notesService.updateNote(this.id, this.title, this.text);
+      this.note.dateCreated = new Date();
+      this.notesService.updateNote(this.note);
       this.router.navigate(['/notes/' + `${this.id}`]);
     }
   }
