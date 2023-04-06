@@ -16,7 +16,7 @@ export class NoteBlock {
   @Prop({ type: String, required: true })
   title: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: true, default: '' })
   description: number;
 
   @Prop({ type: Date, default: Date.now })

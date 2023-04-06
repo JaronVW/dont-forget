@@ -30,7 +30,7 @@
                 <div *ngIf="emailControl?.errors?.['email']" class="formError">
                     Email ongelidig.
                 </div>
-                
+
 
             </div>
             <label for="password">password</label>
@@ -47,7 +47,8 @@
                     wachtwoord moet zes tekens zijn.
                 </div>
                 <div *ngIf="passwordControl?.errors?.['pattern']" class="formError">
-                    wachtwoord moet zes tekens zijn, minimaal 1 hoofdletter, 1 kleine letter, 1 cijfer en 1 speciaal teken bevatten.
+                    wachtwoord moet zes tekens zijn, minimaal 1 hoofdletter, 1 kleine letter, 1 cijfer en 1 speciaal
+                    teken bevatten.
                 </div>
             </div>
 
@@ -55,6 +56,21 @@
             <input formControlName="passwordRepeat" class="formInput" type="password" name="passwordRepeat"
                 placeholder="password" id="password">
 
+            <div
+                *ngIf="passwordRepeatControl?.invalid && (passwordRepeatControl?.dirty || passwordRepeatControl?.touched)">
+
+                <div *ngIf="passwordRepeatControl?.errors?.['required']" class="formError">
+                    wachtwoord is verplicht.
+                </div>
+                <div *ngIf="passwordRepeatControl?.errors?.['minLength']" class="formError">
+                    wachtwoord moet zes tekens zijn.
+                </div>
+                <div *ngIf="passwordRepeatControl?.errors?.['pattern']" class="formError">
+                    wachtwoord moet zes tekens zijn, minimaal 1 hoofdletter, 1 kleine letter, 1 cijfer en 1 speciaal
+                    teken bevatten.
+                </div>
+                <div *ngIf="registerFormForm" >{{registerFormForm.invalid}}</div>
+            </div>
 
             <div
                 *ngIf="passwordRepeatControl?.invalid && (passwordRepeatControl?.dirty || passwordRepeatControl?.touched)">

@@ -4,9 +4,21 @@ import {
   FormBuilder,
   Validators,
   FormControl,
+  AbstractControl,
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+
+function createCompareValidator(
+  controlOne: AbstractControl | null,
+  controlTwo: AbstractControl | null
+) {
+  return () => {
+    if (controlOne?.value !== controlTwo?.value)
+      return { match_error: 'Value does not match' };
+    return null;
+  };
+}
 
 @Component({
   selector: 'dont-forget-register',
@@ -59,6 +71,9 @@ export class RegisterComponent implements OnInit {
         (this.email = data.email),
         (this.password = data.password);
     });
+    this.registerForm.setValidators(
+      createCompareValidator(this.passwordControl, this.passwordRepeatControl)
+    );
   }
 
   get usernameControl() {
@@ -75,6 +90,10 @@ export class RegisterComponent implements OnInit {
 
   get passwordRepeatControl() {
     return this.registerForm.get('passwordRepeat');
+  }
+
+  get registerFormForm() {
+    return this.registerForm;
   }
 
   register() {

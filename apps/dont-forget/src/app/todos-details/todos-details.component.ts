@@ -49,9 +49,9 @@ export class TodosDetailsComponent implements OnInit {
   deleteTodo(_id: string) {
     this.todosService.deleteTodo(_id.toString()).subscribe((data) => {
       if (data.statusCode == 200) {
-        this.router.navigate(['/notes/']);
+        this.router.navigate(['/todos/']);
       } else {
-        this.router.navigate(['/notes/']);
+        this.router.navigate(['/todos/']);
       }
     });
   }

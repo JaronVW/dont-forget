@@ -7,15 +7,25 @@
             <div *ngIf="titleControl?.invalid && (titleControl?.dirty || titleControl?.touched)">
 
                 <div *ngIf="titleControl?.errors?.['required']" class="formError">
-                    Title is required.
+                    Title is verplicht.
                 </div>
                 <div *ngIf="titleControl?.errors?.['maxlength']" class="formError">
-                    Title must be at most 50 characters long.
+                    Titel mag niet langer dan 50 karakters zijn.
                 </div>
             </div>
             <label for="text">Tekst</label>
             <textarea formControlName="text" class="formInput" name="text" placeholder="tekst" id="text" rows="5"
                 cols="33"></textarea>
+
+            <div *ngIf="textControl?.invalid && (textControl?.dirty || textControl?.touched)">
+
+                <div *ngIf="textControl?.errors?.['required']" class="formError">
+                    Tekst is verplicht.
+                </div>
+                <div *ngIf="textControl?.errors?.['maxlength']" class="formError">
+                    Titel mag niet langer dan 50 karakters zijn.
+                </div>
+            </div>
             <button type="button" (click)="exec()" value="fdfd" class="actionButton">Toevoegen</button>
         </div>
     </form>

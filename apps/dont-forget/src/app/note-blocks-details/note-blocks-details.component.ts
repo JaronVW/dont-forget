@@ -42,9 +42,9 @@ export class NoteBlocksDetailsComponent implements OnInit {
   deleteNoteBlock(_id: string) {
     this.noteBlocksService.deleteNoteBlock(_id.toString()).subscribe((data) => {
       if (data.statusCode == 200) {
-        this.router.navigate(['/notes/']);
+        this.router.navigate(['/noteblocks/']);
       } else {
-        this.router.navigate(['/notes/']);
+        this.router.navigate(['/noteblocks/']);
       }
     });
   }

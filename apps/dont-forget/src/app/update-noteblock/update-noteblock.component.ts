@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NoteBlocksService } from '../note-blocks/note-blocks.service';
 import { Note, NoteBlock, NoteBlockToSave } from '../shared/models';
@@ -39,8 +39,14 @@ export class UpdateNoteblockComponent implements OnInit {
     });
 
     this.updateNoteForm = this.fb.group({
-      title: new FormControl(''),
-      description: new FormControl(''),
+      title: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
+      description: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
     });
 
     this.updateNoteForm.valueChanges.subscribe((data) => {
@@ -107,5 +113,13 @@ export class UpdateNoteblockComponent implements OnInit {
         this.router.navigate(['/noteblocks']);
       });
     }
+  }
+
+  get titleControl() {
+    return this.updateNoteForm.get('title');
+  }
+
+  get descriptionControl() {
+    return this.updateNoteForm.get('description');
   }
 }

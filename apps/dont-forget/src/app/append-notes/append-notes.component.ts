@@ -39,11 +39,9 @@ export class AppendNotesComponent implements OnInit {
     });
   }
 
-
   getNotes() {
     const alreadyAdded = this.noteBlock.notes.map((note) => note._id);
     this.notesService.getNotes().subscribe((res) => {
-      
       res.forEach((resnote: any) => {
         this.notes.push({
           _id: resnote._id,
@@ -79,6 +77,10 @@ export class AppendNotesComponent implements OnInit {
         });
       }
     });
-    this.noteBlocksService.updateNoteBlockRef(this.id, this.noteBlockToSave);
+    this.noteBlocksService
+      .updateNoteBlockRef(this.id, this.noteBlockToSave)
+      .subscribe((res) => {
+        this.router.navigate(['/noteblocks', this.id]);
+      });
   }
 }

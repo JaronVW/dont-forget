@@ -30,7 +30,7 @@ export class AddNoteComponent implements OnInit {
         Validators.required,
         Validators.maxLength(50),
       ]),
-      text: new FormControl(''),
+      text: new FormControl('', [Validators.required]),
     });
     this.addNoteForm.valueChanges.subscribe((data) => {
       (this.title = data.title), (this.text = data.text);
@@ -47,5 +47,9 @@ export class AddNoteComponent implements OnInit {
 
   get titleControl() {
     return this.addNoteForm.get('title');
+  }
+
+  get textControl() {
+    return this.addNoteForm.get('text');
   }
 }
