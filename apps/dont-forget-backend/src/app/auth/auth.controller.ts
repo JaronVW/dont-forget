@@ -42,7 +42,7 @@ export class AuthController {
       });
       return newUser;
     } catch (error) {
-      console.log(error);
+      
       error instanceof ConflictException;
       if (error instanceof ConflictException) throw error;
       else throw new BadRequestException();

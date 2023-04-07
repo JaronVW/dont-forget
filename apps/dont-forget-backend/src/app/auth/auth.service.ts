@@ -57,7 +57,7 @@ export class AuthService {
         id: data._id,
       };
     } catch (error) {
-      console.log(error);
+      
       if (error.code === 11000) {
         throw new ConflictException('Email/username is already in use');
       }

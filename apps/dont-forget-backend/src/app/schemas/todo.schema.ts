@@ -21,7 +21,7 @@ export class Todo {
   @Prop({ type: String, required: true })
   title: string;
 
-  @Prop({ type: String, default: '' })
+  @Prop({ type: String, default: '', required: true })
   description: string;
 
   @Prop({ type: Date })
