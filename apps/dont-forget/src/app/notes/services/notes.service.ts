@@ -22,17 +22,15 @@ export class NotesService {
   }
 
   addNote(title: string, text: string) {
-    return this.http.post<Note>(this.url, { title, text })
+    return this.http.post<Note>(this.url, { title, text });
   }
 
   updateNote(note: Note) {
-    this.http
-      .put(this.url + `/${note._id}`, {
-        id: note._id,
-        title: note.title,
-        text: note.text,
-      })
-      .subscribe();
+    return this.http.put<Note>(this.url + `/${note._id}`, {
+      id: note._id,
+      title: note.title,
+      text: note.text,
+    });
   }
 
   getNoteById(_id: string): Observable<Note> {

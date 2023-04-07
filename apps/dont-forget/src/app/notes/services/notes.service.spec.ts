@@ -43,7 +43,6 @@ describe('NotesServiceService', () => {
       'http://localhost:3333/api/notes'
     );
 
-    password: '1234aA!'
     expect(req.request.method).toEqual('GET');
     req.flush(mockCourse);
   });
@@ -51,8 +50,6 @@ describe('NotesServiceService', () => {
   afterEach(() => {
     httpTestingController.verify();
   });
-
-
 
   it('should get note by id and call the right endpoint', () => {
     const mockNote = {
@@ -100,20 +97,79 @@ describe('NotesServiceService', () => {
   });
 
   it('should add note and call the right endpoint', () => {
-    service.addNote('Make math homework', 'Do it');
+    const mockNote = {
+      _id: '123',
+      title: 'Make math homework',
+      text: 'Do it',
+      dateCreated: new Date('2021-01-01'),
+    };
+    service.addNote('Make math homework', 'Do it').subscribe((courseData) => {
+      expect(courseData).toEqual(mockNote);
+    });
     const req = httpTestingController.expectOne(
       'http://localhost:3333/api/notes'
     );
     expect(req.request.method).toEqual('POST');
-    req.flush(null);
+    req.flush(mockNote);
   });
 
   it('should update note and call the right endpoint', () => {
-    service.updateNote('123', 'Make math homework', 'Do it');
+    const mockNote = {
+      _id: '123',
+      title: 'Make math homework',
+      text: 'Do it',
+      dateCreated: new Date('2021-01-01'),
+    };
+
+    service.updateNote(mockNote).subscribe((courseData) => {
+      expect(courseData).toEqual(mockNote);
+    });
     const req = httpTestingController.expectOne(
       'http://localhost:3333/api/notes/123'
     );
     expect(req.request.method).toEqual('PUT');
     req.flush(null);
   });
+
+  it('should delete non existing note and fail', () => {
+    service.deleteNote('123').subscribe({
+      next: (courseData) => {
+        expect(courseData).toEqual(null);
+      },
+      error: (error) => {
+        expect(error).toEqual('Note not found');
+      },
+    });
+
+    const req = httpTestingController.expectOne(
+      'http://localhost:3333/api/notes/123'
+    );
+    expect(req.request.method).toEqual('DELETE');
+    req.flush(null, { status: 404, statusText: 'Note not found' });
+  });
+
+  it('should update non existing note and fail', () => {
+    service
+      .updateNote({
+        _id: '123',
+        title: 'Make math homework',
+        text: 'Do it',
+        dateCreated: new Date('2021-01-01'),
+      })
+      .subscribe({
+        next: (courseData) => {
+          expect(courseData).toEqual(null);
+        },
+        error: (error) => {
+          expect(error).toEqual('Note not found');
+        },
+      });
+
+    const req = httpTestingController.expectOne(
+      'http://localhost:3333/api/notes/123'
+    );
+    expect(req.request.method).toEqual('PUT');
+    req.flush(null, { status: 404, statusText: 'Note not found' });
+  });
+  
 });

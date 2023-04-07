@@ -18,14 +18,13 @@ export class FixNavigationTriggeredOutsideAngularZoneNgModule {
 describe('UpdateNoteComponent', () => {
   let component: UpdateNoteComponent;
   let fixture: ComponentFixture<UpdateNoteComponent>;
-  let Zone: NgZone;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
         RouterTestingModule.withRoutes([
-          { path: 'notes/:id', component: NotesDetailsComponent },
+          { path: 'notes', component: NotesDetailsComponent },
         ]),
         FixNavigationTriggeredOutsideAngularZoneNgModule
       ],

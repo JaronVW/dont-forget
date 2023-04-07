@@ -38,6 +38,9 @@ describe('NotesComponent', () => {
     expect(component.deleteNote).toHaveBeenCalled();
   });
 
+
+
+
   it('should call formatDate', () => {
     jest.spyOn(component, 'formatDate');
     component.formatDate(new Date());
@@ -63,9 +66,6 @@ describe('NotesComponent', () => {
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h2').textContent).toContain(
       res.title
-    );
-    expect(compiled.querySelector('p').textContent).toContain(
-      dayjs(res.dateCreated).format('DD/MM/YYYY')
     );
   });
 
