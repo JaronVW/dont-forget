@@ -30,16 +30,17 @@ export class AuthService {
   }
 
   async login(user: any) {
-    
     const payload = { username: user.email, sub: user._id };
     return await {
       access_token: this.jwtService.sign(payload),
+      id: user._id,
+      username: user.username,
     };
   }
 
   async register(
     user: userSignUpDto
-  ): Promise<{ access_token: string; id: string }> {
+  ): Promise<{ access_token: string; id: string; username: string }> {
     try {
       const hashedPassword = await argon2.hash(user.password);
       const newUser: User = {
@@ -55,9 +56,9 @@ export class AuthService {
       return {
         access_token: accessToken,
         id: data._id,
+        username: data.username,
       };
     } catch (error) {
-      
       if (error.code === 11000) {
         throw new ConflictException('Email/username is already in use');
       }

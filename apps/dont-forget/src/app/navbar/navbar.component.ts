@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 
@@ -54,7 +54,9 @@ import { Router } from '@angular/router';
               <a class="block px-3 " [routerLink]="['/following']">Volgend</a>
             </li>
             <li class="list-none inline-block">
-              <a class="block px-3 " [routerLink]="['/shared']">Gedeeld met mij</a>
+              <a class="block px-3 " [routerLink]="['/shared']"
+                >Gedeeld met mij</a
+              >
             </li>
           </ng-container>
 
@@ -72,15 +74,20 @@ import { Router } from '@angular/router';
     </header>
   `,
 })
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
   private _authService: AuthService;
   private router: Router;
   Show = false;
-  dropdownText = 'Person';
+  dropdownText: string;
 
   constructor(private authService: AuthService, router: Router) {
     this._authService = authService;
     this.router = router;
+  }
+
+  ngOnInit(): void {
+    this.dropdownText =
+      localStorage.getItem('username')?.substring(0, 10)  || 'Person';
   }
 
   logout() {
