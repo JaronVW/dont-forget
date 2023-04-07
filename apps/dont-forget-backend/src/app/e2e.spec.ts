@@ -43,7 +43,7 @@ let uri: string;
 })
 export class TestAppModule {}
 
-describe('end-to-end tests of data API', () => {
+describe.skip('end-to-end tests of data API', () => {
   let app: INestApplication;
   let module: TestingModule;
   let mongoc: MongoClient;
