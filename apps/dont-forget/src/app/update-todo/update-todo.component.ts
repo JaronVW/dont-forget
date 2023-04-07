@@ -38,7 +38,10 @@ export class UpdateTodoComponent implements OnInit {
         Validators.required,
         Validators.maxLength(50),
       ]),
-      description: new FormControl(''),
+      description: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
       dueDate: new FormControl('', [Validators.required]),
       tasksArray: this.fb.array([]),
       completed: new FormControl(false),
@@ -119,5 +122,9 @@ export class UpdateTodoComponent implements OnInit {
 
   get dueDateControl() {
     return this.updateTodoForm.get('dueDate');
+  }
+
+  get descriptionControl() {
+    return this.updateTodoForm.get('description');
   }
 }

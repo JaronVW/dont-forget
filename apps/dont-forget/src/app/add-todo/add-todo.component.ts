@@ -32,7 +32,10 @@ export class AddTodoComponent implements OnInit {
         Validators.required,
         Validators.maxLength(50),
       ]),
-      description: new FormControl(''),
+      description: new FormControl('', [
+        Validators.required,
+        Validators.maxLength(50),
+      ]),
       dueDate: new FormControl(dayjs().format('YYYY-MM-DD'), [
         Validators.required,
       ]),
@@ -76,6 +79,10 @@ export class AddTodoComponent implements OnInit {
 
   get dueDateControl() {
     return this.addTodoForm.get('dueDate');
+  }
+
+  get descriptionControl() {
+    return this.addTodoForm.get('description');
   }
 
   exec() {

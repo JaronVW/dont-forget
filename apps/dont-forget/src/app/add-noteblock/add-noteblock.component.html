@@ -4,10 +4,27 @@
         <div class="flex flex-col gap-2">
             <label for="title">Titel</label>
             <input formControlName="title" type="text" class="formInput" name="title" placeholder="titel" id="text">
-            <label for="text">Omscrhijving</label>
-            <input formControlName="description" class="formInput" type="text" name="text" placeholder="omscrhijving" id="text"
-                rows="5" cols="33">
+            <div *ngIf="titleControl?.invalid && (titleControl?.dirty || titleControl?.touched)">
 
+                <div *ngIf="titleControl?.errors?.['required']" class="formError">
+                    Title is verplicht.
+                </div>
+                <div *ngIf="titleControl?.errors?.['maxlength']" class="formError">
+                    Titel mag niet langer dan 50 karakters zijn.
+                </div>
+            </div>
+            <label for="text">Omscrhijving</label>
+            <input formControlName="description" class="formInput" type="text" name="text" placeholder="omscrhijving"
+                id="text" rows="5" cols="33">
+            <div *ngIf="descriptionControl?.invalid && (descriptionControl?.dirty || descriptionControl?.touched)">
+
+                <div *ngIf="descriptionControl?.errors?.['required']" class="formError">
+                    Omschrijving is verplicht.
+                </div>
+                <div *ngIf="descriptionControl?.errors?.['maxlength']" class="formError">
+                    Omschrijving mag niet langer dan 50 karakters zijn.
+                </div>
+            </div>
             <button type="button" (click)="exec()" value="fdfd" class="actionButton">Toevoegen</button>
         </div>
 

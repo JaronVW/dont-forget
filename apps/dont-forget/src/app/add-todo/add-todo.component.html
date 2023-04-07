@@ -16,7 +16,15 @@
             <label for="title">omschrijving</label>
             <input formControlName="description" type="text" class="formInput" name="description"
                 placeholder="omschrijving" id="description">
+            <div *ngIf="descriptionControl?.invalid && (descriptionControl?.dirty || descriptionControl?.touched)">
 
+                <div *ngIf="descriptionControl?.errors?.['required']" class="formError">
+                    Omschrijving is verplicht.
+                </div>
+                <div *ngIf="descriptionControl?.errors?.['maxlength']" class="formError">
+                    Omschrijving mag niet langer dan 50 karakters zijn.
+                </div>
+            </div>
 
             <div formArrayName="tasksArray">
                 <button type="button" (click)="addTask()" class="formInput">Taak toevoegen</button>
@@ -52,7 +60,7 @@
                 </div>
             </div>
             <div class="formInput w-36">
-                <input formControlName="completed" type="checkbox" id="completed"  cla class="ml-2 border border-black">
+                <input formControlName="completed" type="checkbox" id="completed" cla class="ml-2 border border-black">
                 <label for="completed" class="ml-2">Voltooid</label>
             </div>
 
