@@ -44,6 +44,7 @@ export class AuthController {
     } catch (error) {
       
       error instanceof ConflictException;
+
       
       if (error instanceof ConflictException) throw error;
       else throw new BadRequestException();
