@@ -1,13 +1,13 @@
 <div class="bg-stickyNoteblue border-black border-2 rounded-md p-4">
     <h1 class="pageMainHeader">Share with</h1>
     <form [formGroup]="nameForm" class="mt-4 w-10/12">
-        <select formControlName="username" name="" id="" class="p-2">
+        <select formControlName="username" name="" id="" class="p-3 mb-5 rounded-md">
             <option value="default">Select User</option>
             <option *ngFor="let user of followers" value="{{user._id}}">{{user.username}}</option>
         </select>
-        <div *ngIf="username?.invalid && (username?.dirty || username?.touched)">
+        <div *ngIf="username?.invalid && (username?.dirty || username?.touched)" class="w-24">
 
-            <div *ngIf="username?.errors?.['required']" class="formError">
+            <div *ngIf="username?.errors?.['required']" class="formError ">
                 Username is required.
             </div>
             <div *ngIf="username?.errors?.['selectUser']" class="formError">
@@ -25,6 +25,6 @@
                 {{ response }}
             </p>
         </ng-template>
-        <button type="submit" class="actionButton" (click)="share()">Share</button>
+        <button type="submit" class="actionButton mt-2" (click)="share()">Share</button>
     </form>
 </div>
