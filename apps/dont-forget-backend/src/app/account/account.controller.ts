@@ -139,7 +139,6 @@ export class AccountController {
         idParam: user.userId,
       });
     } catch (err) {
-      
       throw new NotFoundException('User not found');
     }
   }
