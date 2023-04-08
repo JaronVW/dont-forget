@@ -22,7 +22,7 @@ export class NoteBlock {
   @Prop({ type: Date, default: Date.now })
   dateCreated: Date;
 
-  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Note', }])
+  @Prop([{ type: mongoose.Schema.Types.ObjectId, ref: 'Note' }])
   notes: mongoose.Types.ObjectId[];
 }
 const NoteBlockSchema = SchemaFactory.createForClass(NoteBlock);
@@ -32,5 +32,7 @@ NoteBlockSchema.virtual('numberOfNotes').get(function (
 ) {
   return this.notes.length;
 });
+
+
 
 export { NoteBlockSchema };
