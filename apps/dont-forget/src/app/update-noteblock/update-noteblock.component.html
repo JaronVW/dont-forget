@@ -13,8 +13,8 @@
                     Titel mag niet langer dan 50 karakters zijn.
                 </div>
             </div>
-            <label for="text">Omscrhijving</label>
-            <input formControlName="description" class="formInput" type="text" name="omscrhijving" placeholder="tekst"
+            <label for="text">Omschrijving</label>
+            <input formControlName="description" class="formInput" type="text" name="Omschrijving" placeholder="tekst"
                 id="text" rows="5" cols="33">
 
 
@@ -28,18 +28,7 @@
                 </div>
             </div>
 
-            <div class="border-2 border-black rounded-md p-4 w-64 mb-5 mt-5">
-                <h3>NotitieBlokken</h3>
-                <div *ngFor="let note of notes; let i = index" class="flex gap-4">
-                    <p>{{note.title}}</p>
-                    <input *ngIf="note.added; else unchecked" type="checkbox" id="horns" checked value="{{note._id}}"
-                        (change)="checkboxvalue($event, i)" name="horns">
-                    <ng-template #unchecked>
-                        <input type="checkbox" id="horns" value="{{note._id}}" (change)="checkboxvalue($event, i)"
-                            name="horns">
-                    </ng-template>
-                </div>
-            </div>
+            
 
             <button type="button" (click)="addNotes()" value="fdfd" class="actionButton">Aanpassen</button>
         </div>

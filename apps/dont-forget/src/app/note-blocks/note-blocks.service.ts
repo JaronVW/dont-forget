@@ -26,15 +26,21 @@ export class NoteBlocksService {
   }
 
   addNoteBlock(title: string, description: string) {
-    return this.http.post<NoteBlock>(this.url, { title, description, notes: [] })
+    return this.http.post<NoteBlock>(this.url, {
+      title,
+      description,
+      notes: [],
+    });
   }
 
   updateNoteBlock(_id: string, noteBlock: NoteBlock) {
-    this.http.put(this.url + `/${_id}`, { id: _id, noteBlock }).subscribe();
+    return this.http.put<NoteBlock>(this.url + `/${_id}`, {
+      ...noteBlock,
+    });
   }
 
   updateNoteBlockRef<NoteBlock>(_id: string, noteBlock: NoteBlockToSave) {
-    return this.http.put<NoteBlock>(this.url + `/${_id}`, noteBlock)
+    return this.http.put<NoteBlock>(this.url + `/${_id}`, noteBlock);
   }
 
   getNoteBlockById(_id: string): Observable<NoteBlock> {

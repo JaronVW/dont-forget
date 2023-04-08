@@ -7,10 +7,14 @@ import { User, UserDocument } from '../schemas/user.schema';
 export class AccountService {
   constructor(
     @InjectModel(User.name)
-    private noteBlockModel: Model<UserDocument>
+    private userModel: Model<UserDocument>
   ) {}
 
   getUsersList(followingIds: string[]) {
-    return this.noteBlockModel.find({ _id: { $in: followingIds } }, 'username',);
+    return this.userModel.find({ _id: { $in: followingIds } }, 'username');
+  }
+
+  async deleteAccount(userId: string) {
+    await this.userModel.findOneAndDelete({ _id: userId });
   }
 }

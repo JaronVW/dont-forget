@@ -14,3 +14,5 @@ export const unfollowUser = `MATCH (a:User {mongoId: $idParam})-[r:follows]->(b:
 export const followsMe = `MATCH (a:User {mongoId: $idParam})<-[r:follows]-(b:User) RETURN b`;
 export const followsMeRemove = `MATCH (a:User {mongoId: $idParam})<-[r:follows]-(b:User {username: $usernameParam}) DELETE r return b`;
 export const deleteShared = 'MATCH (a:User {mongoId: $idParam})-[r:sharedWith]->(b:NoteBlock {name: $nbIdParam}) DELETE r return b'
+export const deleteUserNode = 'MATCH (n:User {mongoId: $idParam}) DETACH DELETE n';
+export const deleteNoteBlockNode = 'MATCH (n:NoteBlock {name: $nbIdParam}) DETACH DELETE n';

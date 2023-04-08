@@ -16,6 +16,7 @@ import { AuthUser } from '../decorators/user.decorator';
 import { Neo4jService } from '../neo4j/neo4j.service';
 import {
   createNoteBlockNode,
+  deleteNoteBlockNode,
   deleteShared,
   getSharedNoteBlocks,
   shareNoteBlockWith,
@@ -92,7 +93,6 @@ export class NoteBlocksController {
         nbIdParam: noteBlockId,
       });
     } catch (err) {
-      
       if (err.message.includes('already exists')) {
         throw new ConflictException();
       }
@@ -120,8 +120,12 @@ export class NoteBlocksController {
   }
 
   @Delete(':id')
-  remove(@AuthUser() user: any, @Param('id') id: string) {
-    return this.noteBlocksService.remove(id, user.userId);
+  async remove(@AuthUser() user: any, @Param('id') id: string) {
+    const res = await this.noteBlocksService.remove(id, user.userId);
+    this.neo4jService.write(deleteNoteBlockNode, {
+      nbIdParam: id,
+    });
+    return res;
   }
 
   @Delete('deleteshared/:id')

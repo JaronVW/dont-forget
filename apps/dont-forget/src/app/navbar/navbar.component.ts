@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
 
@@ -26,7 +26,7 @@ import { Router } from '@angular/router';
               <a
                 class="block px-3 cursor-pointer select-none"
                 (click)="toggleDropdown()"
-                >{{ dropdownText }}</a
+                >{{ getDropdownText() }}</a
               >
             </li>
             <li *ngIf="Show" class="list-none inline-block ">
@@ -54,7 +54,9 @@ import { Router } from '@angular/router';
               <a class="block px-3 " [routerLink]="['/following']">Volgend</a>
             </li>
             <li class="list-none inline-block">
-              <a class="block px-3 " [routerLink]="['/shared']">Gedeeld met mij</a>
+              <a class="block px-3 " [routerLink]="['/shared']"
+                >Gedeeld met mij</a
+              >
             </li>
           </ng-container>
 
@@ -76,11 +78,23 @@ export class NavbarComponent {
   private _authService: AuthService;
   private router: Router;
   Show = false;
-  dropdownText = 'Person';
+  private _dropdownText: string;
+
+  public get dropdownText(): string {
+    return this._dropdownText;
+  }
+  public set dropdownText(value: string) {
+    this._dropdownText = value;
+  }
 
   constructor(private authService: AuthService, router: Router) {
     this._authService = authService;
     this.router = router;
+  }
+
+  getDropdownText() {
+    if (this.isLoggedIn()) return localStorage.getItem('username') || 'Account';
+    else return 'Account';
   }
 
   logout() {

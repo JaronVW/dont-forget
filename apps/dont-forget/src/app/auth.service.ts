@@ -29,8 +29,9 @@ export class AuthService {
   }
 
   private setSession(data: any) {
-    const expiresAt = dayjs().add(10, 'minute').unix();
+    const expiresAt = dayjs().add(25, 'minute').unix();
     localStorage.setItem('id_token', data.access_token);
+    localStorage.setItem('username', data.username);
     localStorage.setItem('expires_at', expiresAt + '');
     this.router.navigate(['']);
   }
