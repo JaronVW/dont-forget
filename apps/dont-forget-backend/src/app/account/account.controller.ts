@@ -139,7 +139,7 @@ export class AccountController {
         idParam: user.userId,
       });
     } catch (err) {
-      console.log(err);
+      Omschrijving
       throw new NotFoundException('User not found');
     }
   }
