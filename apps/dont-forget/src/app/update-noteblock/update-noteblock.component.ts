@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import {
+  FormGroup,
+  FormBuilder,
+  FormControl,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NoteBlocksService } from '../note-blocks/note-blocks.service';
 import { Note, NoteBlock, NoteBlockToSave } from '../shared/models';
@@ -60,28 +65,9 @@ export class UpdateNoteblockComponent implements OnInit {
         title: res.title,
         description: res.description,
       });
-      this.getNotes();
     });
   }
 
-  exec() {
-    if (this.updateNoteForm.valid) {
-      this.noteBlocksService.addNoteBlock(this.title, this.description);
-    }
-  }
-
-  getNotes() {
-    const alreadyAdded = this.noteBlock.notes.map((note) => note._id);
-    this.notesService.getNotes().subscribe((res) => {
-      res.forEach((resnote: any) => {
-        this.notes.push({
-          _id: resnote._id,
-          title: resnote.title,
-          added: alreadyAdded.includes(resnote._id),
-        });
-      });
-    });
-  }
 
   formatDate(date: Date) {
     return dayjs(date).format('DD/MM/YYYY');
@@ -93,25 +79,11 @@ export class UpdateNoteblockComponent implements OnInit {
 
   addNotes() {
     if (this.updateNoteForm.valid) {
-      this.noteBlockToSave = {
-        _id: this.noteBlock._id,
-        title: this.noteBlock.title,
-        description: this.noteBlock.description,
-        dateCreated: new Date(),
-        userRef: this.noteBlock.userRef,
-        notes: [],
-      };
-      this.notes.forEach((note) => {
-        if (note.added) {
-          this.noteBlockToSave.notes.push({
-            _id: note._id,
-          });
-        }
-      });
-      this.noteBlocksService.updateNoteBlockRef(this.id, this.noteBlockToSave);
-      this.noteBlocksService.getNoteBlockById(this.id).subscribe(() => {
-        this.router.navigate(['/noteblocks']);
-      });
+      this.noteBlocksService
+        .updateNoteBlock(this.id, this.noteBlock)
+        .subscribe(() => {
+          this.router.navigate(['/noteblocks']);
+        });
     }
   }
 

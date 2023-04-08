@@ -1,5 +1,6 @@
 import {
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
@@ -16,7 +17,6 @@ import {
   getFollowing,
   unfollowUser,
 } from '../neo4j/cypherQueries';
-import fs = require('fs');
 @Controller('account')
 export class AccountController {
   constructor(
@@ -53,7 +53,9 @@ export class AccountController {
       });
       return {
         statusCode: 200,
-        message: `User ${res.records[0].get('b').properties.username} unfollowed`,
+        message: `User ${
+          res.records[0].get('b').properties.username
+        } unfollowed`,
       };
     } catch {
       throw new NotFoundException('User not found');
@@ -119,9 +121,21 @@ export class AccountController {
       });
       return {
         statusCode: 200,
-        message: `User ${res.records[0].get('b').properties.username} removed from followers`,
+        message: `User ${
+          res.records[0].get('b').properties.username
+        } removed from followers`,
       };
     } catch {
+      throw new NotFoundException('User not found');
+    }
+  }
+
+  @Delete('deleteaccount')
+  async deleteAccount(@AuthUser() user: any) {
+    try {
+      return await this.accountService.deleteAccount(user.userId);
+    } catch (err) {
+      console.log(err);
       throw new NotFoundException('User not found');
     }
   }

@@ -13,7 +13,6 @@ export class User implements IUser {
 
   @Prop({
     required: true,
-   
   })
   password: string;
 
@@ -25,3 +24,9 @@ export class User implements IUser {
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
+
+UserSchema.post('findOneAndDelete', async (doc: UserDocument) => {
+  await doc.$model('Note').deleteMany({ userRef: doc._id });
+  await doc.$model('NoteBlock').deleteMany({ userRef: doc._id });
+  await doc.$model('Todo').deleteMany({ userRef: doc._id });
+});
