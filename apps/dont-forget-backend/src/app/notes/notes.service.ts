@@ -46,10 +46,9 @@ export class NotesService {
       const updatedNote = await this.noteModel.findByIdAndUpdate(id, data, {
         new: true,
       });
-      Omschrijving
+
       return updatedNote;
     } catch (err) {
-      Omschrijving
       throw new BadRequestException();
     }
   }
