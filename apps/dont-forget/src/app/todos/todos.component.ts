@@ -10,6 +10,26 @@ import * as dayjs from 'dayjs';
 })
 export class TodosComponent implements OnInit {
   private _res: Array<Todo>;
+
+  private _duethisweekFilter = false;
+
+  private _overdueFilter = false;
+
+  public get overdueFilter() {
+    return this._overdueFilter;
+  }
+
+  public set overdueFilter(value) {
+    this._overdueFilter = value;
+  }
+
+  public get duethisweekFilter() {
+    return this._duethisweekFilter;
+  }
+  public set duethisweekFilter(value) {
+    this._duethisweekFilter = value;
+  }
+
   public get res(): Array<Todo> {
     return this._res;
   }
@@ -39,7 +59,25 @@ export class TodosComponent implements OnInit {
     });
   }
 
-  filter() {
-    ('');
+  showDueThisWeek() {
+    this.duethisweekFilter = !this.duethisweekFilter;
+    if (this.duethisweekFilter) {
+      this.res = this.res.filter((todo) => {
+        return todo.dueThisWeek;
+      });
+    } else {
+      this.getTodos();
+    }
+  }
+
+  showOverdue() {
+    this.overdueFilter = !this.overdueFilter;
+    if (this.overdueFilter) {
+      this.res = this.res.filter((todo) => {
+        return todo.overDue;
+      });
+    } else {
+      this.getTodos();
+    }
   }
 }

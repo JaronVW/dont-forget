@@ -1,7 +1,9 @@
 <div class="bg-stickyNoteBlue  border-black border-2  rounded-md p-4">
     <h1 class="pageMainHeader">{{todo.title}}</h1>
     <p>{{todo.description}}</p>
-    <p>{{formatDate(todo.dateCreated)}}</p>
+    <p>Gemaakt/geupdate:{{formatDate(todo.dateCreated)}}</p>
+    <p>Deadline: {{formatDate(todo.dueDate)}} </p>
+    <p>Voltooid: {{todo.completed ? "✔️" : "❌"}}</p>
 
     <div *ngIf="todo.tasks.length > 0">
         <div *ngIf="todo.tasks.length > 0">
@@ -11,7 +13,7 @@
             </ul>
         </div>
     </div>
-    
+
 
     <ul class="flex gap-4">
         <li><a role="button" class="sitelink sitelink-danger" (click)="deleteTodo(id)">Verwijderen </a></li>

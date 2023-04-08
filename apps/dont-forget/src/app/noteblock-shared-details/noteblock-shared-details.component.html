@@ -1,20 +1,19 @@
-<div class="bg-stickyNoteBlue  border-black border-2  rounded-md p-4">
+<div class="  border-black border-2   p-4 bg-stickyNoteBlue rounded-md">
     <h1 class="pageMainHeader">{{noteBlock.title}}</h1>
     <p>{{noteBlock.description}}</p>
-    <p>{{formatDate(noteBlock.dateCreated)}}</p>
+    <p>Gemaakt/geupdate: {{formatDate(noteBlock.dateCreated)}}</p>
 
     <div *ngIf="noteBlock.notes.length > 0">
         <h3>notes:</h3>
         <div class="ml-4">
             <ul>
-                <li><a *ngFor="let i of noteBlock.notes " [routerLink]="['/sharednote',i._id]">
+                <li><a *ngFor="let i of noteBlock.notes " [routerLink]="['/notes',i._id]">
                         <div class="border-2 border-black my-2 rounded-md p-4 max-w-xs">
-                            {{i.text}}
+                            {{i.title}}
                         </div>
                     </a>
                 </li>
             </ul>
         </div>
     </div>
-
 </div>

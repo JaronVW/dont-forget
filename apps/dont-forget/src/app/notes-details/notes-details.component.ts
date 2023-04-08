@@ -13,6 +13,7 @@ export class NotesDetailsComponent implements OnInit {
   id: string;
 
   private _note: Note = {} as Note;
+  component: { title: string; text: string; _id: string; dateCreated: Date; }[];
 
   public get note(): Note {
     return this._note;
@@ -32,7 +33,11 @@ export class NotesDetailsComponent implements OnInit {
       this.id = paramsId['id'];
     });
 
-    this.notesService.getNoteById(this.id).subscribe((res) => {
+    this.getNoteById(this.id);
+  }
+
+  getNoteById(_id: string) {
+    this.notesService.getNoteById(_id).subscribe((res) => {
       this.note = res;
     });
   }

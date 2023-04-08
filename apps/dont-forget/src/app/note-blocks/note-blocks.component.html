@@ -9,7 +9,7 @@
 
         <div *ngFor="let item of res" class="bg-white p-4  border-2 border-black text-left hover: w-10/12 rounded-md">
             <h2 class="text-3xl">{{item.title}}</h2>
-            <p>Number of Notes: {{item.numberOfNotes}}</p>
+            <p>Aantal notities: {{item.numberOfNotes}}</p>
             <ul>
                 <li><a [routerLink]="[item._id]" class="sitelink sitelink-success">Details </a></li>
                 <li><a role="button" (click)="deleteNoteBlock(item._id.toString())"

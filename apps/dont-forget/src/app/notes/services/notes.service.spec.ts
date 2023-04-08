@@ -171,5 +171,38 @@ describe('NotesServiceService', () => {
     expect(req.request.method).toEqual('PUT');
     req.flush(null, { status: 404, statusText: 'Note not found' });
   });
-  
+
+  it('should add note and fail', () => {
+    service.addNote('Make math homework', 'Do it').subscribe({
+      next: (courseData) => {
+        expect(courseData).toEqual(null);
+      },
+      error: (error) => {
+        expect(error).toEqual('Note not found');
+      },
+    });
+
+    const req = httpTestingController.expectOne(
+      'http://localhost:3333/api/notes'
+    );
+    expect(req.request.method).toEqual('POST');
+    req.flush(null, { status: 404, statusText: 'Note not found' });
+  });
+
+  it('should get notes and fail', () => {
+    service.getNotes().subscribe({
+      next: (courseData) => {
+        expect(courseData).toEqual(null);
+      },
+      error: (error) => {
+        expect(error).toEqual('Note not found');
+      },
+    });
+
+    const req = httpTestingController.expectOne(
+      'http://localhost:3333/api/notes'
+    );
+    expect(req.request.method).toEqual('GET');
+    req.flush(null, { status: 404, statusText: 'Note not found' });
+  });
 });

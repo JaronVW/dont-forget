@@ -2,7 +2,8 @@
     <div class="mb-5">
         <h1 class="pageMainHeader">Beschikbare todos</h1>
         <a [routerLink]="['/addtodo']" class="sitelink sitelink-info">Todo toevoegen</a>
-       <button (click)="filter()" ></button>
+       <button (click)="showDueThisWeek()" class="ml-5 sitelink sitelink-info" >Deadline deze week</button>
+       <button (click)="showOverdue()" class="ml-5 sitelink sitelink-info" >Verlopen</button>
     </div>
 
 
@@ -26,9 +27,9 @@
                     <p>{{"Due: "+ formatDate(item.dueDate)}}</p>
                 </ng-template>
 
-                <p>Completed: {{item.completed ? "✔️" : "❌"}}</p>
+                <p>Voltooid: {{item.completed ? "✔️" : "❌"}}</p>
                 <div>
-                    <h3>Number of Tasks: {{item.numberOfTasks}}</h3>
+                    <h3>Aantal taken: {{item.numberOfTasks}}</h3>
 
                 </div>
 

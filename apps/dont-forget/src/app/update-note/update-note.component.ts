@@ -59,8 +59,9 @@ export class UpdateNoteComponent implements OnInit {
   exec() {
     if (this.updateNoteForm.valid) {
       this.note.dateCreated = new Date();
-      this.notesService.updateNote(this.note);
-      this.router.navigate(["/notes/"]);
+      this.notesService.updateNote(this.note).subscribe(() => {
+        this.router.navigate(['/notes/', this.note._id]);
+      });
     }
   }
 

@@ -82,7 +82,7 @@ export class UpdateNoteblockComponent implements OnInit {
       this.noteBlocksService
         .updateNoteBlock(this.id, this.noteBlock)
         .subscribe(() => {
-          this.router.navigate(['/noteblocks']);
+          this.router.navigate(['/noteblocks', this.id]);
         });
     }
   }

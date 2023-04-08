@@ -111,9 +111,11 @@ export class UpdateTodoComponent implements OnInit {
   }
 
   exec() {
-    this.todosService.updateTodo(this.id, this.todo);
-
-    this.router.navigate(['/todos/']);
+    if (this.updateTodoForm.valid) {
+      this.todosService.updateTodo(this.id, this.todo).subscribe((data) => {
+        this.router.navigate(['/todos/', this.id]);
+      });
+    }
   }
 
   get titleControl() {
