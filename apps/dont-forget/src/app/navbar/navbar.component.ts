@@ -26,7 +26,7 @@ import { Router } from '@angular/router';
               <a
                 class="block px-3 cursor-pointer select-none"
                 (click)="toggleDropdown()"
-                >{{ dropdownText }}</a
+                >{{ getDropdownText() }}</a
               >
             </li>
             <li *ngIf="Show" class="list-none inline-block ">
@@ -74,13 +74,12 @@ import { Router } from '@angular/router';
     </header>
   `,
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent {
   private _authService: AuthService;
   private router: Router;
   Show = false;
   private _dropdownText: string;
 
-  
   public get dropdownText(): string {
     return this._dropdownText;
   }
@@ -93,9 +92,9 @@ export class NavbarComponent implements OnInit {
     this.router = router;
   }
 
-  ngOnInit(): void {
-    this.dropdownText =
-      localStorage.getItem('username')?.substring(0, 10) || 'Person';
+  getDropdownText() {
+    if (this.isLoggedIn()) return localStorage.getItem('username') || 'Account';
+    else return 'Account';
   }
 
   logout() {

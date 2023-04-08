@@ -69,10 +69,11 @@ export class SharewithComponent implements OnInit {
   }
   share() {
     if (this.nameForm.valid) {
-      this.accountService.share(this.userId, this.noteBlockId).subscribe((res) => {
-        
-        this.response = res.message;
-      });
+      this.accountService
+        .share(this.userId, this.noteBlockId)
+        .subscribe((res) => {
+          this.response = res.message;
+        });
     }
   }
 
