@@ -16,6 +16,7 @@ import {
   getFollowersFollowing as getFollowingFollowing,
   getFollowing,
   unfollowUser,
+  deleteUserNode,
 } from '../neo4j/cypherQueries';
 @Controller('account')
 export class AccountController {
@@ -133,7 +134,10 @@ export class AccountController {
   @Delete('deleteaccount')
   async deleteAccount(@AuthUser() user: any) {
     try {
-      return await this.accountService.deleteAccount(user.userId);
+      const res = await this.accountService.deleteAccount(user.userId);
+      this.neo4jService.write(deleteUserNode, {
+        idParam: user.userId,
+      });
     } catch (err) {
       console.log(err);
       throw new NotFoundException('User not found');

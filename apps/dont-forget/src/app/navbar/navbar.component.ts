@@ -78,7 +78,15 @@ export class NavbarComponent implements OnInit {
   private _authService: AuthService;
   private router: Router;
   Show = false;
-  dropdownText: string;
+  private _dropdownText: string;
+
+  
+  public get dropdownText(): string {
+    return this._dropdownText;
+  }
+  public set dropdownText(value: string) {
+    this._dropdownText = value;
+  }
 
   constructor(private authService: AuthService, router: Router) {
     this._authService = authService;
@@ -87,7 +95,7 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.dropdownText =
-      localStorage.getItem('username')?.substring(0, 10)  || 'Person';
+      localStorage.getItem('username')?.substring(0, 10) || 'Person';
   }
 
   logout() {
