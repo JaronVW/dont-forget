@@ -30,7 +30,7 @@ let uri: string;
       scheme: 'neo4j',
       host: 'localhost',
       username: 'neo4j',
-      password: '1234aA!',
+      password: '1234aA!!!!',
       database: 'e2etest',
     }),
 
@@ -43,7 +43,7 @@ let uri: string;
 })
 export class TestAppModule {}
 
-describe.skip('end-to-end tests of data API', () => {
+describe('end-to-end tests of data API', () => {
   let app: INestApplication;
   let module: TestingModule;
   let mongoc: MongoClient;
