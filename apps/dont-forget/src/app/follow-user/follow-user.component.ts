@@ -10,7 +10,7 @@ import {
 @Component({
   selector: 'dont-forget-follow-user',
   template: `<div class="mb-12 rounded-md border-black border-2 p-2 bg-white">
-      <h2 class="text-2xl">Follow a user:</h2>
+      <h2 class="text-2xl">Volg een gebruiker:</h2>
       <form [formGroup]="nameForm" (ngSubmit)="followUser()" class="mt-4 mb-4">
         <input
           type="text"
@@ -28,7 +28,7 @@ import {
             *ngIf="usernameControl?.errors?.['required']"
             class="formError mt-2 w-80"
           >
-            Username is required.
+            gebruikersnaam is verplicht.
           </div>
         </div>
         <input type="submit" class="actionButton mt-5" value="Follow" />

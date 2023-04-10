@@ -5,9 +5,8 @@
 
     <div *ngIf="note !== undefined; else noNotes " class="mb-5">
         <div class="   border-black border-2  rounded-md p-4 mt-10">
-            <h1 class="pageMainHeader">Meest Recent gemaakte notitie: {{note.title}}</h1>
-            <p>{{note.text}}</p>
-            <p>{{formatDate(note.dateCreated)}}</p>
+            <h1 class="pageMainHeader">Meest Recent gemaakte notitie: </h1>
+            <h2>{{note.title}}</h2>
             <a [routerLink]="['notes/',note._id]" class="sitelink sitelink-success">Details </a>
         </div>
     </div>
