@@ -8,6 +8,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { Todo, TodoDocument } from '../schemas/todo.schema';
 import { TodoDTO } from './TodoDTO';
+import { error } from 'console';
 
 @Injectable()
 export class TodosService {
@@ -21,7 +22,6 @@ export class TodosService {
       res.save();
       return res;
     } catch (err) {
-      
       throw new BadRequestException();
     }
   }
@@ -47,7 +47,10 @@ export class TodosService {
         new: true,
       });
       return updatedTodo;
-    } catch {
+    } catch(error) {
+      console.log(error);
+      if (error instanceof UnauthorizedException)
+        throw new UnauthorizedException();
       throw new BadRequestException();
     }
   }

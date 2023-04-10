@@ -59,7 +59,10 @@ export class NoteBlocksService {
         }
       );
       return updatedNoteBlock;
-    } catch {
+    } catch (error) {
+      console.log(error);
+      if (error instanceof UnauthorizedException)
+        throw new UnauthorizedException();
       throw new BadRequestException();
     }
   }

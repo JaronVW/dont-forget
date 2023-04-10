@@ -23,6 +23,7 @@ import { NoteblockSharedDetailsComponent } from './noteblock-shared-details/note
 import { AppendNotesComponent } from './append-notes/append-notes.component';
 import { NotesSharedDetailsComponent } from './notes-shared-details/notes-shared-details.component';
 import { UpdateNoteblockComponent } from './update-noteblock/update-noteblock.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 
 const routes: Routes = [
   { path: '', component: IndexComponent, canActivate: [LoginActivateGuard] },
@@ -118,6 +119,11 @@ const routes: Routes = [
     path: 'updatenoteblock/:id',
     component: UpdateNoteblockComponent,
     canActivate: [LoginActivateGuard],
+  },
+  {
+    path: '**',
+    component: NotfoundComponent,
+    pathMatch: 'full',
   }
 
 ];

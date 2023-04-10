@@ -48,7 +48,10 @@ export class NotesService {
       });
 
       return updatedNote;
-    } catch (err) {
+    } catch (error) {
+      console.log(error);
+      if (error instanceof UnauthorizedException)
+        throw new UnauthorizedException();
       throw new BadRequestException();
     }
   }
